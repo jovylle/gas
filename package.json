@@ -6,7 +6,10 @@
     "node": ">=18"
   },
   "scripts": {
-    "fetch": "node scripts/fetch-fuel.mjs"
+    "fetch": "node scripts/fetch-fuel.mjs",
+    "backfill": "node scripts/backfill-history.mjs --feb23 --git",
+    "backfill:git": "node scripts/backfill-history.mjs --git",
+    "backfill:feb23": "node scripts/backfill-history.mjs --feb23"
   },
   "devDependencies": {
     "countries-list": "^3.3.0"

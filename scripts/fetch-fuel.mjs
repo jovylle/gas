@@ -13,13 +13,21 @@ import {
   loadCountriesEn,
   invertCountriesEn,
 } from "./war-deltas-lib.mjs";
+import {
+  loadHistory,
+  saveHistory,
+  upsertTodaySnapshot,
+} from "./history-lib.mjs";
+import {
+  backfillFeb23FromFiles,
+  mergeGitFuelHistoryInto,
+} from "./backfill-history.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const OUT = join(ROOT, "data", "fuel.json");
 const OVERRIDES_PATH = join(ROOT, "data", "overrides.json");
 const WAR_OUT = join(ROOT, "data", "war_deltas.json");
-const HISTORY_OUT = join(ROOT, "data", "history.json");
 
 const API = "https://openvan.camp/api/fuel/prices";
 
@@ -147,43 +155,6 @@ async function writeWarDeltas() {
   console.log(`Wrote war deltas (${rows.length} rows) to ${WAR_OUT}`);
 }
 
-async function appendHistory(rows, dateStr) {
-  let history = {
-    meta: {
-      description:
-        "Daily snapshots from this repo (Git as database). Used for trend charts.",
-    },
-    snapshots: [],
-  };
-  try {
-    const raw = await readFile(HISTORY_OUT, "utf8");
-    history = JSON.parse(raw);
-  } catch {
-    /* first run */
-  }
-  const snap = { date: dateStr, by_code: {} };
-  for (const r of rows) {
-    snap.by_code[r.country_code] = {
-      currency: r.currency,
-      gasoline: r.gasoline,
-      diesel: r.diesel,
-    };
-  }
-  const rest = (history.snapshots || []).filter((s) => s.date !== dateStr);
-  rest.push(snap);
-  rest.sort((a, b) => a.date.localeCompare(b.date));
-  const maxSnaps = 400;
-  while (rest.length > maxSnaps) rest.shift();
-  history.snapshots = rest;
-  history.meta = {
-    ...history.meta,
-    updated_at: dateStr,
-    snapshot_count: rest.length,
-  };
-  await writeFile(HISTORY_OUT, JSON.stringify(history, null, 2) + "\n", "utf8");
-  console.log(`Wrote ${rest.length} snapshot(s) to ${HISTORY_OUT}`);
-}
-
 async function main() {
   const res = await fetch(API, {
     headers: { Accept: "application/json", "User-Agent": "fuel-price-tracker/1.0" },
@@ -217,13 +188,24 @@ async function main() {
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
   console.log(`Wrote ${rows.length} countries to ${OUT}`);
 
-  await appendHistory(rows, dateStr);
-
   try {
     await writeWarDeltas();
   } catch (e) {
     console.warn("War deltas scrape skipped:", e.message);
   }
+
+  let history = await loadHistory();
+  const feb = await backfillFeb23FromFiles(history);
+  if (feb) {
+    console.log("Added implied Feb 23 snapshot (GP % + current OpenVan).");
+  }
+  const gitRes = await mergeGitFuelHistoryInto(history);
+  if (gitRes.merged > 0) {
+    console.log(`Git history backfill: +${gitRes.merged} snapshot(s).`);
+  }
+  upsertTodaySnapshot(history, rows, dateStr);
+  await saveHistory(history);
+  console.log(`Wrote ${history.snapshots.length} snapshot(s) to data/history.json`);
 }
 
 main().catch((e) => {

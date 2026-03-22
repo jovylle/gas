@@ -42,6 +42,10 @@
         weekly point before the Iran war). We scrape that table to compute
         <em>implied pre-war prices</em> in the same currency as today:
         <code>price ÷ (1 + %/100)</code>. Current prices come from OpenVan.
+        OpenVan does not expose historical retail prices in the API; the
+        <strong>line chart</strong> uses <code>data/history.json</code>: daily snapshots from this repo,
+        an implied Feb 23 point (first run only), and past <code>data/fuel.json</code> versions from
+        git when full history is available.
       </p>
       <p class="meta-line chart-meta" id="warMetaLine" hidden></p>
       <div class="chart-controls">
