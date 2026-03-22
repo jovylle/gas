@@ -253,15 +253,122 @@ main {
   box-shadow: 0 0 0 2px rgba(126, 200, 255, 0.2);
 }
 
-.filter-field select[multiple] {
-  min-width: min(100%, 18rem);
-  max-width: 22rem;
-  padding: 0.4rem 0.5rem;
-  line-height: 1.35;
+.filter-field--countries {
+  flex: 1 1 280px;
+  max-width: 28rem;
 }
 
-.filter-field--countries {
-  min-width: min(100%, 20rem);
+.country-picker-input-wrap {
+  position: relative;
+}
+
+#countryPickerSearch {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+
+#countryPickerSearch:focus {
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 2px rgba(126, 200, 255, 0.2);
+}
+
+.country-picker-list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  margin: 0;
+  padding: 0.35rem 0;
+  list-style: none;
+  max-height: 16rem;
+  overflow-y: auto;
+  z-index: 20;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #161a24;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.country-picker-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.country-picker-list li:hover,
+.country-picker-list li:focus {
+  background: var(--accent-dim);
+}
+
+.country-picker-flag {
+  font-size: 1.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.country-picker-code {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.country-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  min-height: 0;
+}
+
+.country-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.35rem 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.country-chip-flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.country-chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.country-chip-remove:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--accent);
 }
 
 .filter-hint {
@@ -422,6 +529,22 @@ tbody tr:last-child td {
 .num {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
+}
+
+.country-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.country-flag {
+  font-size: 1.35rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.country-name {
+  min-width: 0;
 }
 
 code {

@@ -10,6 +10,27 @@ let sortDir = "asc";
 let chartCompare = null;
 let chartHistory = null;
 
+/** ISO alpha-2 → regional-indicator flag emoji (e.g. US → 🇺🇸). */
+function flagEmoji(code) {
+  if (!code || String(code).length !== 2) return "";
+  const c = String(code).toUpperCase();
+  if (!/^[A-Z]{2}$/.test(c)) return "";
+  const base = 0x1f1e6;
+  try {
+    return String.fromCodePoint(
+      base + c.charCodeAt(0) - 65,
+      base + c.charCodeAt(1) - 65
+    );
+  } catch {
+    return "";
+  }
+}
+
+/** Country filter: empty set = show all. */
+const selectedFilterCodes = new Set();
+
+let countryPickerBound = false;
+
 function formatMoney(value, currency) {
   if (value == null || Number.isNaN(value)) return "—";
   try {
@@ -76,17 +97,8 @@ function hasGpWarRow(r) {
   );
 }
 
-function getSelectedCountryCodes() {
-  const sel = document.getElementById("filterCountries");
-  if (!sel) return [];
-  return Array.from(sel.selectedOptions)
-    .map((o) => o.value)
-    .filter(Boolean);
-}
-
 function filtered() {
   const q = document.getElementById("search").value.trim().toLowerCase();
-  const countryCodes = getSelectedCountryCodes();
   const warSel = document.getElementById("filterWar")?.value ?? "";
 
   return raw.filter((r) => {
@@ -95,7 +107,7 @@ function filtered() {
       const code = r.country_code.toLowerCase();
       if (!name.includes(q) && !code.includes(q)) return false;
     }
-    if (countryCodes.length > 0 && !countryCodes.includes(r.country_code)) {
+    if (selectedFilterCodes.size > 0 && !selectedFilterCodes.has(r.country_code)) {
       return false;
     }
     if (warSel === "gp" && !hasGpWarRow(r)) return false;
@@ -141,14 +153,18 @@ function render() {
       w?.gasoline_pct != null ? `${w.gasoline_pct >= 0 ? "+" : ""}${w.gasoline_pct}%` : "—";
     const dPct =
       w?.diesel_pct != null ? `${w.diesel_pct >= 0 ? "+" : ""}${w.diesel_pct}%` : "—";
+    const flag = flagEmoji(r.country_code);
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${escapeHtml(r.country)}</td>
+      <td class="country-cell">
+        <span class="country-flag" aria-hidden="true">${escapeHtml(flag)}</span>
+        <span class="country-name">${escapeHtml(r.country)}</span>
+      </td>
       <td class="num muted">${escapeHtml(r.country_code)}</td>
       <td class="num col-gas">${formatMoney(r.gasoline, r.currency)}</td>
       <td class="num col-die">${formatMoney(r.diesel, r.currency)}</td>
-      <td class="num war-col" ${showWar ? "" : "hidden"}>${escapeHtml(gPct)}</td>
-      <td class="num war-col" ${showWar ? "" : "hidden"}>${escapeHtml(dPct)}</td>
+      <td class="num war-col col-gas" ${showWar ? "" : "hidden"}>${escapeHtml(gPct)}</td>
+      <td class="num war-col col-die" ${showWar ? "" : "hidden"}>${escapeHtml(dPct)}</td>
       <td class="num">${escapeHtml(r.updated_at)}</td>
     `;
     tbody.appendChild(tr);
@@ -172,21 +188,127 @@ function applyColumnVisibility() {
   });
 }
 
-function populateCountryFilter() {
-  const sel = document.getElementById("filterCountries");
-  if (!sel) return;
-  const selected = new Set(getSelectedCountryCodes());
-  const sortedRows = [...raw].sort((a, b) =>
-    a.country.localeCompare(b.country, "en")
-  );
-  sel.replaceChildren();
-  for (const r of sortedRows) {
-    const opt = document.createElement("option");
-    opt.value = r.country_code;
-    opt.textContent = `${r.country} (${r.country_code})`;
-    if (selected.has(r.country_code)) opt.selected = true;
-    sel.appendChild(opt);
+function rowByCode(code) {
+  return raw.find((x) => x.country_code === code);
+}
+
+function renderCountryChips() {
+  const wrap = document.getElementById("countryPickerChips");
+  if (!wrap) return;
+  wrap.replaceChildren();
+  const codes = [...selectedFilterCodes].sort((a, b) => {
+    const na = rowByCode(a)?.country ?? a;
+    const nb = rowByCode(b)?.country ?? b;
+    return na.localeCompare(nb, "en");
+  });
+  for (const code of codes) {
+    const r = rowByCode(code);
+    const label = r ? `${r.country} (${code})` : code;
+    const chip = document.createElement("span");
+    chip.className = "country-chip";
+    chip.innerHTML = `<span class="country-chip-flag" aria-hidden="true">${escapeHtml(flagEmoji(code))}</span><span class="country-chip-label">${escapeHtml(label)}</span>`;
+    const rm = document.createElement("button");
+    rm.type = "button";
+    rm.className = "country-chip-remove";
+    rm.setAttribute("aria-label", `Remove ${label} from filter`);
+    rm.dataset.code = code;
+    rm.textContent = "×";
+    chip.appendChild(rm);
+    wrap.appendChild(chip);
   }
+  wrap.querySelectorAll(".country-chip-remove").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      selectedFilterCodes.delete(btn.dataset.code);
+      renderCountryChips();
+      const inp = document.getElementById("countryPickerSearch");
+      if (inp && document.activeElement === inp) openCountryPickerList();
+      render();
+    });
+  });
+}
+
+function availableForPicker() {
+  return raw.filter((r) => !selectedFilterCodes.has(r.country_code));
+}
+
+function openCountryPickerList() {
+  const input = document.getElementById("countryPickerSearch");
+  const list = document.getElementById("countryPickerList");
+  if (!input || !list) return;
+  const q = input.value.trim().toLowerCase();
+  let pool = availableForPicker();
+  if (q) {
+    pool = pool.filter(
+      (r) =>
+        r.country.toLowerCase().includes(q) ||
+        r.country_code.toLowerCase().includes(q)
+    );
+  }
+  pool.sort((a, b) => a.country.localeCompare(b.country, "en"));
+  const items = pool.slice(0, 14);
+  list.replaceChildren();
+  for (const r of items) {
+    const li = document.createElement("li");
+    li.role = "option";
+    li.dataset.code = r.country_code;
+    li.innerHTML = `<span class="country-picker-flag" aria-hidden="true">${escapeHtml(flagEmoji(r.country_code))}</span><span>${escapeHtml(r.country)}</span><span class="country-picker-code">${escapeHtml(r.country_code)}</span>`;
+    list.appendChild(li);
+  }
+  list.hidden = items.length === 0;
+  input.setAttribute("aria-expanded", items.length > 0 ? "true" : "false");
+}
+
+function hideCountryPickerList() {
+  const list = document.getElementById("countryPickerList");
+  const input = document.getElementById("countryPickerSearch");
+  if (list) list.hidden = true;
+  if (input) input.setAttribute("aria-expanded", "false");
+}
+
+function bindCountryPicker() {
+  if (countryPickerBound) return;
+  const input = document.getElementById("countryPickerSearch");
+  const list = document.getElementById("countryPickerList");
+  const wrap = document.getElementById("countryPicker");
+  if (!input || !list || !wrap) return;
+  countryPickerBound = true;
+
+  input.addEventListener("input", () => {
+    openCountryPickerList();
+  });
+
+  input.addEventListener("focus", () => {
+    openCountryPickerList();
+  });
+
+  list.addEventListener("mousedown", (e) => {
+    const li = e.target.closest("li[data-code]");
+    if (li) e.preventDefault();
+  });
+
+  list.addEventListener("click", (e) => {
+    const li = e.target.closest("li[data-code]");
+    if (!li) return;
+    const code = li.dataset.code;
+    if (code) {
+      selectedFilterCodes.add(code);
+      input.value = "";
+      hideCountryPickerList();
+      renderCountryChips();
+      render();
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!wrap.contains(e.target)) hideCountryPickerList();
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      hideCountryPickerList();
+      input.blur();
+    }
+  });
 }
 
 function escapeHtml(s) {
@@ -475,10 +597,6 @@ document.getElementById("search").addEventListener("input", () => {
   render();
 });
 
-document.getElementById("filterCountries")?.addEventListener("change", () => {
-  render();
-});
-
 document.getElementById("filterWar")?.addEventListener("change", () => {
   render();
 });
@@ -494,12 +612,11 @@ document.getElementById("toggleColDiesel")?.addEventListener("change", () => {
 document.getElementById("clearTableFilters")?.addEventListener("click", () => {
   const search = document.getElementById("search");
   if (search) search.value = "";
-  const fc = document.getElementById("filterCountries");
-  if (fc) {
-    Array.from(fc.options).forEach((o) => {
-      o.selected = false;
-    });
-  }
+  selectedFilterCodes.clear();
+  const cps = document.getElementById("countryPickerSearch");
+  if (cps) cps.value = "";
+  renderCountryChips();
+  hideCountryPickerList();
   const fw = document.getElementById("filterWar");
   if (fw) fw.value = "";
   render();
@@ -569,7 +686,8 @@ async function load() {
     }
 
     updateSortButtons();
-    populateCountryFilter();
+    bindCountryPicker();
+    renderCountryChips();
     render();
     populateCountrySelect();
     refreshCharts();

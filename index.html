@@ -77,16 +77,32 @@
         <div class="table-toolbar">
           <p class="table-count" id="tableCount" aria-live="polite"></p>
           <div class="filters" id="tableFilters">
-            <label class="filter-field filter-field--countries">
+            <div class="filter-field filter-field--countries">
               <span class="filter-label">Countries</span>
-              <span class="filter-hint">Ctrl/Cmd-click to select multiple. None selected = all.</span>
-              <select
-                id="filterCountries"
-                multiple
-                size="6"
-                aria-label="Filter by country (multiple)"
-              ></select>
-            </label>
+              <span class="filter-hint"
+                >Search to add; chips show the filter. None selected = all countries.</span
+              >
+              <div class="country-picker" id="countryPicker">
+                <div class="country-picker-input-wrap">
+                  <input
+                    type="search"
+                    id="countryPickerSearch"
+                    autocomplete="off"
+                    placeholder="Type country name or code…"
+                    aria-label="Search countries to add to table filter"
+                    aria-controls="countryPickerList"
+                    aria-expanded="false"
+                  />
+                  <ul
+                    class="country-picker-list"
+                    id="countryPickerList"
+                    role="listbox"
+                    hidden
+                  ></ul>
+                </div>
+                <div class="country-chips" id="countryPickerChips"></div>
+              </div>
+            </div>
             <label class="filter-field">
               <span class="filter-label">GP war Δ</span>
               <select id="filterWar" aria-label="Filter by GlobalPetrolPrices war data">
@@ -135,12 +151,12 @@
                     <span class="sort-lbl">Diesel</span> <span class="sort-ind"></span>
                   </button>
                 </th>
-                <th scope="col" class="war-col-header war-sort th-sort-cell" hidden>
+                <th scope="col" class="war-col-header war-sort th-sort-cell col-gas" hidden>
                   <button type="button" class="sort" data-sort="war_gas_pct">
                     <span class="sort-lbl">Δ gas (GP)</span> <span class="sort-ind"></span>
                   </button>
                 </th>
-                <th scope="col" class="war-col-header war-sort th-sort-cell" hidden>
+                <th scope="col" class="war-col-header war-sort th-sort-cell col-die" hidden>
                   <button type="button" class="sort" data-sort="war_diesel_pct">
                     <span class="sort-lbl">Δ diesel (GP)</span> <span class="sort-ind"></span>
                   </button>
