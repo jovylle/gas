@@ -73,39 +73,75 @@
     </section>
 
     <main>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">
-                <button type="button" class="sort is-active" data-sort="country">
-                  <span class="sort-lbl">Country</span> <span class="sort-ind">↑</span>
-                </button>
-              </th>
-              <th scope="col">Code</th>
-              <th scope="col">
-                <button type="button" class="sort" data-sort="gasoline">
-                  <span class="sort-lbl">Gasoline</span> <span class="sort-ind"></span>
-                </button>
-              </th>
-              <th scope="col">
-                <button type="button" class="sort" data-sort="diesel">
-                  <span class="sort-lbl">Diesel</span> <span class="sort-ind"></span>
-                </button>
-              </th>
-              <th scope="col" class="war-col-header" hidden>Δ gas (GP)</th>
-              <th scope="col" class="war-col-header" hidden>Δ diesel (GP)</th>
-              <th scope="col">
-                <button type="button" class="sort" data-sort="updated_at">
-                  <span class="sort-lbl">Updated</span> <span class="sort-ind"></span>
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
+      <div class="table-section">
+        <div class="table-toolbar">
+          <p class="table-count" id="tableCount" aria-live="polite"></p>
+          <div class="filters" id="tableFilters">
+            <label class="filter-field">
+              <span class="filter-label">Currency</span>
+              <select id="filterCurrency" aria-label="Filter by currency">
+                <option value="">All currencies</option>
+              </select>
+            </label>
+            <label class="filter-field">
+              <span class="filter-label">GP war Δ</span>
+              <select id="filterWar" aria-label="Filter by GlobalPetrolPrices war data">
+                <option value="">All rows</option>
+                <option value="gp">Has GP % data</option>
+                <option value="nogp">No GP % data</option>
+              </select>
+            </label>
+            <button type="button" class="btn-text" id="clearTableFilters">
+              Clear filters
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">
+                  <button type="button" class="sort is-active" data-sort="country">
+                    <span class="sort-lbl">Country</span> <span class="sort-ind">↑</span>
+                  </button>
+                </th>
+                <th scope="col">
+                  <button type="button" class="sort" data-sort="country_code">
+                    <span class="sort-lbl">Code</span> <span class="sort-ind"></span>
+                  </button>
+                </th>
+                <th scope="col">
+                  <button type="button" class="sort" data-sort="gasoline">
+                    <span class="sort-lbl">Gasoline</span> <span class="sort-ind"></span>
+                  </button>
+                </th>
+                <th scope="col">
+                  <button type="button" class="sort" data-sort="diesel">
+                    <span class="sort-lbl">Diesel</span> <span class="sort-ind"></span>
+                  </button>
+                </th>
+                <th scope="col" class="war-col-header war-sort" hidden>
+                  <button type="button" class="sort" data-sort="war_gas_pct">
+                    <span class="sort-lbl">Δ gas (GP)</span> <span class="sort-ind"></span>
+                  </button>
+                </th>
+                <th scope="col" class="war-col-header war-sort" hidden>
+                  <button type="button" class="sort" data-sort="war_diesel_pct">
+                    <span class="sort-lbl">Δ diesel (GP)</span> <span class="sort-ind"></span>
+                  </button>
+                </th>
+                <th scope="col">
+                  <button type="button" class="sort" data-sort="updated_at">
+                    <span class="sort-lbl">Updated</span> <span class="sort-ind"></span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
       </div>
-      <p class="empty" id="empty" hidden>No rows match your search.</p>
+      <p class="empty" id="empty" hidden>No rows match your search or filters.</p>
       <p class="error" id="error" hidden></p>
     </main>
 

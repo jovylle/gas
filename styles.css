@@ -196,6 +196,79 @@ main {
   padding: 0 1.5rem 4rem;
 }
 
+.table-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.table-count {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1.25rem;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.filter-label {
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.filter-field select {
+  min-width: 10rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+
+.filter-field select:focus {
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 2px rgba(126, 200, 255, 0.2);
+}
+
+.btn-text {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.45rem 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.btn-text:hover {
+  color: #ffc14d;
+}
+
 .table-wrap {
   border-radius: 14px;
   border: 1px solid var(--border);

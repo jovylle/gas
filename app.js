@@ -24,11 +24,30 @@ function formatMoney(value, currency) {
 }
 
 function compare(a, b, key) {
+  if (key === "country") {
+    return String(a.country).localeCompare(String(b.country), "en");
+  }
+  if (key === "country_code") {
+    return String(a.country_code).localeCompare(String(b.country_code), "en");
+  }
+  if (key === "war_gas_pct" || key === "war_diesel_pct") {
+    const field = key === "war_gas_pct" ? "gasoline_pct" : "diesel_pct";
+    const va = warPayload?.by_country_code?.[a.country_code]?.[field];
+    const vb = warPayload?.by_country_code?.[b.country_code]?.[field];
+    const na = va == null || Number.isNaN(Number(va));
+    const nb = vb == null || Number.isNaN(Number(vb));
+    if (na && nb) return 0;
+    if (na) return 1;
+    if (nb) return -1;
+    return Number(va) - Number(vb);
+  }
+
+  if (key === "updated_at") {
+    return String(a.updated_at).localeCompare(String(b.updated_at), "en");
+  }
+
   const va = a[key];
   const vb = b[key];
-  if (key === "country") {
-    return String(va).localeCompare(String(vb), "en");
-  }
   if (va == null && vb == null) return 0;
   if (va == null) return 1;
   if (vb == null) return -1;
@@ -49,13 +68,30 @@ function impliedPreWar(price, pct) {
   return price / (1 + pct / 100);
 }
 
+function hasGpWarRow(r) {
+  const w = warPayload?.by_country_code?.[r.country_code];
+  return (
+    w != null &&
+    (w.gasoline_pct != null || w.diesel_pct != null)
+  );
+}
+
 function filtered() {
   const q = document.getElementById("search").value.trim().toLowerCase();
-  if (!q) return [...raw];
+  const currency =
+    document.getElementById("filterCurrency")?.value?.trim() ?? "";
+  const warSel = document.getElementById("filterWar")?.value ?? "";
+
   return raw.filter((r) => {
-    const name = r.country.toLowerCase();
-    const code = r.country_code.toLowerCase();
-    return name.includes(q) || code.includes(q);
+    if (q) {
+      const name = r.country.toLowerCase();
+      const code = r.country_code.toLowerCase();
+      if (!name.includes(q) && !code.includes(q)) return false;
+    }
+    if (currency && r.currency !== currency) return false;
+    if (warSel === "gp" && !hasGpWarRow(r)) return false;
+    if (warSel === "nogp" && hasGpWarRow(r)) return false;
+    return true;
   });
 }
 
@@ -73,6 +109,11 @@ function render() {
   const empty = document.getElementById("empty");
   const rows = sorted(filtered());
   const showWar = !!warPayload?.by_country_code;
+
+  const countEl = document.getElementById("tableCount");
+  if (countEl) {
+    countEl.textContent = `Showing ${rows.length} of ${raw.length} countries`;
+  }
 
   tbody.replaceChildren();
   if (rows.length === 0) {
@@ -103,6 +144,25 @@ function render() {
   document.querySelectorAll(".war-col-header").forEach((el) => {
     el.hidden = !showWar;
   });
+}
+
+function populateCurrencyFilter() {
+  const sel = document.getElementById("filterCurrency");
+  if (!sel) return;
+  const prev = sel.value;
+  const codes = [...new Set(raw.map((r) => r.currency))].sort();
+  sel.replaceChildren();
+  const opt0 = document.createElement("option");
+  opt0.value = "";
+  opt0.textContent = "All currencies";
+  sel.appendChild(opt0);
+  for (const c of codes) {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    sel.appendChild(opt);
+  }
+  if (prev && codes.includes(prev)) sel.value = prev;
 }
 
 function escapeHtml(s) {
@@ -380,19 +440,45 @@ document.getElementById("search").addEventListener("input", () => {
   render();
 });
 
-document.querySelectorAll("button.sort").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const key = btn.dataset.sort;
-    if (key === sortKey) {
-      sortDir = sortDir === "asc" ? "desc" : "asc";
-    } else {
-      sortKey = key;
-      sortDir = key === "country" || key === "updated_at" ? "asc" : "desc";
-    }
-    updateSortButtons();
-    render();
-  });
+document.getElementById("filterCurrency")?.addEventListener("change", () => {
+  render();
 });
+
+document.getElementById("filterWar")?.addEventListener("change", () => {
+  render();
+});
+
+document.getElementById("clearTableFilters")?.addEventListener("click", () => {
+  const search = document.getElementById("search");
+  if (search) search.value = "";
+  const fc = document.getElementById("filterCurrency");
+  if (fc) fc.value = "";
+  const fw = document.getElementById("filterWar");
+  if (fw) fw.value = "";
+  render();
+});
+
+function bindSortButtons() {
+  document.querySelectorAll("button.sort").forEach((btn) => {
+    btn.replaceWith(btn.cloneNode(true));
+  });
+  document.querySelectorAll("button.sort").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.sort;
+      if (key === sortKey) {
+        sortDir = sortDir === "asc" ? "desc" : "asc";
+      } else {
+        sortKey = key;
+        const ascKeys = ["country", "country_code", "updated_at"];
+        sortDir = ascKeys.includes(key) ? "asc" : "desc";
+      }
+      updateSortButtons();
+      render();
+    });
+  });
+}
+
+bindSortButtons();
 
 document.getElementById("chartCountry")?.addEventListener("change", refreshCharts);
 
@@ -436,6 +522,7 @@ async function load() {
     }
 
     updateSortButtons();
+    populateCurrencyFilter();
     render();
     populateCountrySelect();
     refreshCharts();
