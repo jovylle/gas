@@ -101,9 +101,6 @@ function compare(a, b, key) {
   if (key === "country") {
     return String(a.country).localeCompare(String(b.country), "en");
   }
-  if (key === "country_code") {
-    return String(a.country_code).localeCompare(String(b.country_code), "en");
-  }
   if (key === "war_gas_pct" || key === "war_diesel_pct") {
     const field = key === "war_gas_pct" ? "gasoline_pct" : "diesel_pct";
     const va = warPayload?.by_country_code?.[a.country_code]?.[field];
@@ -209,7 +206,6 @@ function render() {
         <span class="country-flag" aria-hidden="true">${escapeHtml(flag)}</span>
         <span class="country-name">${escapeHtml(r.country)}</span>
       </td>
-      <td class="num muted">${escapeHtml(r.country_code)}</td>
       <td class="num col-gas">${priceCellHtml(r.gasoline, r.currency, w?.gasoline_pct)}</td>
       <td class="num col-die">${priceCellHtml(r.diesel, r.currency, w?.diesel_pct)}</td>
       <td class="num">${escapeHtml(r.updated_at)}</td>
@@ -699,7 +695,7 @@ function bindSortButtons() {
         sortDir = sortDir === "asc" ? "desc" : "asc";
       } else {
         sortKey = key;
-        const ascKeys = ["country", "country_code", "updated_at"];
+        const ascKeys = ["country", "updated_at"];
         sortDir = ascKeys.includes(key) ? "asc" : "desc";
       }
       updateSortButtons();
