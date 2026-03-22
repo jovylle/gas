@@ -569,10 +569,16 @@ tbody tr:last-child td {
   font-feature-settings: "tnum" 1;
 }
 
+/* Keep td as table-cell — flex on td breaks row borders / alignment in many engines */
 .country-cell {
+  vertical-align: middle;
+}
+
+.country-cell-inner {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .country-flag {

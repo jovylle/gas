@@ -358,9 +358,11 @@ function render() {
     tr.dataset.code = r.country_code;
     tr.innerHTML = `
       <td class="country-cell">
-        <button type="button" class="fav-star" data-code="${escapeHtml(r.country_code)}" aria-label="Toggle favorite for ${escapeHtml(r.country)}" aria-pressed="${isFav}">${star}</button>
-        <span class="country-flag" aria-hidden="true">${escapeHtml(flag)}</span>
-        <span class="country-name">${escapeHtml(r.country)}</span>
+        <div class="country-cell-inner">
+          <button type="button" class="fav-star" data-code="${escapeHtml(r.country_code)}" aria-label="Toggle favorite for ${escapeHtml(r.country)}" aria-pressed="${isFav}">${star}</button>
+          <span class="country-flag" aria-hidden="true">${escapeHtml(flag)}</span>
+          <span class="country-name">${escapeHtml(r.country)}</span>
+        </div>
       </td>
       <td class="num col-gas">${priceCellHtml(r.gasoline, r.currency, w?.gasoline_pct, r.country_code, "gasoline")}</td>
       <td class="num col-die">${priceCellHtml(r.diesel, r.currency, w?.diesel_pct, r.country_code, "diesel")}</td>
