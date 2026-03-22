@@ -8,24 +8,9 @@ let historyPayload = null;
 let sortKey = "country";
 let sortDir = "asc";
 
-/** @param {number|null|undefined} pct */
-function formatGpSubline(pct) {
-  if (pct == null || Number.isNaN(Number(pct))) return "";
-  const n = Number(pct);
-  const ico = n > 0 ? "↑" : n < 0 ? "↓" : "→";
-  const cls =
-    n > 0 ? "gp-sub--up" : n < 0 ? "gp-sub--down" : "gp-sub--flat";
-  const num = n.toLocaleString("en", { maximumFractionDigits: 2 });
-  const pctStr = (n > 0 ? "+" : "") + num + "%";
-  return `<span class="gp-sub ${cls}" title="Change since Feb 23 (GlobalPetrolPrices vs pre-war baseline)"><span class="gp-sub-ico" aria-hidden="true">${ico}</span><span class="gp-sub-pct">${escapeHtml(pctStr)}</span></span>`;
-}
+/** Frankfurter: rates[CCY] = foreign currency units per 1 USD */
+let usdRates = null;
 
-function priceCellHtml(price, currency, gpPct) {
-  const main = formatMoney(price, currency);
-  const sub = formatGpSubline(gpPct);
-  if (!sub) return main;
-  return `<div class="price-stack"><span class="price-main">${main}</span>${sub}</div>`;
-}
 let chartCompare = null;
 let chartHistory = null;
 
@@ -63,6 +48,55 @@ function formatMoney(value, currency) {
   }
 }
 
+/** Frankfurter: rates[CCY] = units of CCY per 1 USD */
+function toUsd(amount, currency) {
+  if (amount == null || Number.isNaN(Number(amount))) return null;
+  const c = currency || "USD";
+  if (c === "USD") return Number(amount);
+  if (!usdRates || !c) return null;
+  const r = usdRates[c];
+  if (r == null || r === 0) return null;
+  return Number(amount) / r;
+}
+
+function displayPriceUsd(amount, currency) {
+  if (amount == null || Number.isNaN(Number(amount))) return "—";
+  const u = toUsd(amount, currency);
+  if (u != null) return formatMoney(u, "USD");
+  return formatMoney(amount, currency);
+}
+
+/** Positive % = pump price up vs baseline (bad for drivers) → red; negative → green */
+function formatGpSubline(pct) {
+  if (pct == null || Number.isNaN(Number(pct))) return "";
+  const n = Number(pct);
+  const ico = n > 0 ? "↑" : n < 0 ? "↓" : "→";
+  const cls =
+    n > 0 ? "gp-sub--worse" : n < 0 ? "gp-sub--better" : "gp-sub--flat";
+  const num = n.toLocaleString("en", { maximumFractionDigits: 2 });
+  const pctStr = (n > 0 ? "+" : "") + num + "%";
+  return `<span class="gp-sub ${cls}" title="Change since Feb 23 (GlobalPetrolPrices vs pre-war baseline). ↑ = higher pump price (tougher on drivers)."><span class="gp-sub-ico" aria-hidden="true">${ico}</span><span class="gp-sub-pct">${escapeHtml(pctStr)}</span></span>`;
+}
+
+function priceCellHtml(price, currency, gpPct) {
+  const main = displayPriceUsd(price, currency);
+  const sub = formatGpSubline(gpPct);
+  if (!sub) return main;
+  return `<div class="price-stack"><span class="price-main">${main}</span>${sub}</div>`;
+}
+
+function comparePriceForSort(a, b, key) {
+  const ua = toUsd(a[key], a.currency);
+  const ub = toUsd(b[key], b.currency);
+  if (ua != null && ub != null) return ua - ub;
+  const va = a[key];
+  const vb = b[key];
+  if (va == null && vb == null) return 0;
+  if (va == null) return 1;
+  if (vb == null) return -1;
+  return Number(va) - Number(vb);
+}
+
 function compare(a, b, key) {
   if (key === "country") {
     return String(a.country).localeCompare(String(b.country), "en");
@@ -84,6 +118,10 @@ function compare(a, b, key) {
 
   if (key === "updated_at") {
     return String(a.updated_at).localeCompare(String(b.updated_at), "en");
+  }
+
+  if (key === "gasoline" || key === "diesel") {
+    return comparePriceForSort(a, b, key);
   }
 
   const va = a[key];
@@ -419,28 +457,39 @@ function renderCompareChart(code) {
   const dCur = row.diesel;
   const gIm = impliedPreWar(gCur, w.gasoline_pct);
   const dIm = impliedPreWar(dCur, w.diesel_pct);
+  const cc = row.currency;
 
-  const labels = [];
-  const cur = [];
-  const imp = [];
-  if (gCur != null && gIm != null) {
-    labels.push("Gasoline");
-    cur.push(gCur);
-    imp.push(gIm);
-  }
+  const pairs = [];
+  if (gCur != null && gIm != null) pairs.push(["Gasoline", gCur, gIm]);
   if (dCur != null && dIm != null && w.diesel_pct != null) {
-    labels.push("Diesel");
-    cur.push(dCur);
-    imp.push(dIm);
+    pairs.push(["Diesel", dCur, dIm]);
   }
 
-  if (labels.length === 0) {
+  if (pairs.length === 0) {
     hint.textContent = "Not enough data to compare (missing prices or percentages).";
     hint.hidden = false;
     return;
   }
 
-  const currency = row.currency;
+  const allUsd = pairs.every(
+    ([, c, i]) => toUsd(c, cc) != null && toUsd(i, cc) != null
+  );
+
+  const labels = [];
+  const cur = [];
+  const imp = [];
+  for (const [label, c, i] of pairs) {
+    labels.push(label);
+    if (allUsd) {
+      cur.push(toUsd(c, cc));
+      imp.push(toUsd(i, cc));
+    } else {
+      cur.push(c);
+      imp.push(i);
+    }
+  }
+
+  const currency = allUsd ? "USD" : cc;
   chartCompare = new window.Chart(canvas, {
     type: "bar",
     data: {
@@ -468,7 +517,7 @@ function renderCompareChart(code) {
       plugins: {
         title: {
           display: true,
-          text: `${row.country} — same currency (${currency}), implied pre-war from GP % change`,
+          text: `${row.country} — ${currency === "USD" ? "USD (converted)" : `same currency (${currency})`}, implied pre-war from GP % change`,
           color: "#e8e4dc",
           font: { size: 14 },
         },
@@ -522,7 +571,13 @@ function renderHistoryChart(code) {
   hint.hidden = true;
 
   const row = raw.find((r) => r.country_code === code);
-  const currency = row?.currency || series[0].currency;
+  const cc = row?.currency || series[0].currency;
+  const histUsd = series.every(
+    (p) =>
+      (p.gasoline == null || toUsd(p.gasoline, cc) != null) &&
+      (p.diesel == null || toUsd(p.diesel, cc) != null)
+  );
+  const currency = histUsd ? "USD" : cc;
 
   chartHistory = new window.Chart(canvas, {
     type: "line",
@@ -531,7 +586,10 @@ function renderHistoryChart(code) {
       datasets: [
         {
           label: "Gasoline",
-          data: series.map((p) => p.gasoline),
+          data: series.map((p) => {
+            const u = toUsd(p.gasoline, cc);
+            return histUsd && p.gasoline != null && u != null ? u : p.gasoline;
+          }),
           borderColor: "rgba(240, 160, 32, 0.95)",
           backgroundColor: "rgba(240, 160, 32, 0.15)",
           tension: 0.25,
@@ -539,7 +597,10 @@ function renderHistoryChart(code) {
         },
         {
           label: "Diesel",
-          data: series.map((p) => p.diesel),
+          data: series.map((p) => {
+            const u = toUsd(p.diesel, cc);
+            return histUsd && p.diesel != null && u != null ? u : p.diesel;
+          }),
           borderColor: "rgba(126, 200, 255, 0.9)",
           backgroundColor: "rgba(126, 200, 255, 0.12)",
           tension: 0.25,
@@ -655,17 +716,29 @@ async function load() {
   const errEl = document.getElementById("error");
   errEl.hidden = true;
   try {
-    const [fuelRes, warRes, histRes] = await Promise.all([
+    const [fuelRes, warRes, histRes, fxRes] = await Promise.all([
       fetch(DATA_URL),
       fetch(WAR_URL),
       fetch(HISTORY_URL),
+      fetch("https://api.frankfurter.app/latest?from=USD").catch(() => null),
     ]);
+    if (fxRes?.ok) {
+      const fx = await fxRes.json();
+      usdRates = fx.rates || {};
+      usdRates.USD = 1;
+    } else {
+      usdRates = null;
+    }
+
     if (!fuelRes.ok) throw new Error(`${fuelRes.status} ${fuelRes.statusText}`);
     const data = await fuelRes.json();
     raw = data.countries || [];
     const m = data.meta || {};
+    const fxNote = usdRates
+      ? " · table prices in USD (ECB via Frankfurter)"
+      : " · table prices in local currency (FX unavailable)";
     document.getElementById("metaLine").textContent =
-      `${m.countries_count ?? raw.length} countries · dataset ${m.updated_at ?? "—"}`;
+      `${m.countries_count ?? raw.length} countries · dataset ${m.updated_at ?? "—"}${fxNote}`;
 
     if (warRes.ok) {
       warPayload = await warRes.json();

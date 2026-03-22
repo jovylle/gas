@@ -23,6 +23,7 @@ body {
   margin: 0;
   min-height: 100vh;
   position: relative;
+  overflow-x: clip;
 }
 
 .bg-grid {
@@ -43,6 +44,7 @@ body {
   max-width: 960px;
   margin: 0 auto;
   padding: 3rem 1.5rem 1.5rem;
+  min-width: 0;
 }
 
 .eyebrow {
@@ -74,6 +76,7 @@ h1 {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 1.5rem 2rem;
+  min-width: 0;
 }
 
 .charts-section h2 {
@@ -100,18 +103,24 @@ h1 {
 
 .chart-controls {
   margin-bottom: 1rem;
+  max-width: 100%;
 }
 
 .chart-select-label {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   gap: 0.35rem;
   font-size: 0.875rem;
   color: var(--muted);
+  width: 100%;
+  max-width: min(28rem, 100%);
+  min-width: 0;
 }
 
 .chart-select-label select {
-  min-width: 280px;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
   padding: 0.5rem 0.75rem;
   border-radius: 10px;
   border: 1px solid var(--border);
@@ -122,8 +131,9 @@ h1 {
 
 .chart-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 1.25rem;
+  min-width: 0;
 }
 
 .chart-card {
@@ -157,7 +167,8 @@ h1 {
   margin: 0;
   font-size: 0.875rem;
   color: var(--muted);
-  white-space: nowrap;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 main {
@@ -166,6 +177,7 @@ main {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 1.5rem 4rem;
+  min-width: 0;
 }
 
 .table-section {
@@ -649,12 +661,13 @@ td.num .price-stack {
   font-variant-numeric: tabular-nums;
 }
 
-.gp-sub--up {
-  color: #7ed69a;
+/* ↑ higher vs baseline = worse for drivers (red); ↓ lower = better (green) */
+.gp-sub--worse {
+  color: #f28b82;
 }
 
-.gp-sub--down {
-  color: #f28b82;
+.gp-sub--better {
+  color: #7ed69a;
 }
 
 .gp-sub--flat {
