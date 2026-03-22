@@ -493,6 +493,23 @@ thead th.th-sort-cell .sort:hover {
   color: var(--accent);
 }
 
+thead th.th-sort-cell .sort-lbl-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12rem;
+  text-align: left;
+}
+
+thead th.th-sort-cell .sort-lbl-hint {
+  font-size: 0.62rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  opacity: 0.9;
+}
+
 .table-col-hidden {
   display: none !important;
 }
@@ -596,10 +613,52 @@ code {
   color: var(--muted);
 }
 
-th.war-col-header,
-td.war-col {
-  font-size: 0.8rem;
+.price-stack {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.18rem;
+  vertical-align: middle;
+}
+
+td.num .price-stack {
+  text-align: right;
+}
+
+.price-main {
+  font-variant-numeric: tabular-nums;
+}
+
+.gp-sub {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  line-height: 1.15;
   white-space: nowrap;
+}
+
+.gp-sub-ico {
+  font-size: 0.72rem;
+  opacity: 0.95;
+}
+
+.gp-sub-pct {
+  font-variant-numeric: tabular-nums;
+}
+
+.gp-sub--up {
+  color: #7ed69a;
+}
+
+.gp-sub--down {
+  color: #f28b82;
+}
+
+.gp-sub--flat {
+  color: var(--muted);
 }
 
 .visually-hidden {

@@ -7,6 +7,25 @@ let warPayload = null;
 let historyPayload = null;
 let sortKey = "country";
 let sortDir = "asc";
+
+/** @param {number|null|undefined} pct */
+function formatGpSubline(pct) {
+  if (pct == null || Number.isNaN(Number(pct))) return "";
+  const n = Number(pct);
+  const ico = n > 0 ? "↑" : n < 0 ? "↓" : "→";
+  const cls =
+    n > 0 ? "gp-sub--up" : n < 0 ? "gp-sub--down" : "gp-sub--flat";
+  const num = n.toLocaleString("en", { maximumFractionDigits: 2 });
+  const pctStr = (n > 0 ? "+" : "") + num + "%";
+  return `<span class="gp-sub ${cls}" title="Change since Feb 23 (GlobalPetrolPrices vs pre-war baseline)"><span class="gp-sub-ico" aria-hidden="true">${ico}</span><span class="gp-sub-pct">${escapeHtml(pctStr)}</span></span>`;
+}
+
+function priceCellHtml(price, currency, gpPct) {
+  const main = formatMoney(price, currency);
+  const sub = formatGpSubline(gpPct);
+  if (!sub) return main;
+  return `<div class="price-stack"><span class="price-main">${main}</span>${sub}</div>`;
+}
 let chartCompare = null;
 let chartHistory = null;
 
@@ -129,7 +148,6 @@ function render() {
   const tbody = document.getElementById("tbody");
   const empty = document.getElementById("empty");
   const rows = sorted(filtered());
-  const showWar = !!warPayload?.by_country_code;
 
   const countEl = document.getElementById("tableCount");
   if (countEl) {
@@ -139,9 +157,6 @@ function render() {
   tbody.replaceChildren();
   if (rows.length === 0) {
     empty.hidden = false;
-    document.querySelectorAll(".war-col-header").forEach((el) => {
-      el.hidden = !showWar;
-    });
     applyColumnVisibility();
     return;
   }
@@ -149,10 +164,6 @@ function render() {
 
   for (const r of rows) {
     const w = warPctFor(r);
-    const gPct =
-      w?.gasoline_pct != null ? `${w.gasoline_pct >= 0 ? "+" : ""}${w.gasoline_pct}%` : "—";
-    const dPct =
-      w?.diesel_pct != null ? `${w.diesel_pct >= 0 ? "+" : ""}${w.diesel_pct}%` : "—";
     const flag = flagEmoji(r.country_code);
     const tr = document.createElement("tr");
     tr.innerHTML = `
@@ -161,18 +172,12 @@ function render() {
         <span class="country-name">${escapeHtml(r.country)}</span>
       </td>
       <td class="num muted">${escapeHtml(r.country_code)}</td>
-      <td class="num col-gas">${formatMoney(r.gasoline, r.currency)}</td>
-      <td class="num col-die">${formatMoney(r.diesel, r.currency)}</td>
-      <td class="num war-col col-gas" ${showWar ? "" : "hidden"}>${escapeHtml(gPct)}</td>
-      <td class="num war-col col-die" ${showWar ? "" : "hidden"}>${escapeHtml(dPct)}</td>
+      <td class="num col-gas">${priceCellHtml(r.gasoline, r.currency, w?.gasoline_pct)}</td>
+      <td class="num col-die">${priceCellHtml(r.diesel, r.currency, w?.diesel_pct)}</td>
       <td class="num">${escapeHtml(r.updated_at)}</td>
     `;
     tbody.appendChild(tr);
   }
-
-  document.querySelectorAll(".war-col-header").forEach((el) => {
-    el.hidden = !showWar;
-  });
 
   applyColumnVisibility();
 }
@@ -685,6 +690,10 @@ async function load() {
       }
     }
 
+    if (sortKey === "war_gas_pct" || sortKey === "war_diesel_pct") {
+      sortKey = "country";
+      sortDir = "asc";
+    }
     updateSortButtons();
     bindCountryPicker();
     renderCountryChips();
