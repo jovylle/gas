@@ -21,18 +21,7 @@
         Retail gasoline and diesel by country. Data is refreshed on a schedule and
         stored as JSON in this repository—no app server required.
       </p>
-      <div class="toolbar">
-        <label class="search-wrap">
-          <span class="visually-hidden">Search countries</span>
-          <input
-            type="search"
-            id="search"
-            placeholder="Search country or code…"
-            autocomplete="off"
-          />
-        </label>
-        <p class="meta-line" id="metaLine"></p>
-      </div>
+      <p class="meta-line" id="metaLine"></p>
     </header>
 
     <section class="charts-section" aria-labelledby="charts-heading">
@@ -74,13 +63,31 @@
 
     <main>
       <div class="table-section">
+        <h2 class="table-heading">Price table</h2>
         <div class="table-toolbar">
-          <p class="table-count" id="tableCount" aria-live="polite"></p>
+          <div class="table-toolbar-row table-toolbar-row--text">
+            <label class="filter-field filter-field--text-search">
+              <span class="filter-label">Search table</span>
+              <span class="filter-hint"
+                >Narrows rows by matching country name or code. If you also pick countries below,
+                <strong>both</strong> apply—clear this field to show every country you picked.</span
+              >
+              <input
+                type="search"
+                id="search"
+                placeholder="e.g. phil, united, DE…"
+                autocomplete="off"
+                aria-label="Search table by country name or code"
+              />
+            </label>
+            <p class="table-count" id="tableCount" aria-live="polite"></p>
+          </div>
           <div class="filters" id="tableFilters">
             <div class="filter-field filter-field--countries">
               <span class="filter-label">Countries</span>
               <span class="filter-hint"
-                >Search to add; chips show the filter. None selected = all countries.</span
+                >Type to find a country, click to add. Chips show who stays in the list. None =
+                all countries.</span
               >
               <div class="country-picker" id="countryPicker">
                 <div class="country-picker-input-wrap">
