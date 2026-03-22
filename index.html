@@ -77,11 +77,15 @@
         <div class="table-toolbar">
           <p class="table-count" id="tableCount" aria-live="polite"></p>
           <div class="filters" id="tableFilters">
-            <label class="filter-field">
-              <span class="filter-label">Currency</span>
-              <select id="filterCurrency" aria-label="Filter by currency">
-                <option value="">All currencies</option>
-              </select>
+            <label class="filter-field filter-field--countries">
+              <span class="filter-label">Countries</span>
+              <span class="filter-hint">Ctrl/Cmd-click to select multiple. None selected = all.</span>
+              <select
+                id="filterCountries"
+                multiple
+                size="6"
+                aria-label="Filter by country (multiple)"
+              ></select>
             </label>
             <label class="filter-field">
               <span class="filter-label">GP war Δ</span>
@@ -91,6 +95,17 @@
                 <option value="nogp">No GP % data</option>
               </select>
             </label>
+            <div class="column-toggles" role="group" aria-label="Show or hide price columns">
+              <span class="filter-label">Price columns</span>
+              <label class="toggle-inline">
+                <input type="checkbox" id="toggleColGas" />
+                Gasoline
+              </label>
+              <label class="toggle-inline">
+                <input type="checkbox" id="toggleColDiesel" checked />
+                Diesel
+              </label>
+            </div>
             <button type="button" class="btn-text" id="clearTableFilters">
               Clear filters
             </button>
@@ -100,37 +115,37 @@
           <table>
             <thead>
               <tr>
-                <th scope="col">
+                <th scope="col" class="th-sort-cell">
                   <button type="button" class="sort is-active" data-sort="country">
                     <span class="sort-lbl">Country</span> <span class="sort-ind">↑</span>
                   </button>
                 </th>
-                <th scope="col">
+                <th scope="col" class="th-sort-cell">
                   <button type="button" class="sort" data-sort="country_code">
                     <span class="sort-lbl">Code</span> <span class="sort-ind"></span>
                   </button>
                 </th>
-                <th scope="col">
+                <th scope="col" class="th-sort-cell col-gas">
                   <button type="button" class="sort" data-sort="gasoline">
                     <span class="sort-lbl">Gasoline</span> <span class="sort-ind"></span>
                   </button>
                 </th>
-                <th scope="col">
+                <th scope="col" class="th-sort-cell col-die">
                   <button type="button" class="sort" data-sort="diesel">
                     <span class="sort-lbl">Diesel</span> <span class="sort-ind"></span>
                   </button>
                 </th>
-                <th scope="col" class="war-col-header war-sort" hidden>
+                <th scope="col" class="war-col-header war-sort th-sort-cell" hidden>
                   <button type="button" class="sort" data-sort="war_gas_pct">
                     <span class="sort-lbl">Δ gas (GP)</span> <span class="sort-ind"></span>
                   </button>
                 </th>
-                <th scope="col" class="war-col-header war-sort" hidden>
+                <th scope="col" class="war-col-header war-sort th-sort-cell" hidden>
                   <button type="button" class="sort" data-sort="war_diesel_pct">
                     <span class="sort-lbl">Δ diesel (GP)</span> <span class="sort-ind"></span>
                   </button>
                 </th>
-                <th scope="col">
+                <th scope="col" class="th-sort-cell">
                   <button type="button" class="sort" data-sort="updated_at">
                     <span class="sort-lbl">Updated</span> <span class="sort-ind"></span>
                   </button>

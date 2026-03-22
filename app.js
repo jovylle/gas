@@ -76,10 +76,17 @@ function hasGpWarRow(r) {
   );
 }
 
+function getSelectedCountryCodes() {
+  const sel = document.getElementById("filterCountries");
+  if (!sel) return [];
+  return Array.from(sel.selectedOptions)
+    .map((o) => o.value)
+    .filter(Boolean);
+}
+
 function filtered() {
   const q = document.getElementById("search").value.trim().toLowerCase();
-  const currency =
-    document.getElementById("filterCurrency")?.value?.trim() ?? "";
+  const countryCodes = getSelectedCountryCodes();
   const warSel = document.getElementById("filterWar")?.value ?? "";
 
   return raw.filter((r) => {
@@ -88,7 +95,9 @@ function filtered() {
       const code = r.country_code.toLowerCase();
       if (!name.includes(q) && !code.includes(q)) return false;
     }
-    if (currency && r.currency !== currency) return false;
+    if (countryCodes.length > 0 && !countryCodes.includes(r.country_code)) {
+      return false;
+    }
     if (warSel === "gp" && !hasGpWarRow(r)) return false;
     if (warSel === "nogp" && hasGpWarRow(r)) return false;
     return true;
@@ -118,6 +127,10 @@ function render() {
   tbody.replaceChildren();
   if (rows.length === 0) {
     empty.hidden = false;
+    document.querySelectorAll(".war-col-header").forEach((el) => {
+      el.hidden = !showWar;
+    });
+    applyColumnVisibility();
     return;
   }
   empty.hidden = true;
@@ -132,8 +145,8 @@ function render() {
     tr.innerHTML = `
       <td>${escapeHtml(r.country)}</td>
       <td class="num muted">${escapeHtml(r.country_code)}</td>
-      <td class="num">${formatMoney(r.gasoline, r.currency)}</td>
-      <td class="num">${formatMoney(r.diesel, r.currency)}</td>
+      <td class="num col-gas">${formatMoney(r.gasoline, r.currency)}</td>
+      <td class="num col-die">${formatMoney(r.diesel, r.currency)}</td>
       <td class="num war-col" ${showWar ? "" : "hidden"}>${escapeHtml(gPct)}</td>
       <td class="num war-col" ${showWar ? "" : "hidden"}>${escapeHtml(dPct)}</td>
       <td class="num">${escapeHtml(r.updated_at)}</td>
@@ -144,25 +157,36 @@ function render() {
   document.querySelectorAll(".war-col-header").forEach((el) => {
     el.hidden = !showWar;
   });
+
+  applyColumnVisibility();
 }
 
-function populateCurrencyFilter() {
-  const sel = document.getElementById("filterCurrency");
+function applyColumnVisibility() {
+  const showGas = document.getElementById("toggleColGas")?.checked ?? false;
+  const showDie = document.getElementById("toggleColDiesel")?.checked ?? true;
+  document.querySelectorAll(".col-gas").forEach((el) => {
+    el.classList.toggle("table-col-hidden", !showGas);
+  });
+  document.querySelectorAll(".col-die").forEach((el) => {
+    el.classList.toggle("table-col-hidden", !showDie);
+  });
+}
+
+function populateCountryFilter() {
+  const sel = document.getElementById("filterCountries");
   if (!sel) return;
-  const prev = sel.value;
-  const codes = [...new Set(raw.map((r) => r.currency))].sort();
+  const selected = new Set(getSelectedCountryCodes());
+  const sortedRows = [...raw].sort((a, b) =>
+    a.country.localeCompare(b.country, "en")
+  );
   sel.replaceChildren();
-  const opt0 = document.createElement("option");
-  opt0.value = "";
-  opt0.textContent = "All currencies";
-  sel.appendChild(opt0);
-  for (const c of codes) {
+  for (const r of sortedRows) {
     const opt = document.createElement("option");
-    opt.value = c;
-    opt.textContent = c;
+    opt.value = r.country_code;
+    opt.textContent = `${r.country} (${r.country_code})`;
+    if (selected.has(r.country_code)) opt.selected = true;
     sel.appendChild(opt);
   }
-  if (prev && codes.includes(prev)) sel.value = prev;
 }
 
 function escapeHtml(s) {
@@ -181,6 +205,17 @@ function updateSortButtons() {
     const ind = btn.querySelector(".sort-ind");
     if (ind) {
       ind.textContent = active ? (sortDir === "asc" ? "↑" : "↓") : "";
+    }
+    const th = btn.closest("th");
+    if (th) {
+      if (active) {
+        th.setAttribute(
+          "aria-sort",
+          sortDir === "asc" ? "ascending" : "descending"
+        );
+      } else {
+        th.setAttribute("aria-sort", "none");
+      }
     }
   });
 }
@@ -440,7 +475,7 @@ document.getElementById("search").addEventListener("input", () => {
   render();
 });
 
-document.getElementById("filterCurrency")?.addEventListener("change", () => {
+document.getElementById("filterCountries")?.addEventListener("change", () => {
   render();
 });
 
@@ -448,11 +483,23 @@ document.getElementById("filterWar")?.addEventListener("change", () => {
   render();
 });
 
+document.getElementById("toggleColGas")?.addEventListener("change", () => {
+  applyColumnVisibility();
+});
+
+document.getElementById("toggleColDiesel")?.addEventListener("change", () => {
+  applyColumnVisibility();
+});
+
 document.getElementById("clearTableFilters")?.addEventListener("click", () => {
   const search = document.getElementById("search");
   if (search) search.value = "";
-  const fc = document.getElementById("filterCurrency");
-  if (fc) fc.value = "";
+  const fc = document.getElementById("filterCountries");
+  if (fc) {
+    Array.from(fc.options).forEach((o) => {
+      o.selected = false;
+    });
+  }
   const fw = document.getElementById("filterWar");
   if (fw) fw.value = "";
   render();
@@ -522,7 +569,7 @@ async function load() {
     }
 
     updateSortButtons();
-    populateCurrencyFilter();
+    populateCountryFilter();
     render();
     populateCountrySelect();
     refreshCharts();

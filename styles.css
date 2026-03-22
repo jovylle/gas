@@ -253,6 +253,51 @@ main {
   box-shadow: 0 0 0 2px rgba(126, 200, 255, 0.2);
 }
 
+.filter-field select[multiple] {
+  min-width: min(100%, 18rem);
+  max-width: 22rem;
+  padding: 0.4rem 0.5rem;
+  line-height: 1.35;
+}
+
+.filter-field--countries {
+  min-width: min(100%, 20rem);
+}
+
+.filter-hint {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--muted);
+  opacity: 0.9;
+  margin-bottom: 0.15rem;
+}
+
+.column-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.toggle-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+.toggle-inline input {
+  accent-color: var(--accent);
+  width: 1rem;
+  height: 1rem;
+}
+
 .btn-text {
   font: inherit;
   font-size: 0.875rem;
@@ -307,6 +352,33 @@ th {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--muted);
+}
+
+thead th.th-sort-cell {
+  padding: 0;
+  vertical-align: bottom;
+}
+
+thead th.th-sort-cell .sort {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+thead th.th-sort-cell .sort:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--accent);
+}
+
+.table-col-hidden {
+  display: none !important;
 }
 
 tbody tr:hover {
