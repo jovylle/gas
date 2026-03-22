@@ -709,6 +709,9 @@ function daysSince(isoDate) {
   return Math.floor((today - t.getTime()) / 86400000);
 }
 
+/** OpenVan national sources often refresh weekly—warn only if unusually old. */
+const SOURCE_QUOTE_STALE_DAYS = 21;
+
 function formatUpdatedCell(isoDate) {
   const days = daysSince(isoDate);
   const rel =
@@ -719,11 +722,13 @@ function formatUpdatedCell(isoDate) {
         : days === 1
           ? "1 day ago"
           : `${days} days ago`;
-  const stale = days != null && days > 7;
+  const stale = days != null && days > SOURCE_QUOTE_STALE_DAYS;
+  const cellTitle =
+    "OpenVan reported date for this country’s national price source (fetched_at). It is not the date this website or GitHub Actions last ran—see the dataset line in the header for the repo snapshot.";
   const badge = stale
-    ? `<span class="freshness freshness--stale" title="Quote older than 7 days">⚠</span>`
-    : `<span class="freshness freshness--ok" title="Recently updated">✓</span>`;
-  return `<div class="updated-cell"><span class="updated-date">${escapeHtml(isoDate || "—")}</span><span class="updated-rel">${escapeHtml(rel)}</span>${badge}</div>`;
+    ? `<span class="freshness freshness--stale" title="No newer source quote from OpenVan in ${SOURCE_QUOTE_STALE_DAYS}+ days—some countries update slowly.">⚠</span>`
+    : `<span class="freshness freshness--ok" title="Source quote within the last ${SOURCE_QUOTE_STALE_DAYS} days (per OpenVan).">✓</span>`;
+  return `<div class="updated-cell" title="${escapeHtml(cellTitle)}"><span class="updated-date">${escapeHtml(isoDate || "—")}</span><span class="updated-rel">${escapeHtml(rel)}</span>${badge}</div>`;
 }
 
 function renderInsights() {
@@ -1352,7 +1357,12 @@ async function load() {
       ? " · FX: ECB via Frankfurter (use currency toggle above table)"
       : " · FX unavailable — table shows local units";
     document.getElementById("metaLine").textContent =
-      `${m.countries_count ?? raw.length} countries · dataset ${m.updated_at ?? "—"}${fxNote}`;
+      `${m.countries_count ?? raw.length} countries · dataset snapshot ${m.updated_at ?? "—"}${fxNote}`;
+    const metaSub = document.getElementById("metaLineSub");
+    if (metaSub) {
+      metaSub.textContent =
+        "Per-country “source quote” dates come from OpenVan (when each national source was last reported)—not the dataset snapshot date above. Newer repo runs do not change those dates unless OpenVan updates that row.";
+    }
 
     if (warRes.ok) {
       warPayload = await warRes.json();
