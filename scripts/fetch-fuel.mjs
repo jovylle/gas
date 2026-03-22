@@ -7,11 +7,19 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  fetchWarDeltaRows,
+  gpNameToCode,
+  loadCountriesEn,
+  invertCountriesEn,
+} from "./war-deltas-lib.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const OUT = join(ROOT, "data", "fuel.json");
 const OVERRIDES_PATH = join(ROOT, "data", "overrides.json");
+const WAR_OUT = join(ROOT, "data", "war_deltas.json");
+const HISTORY_OUT = join(ROOT, "data", "history.json");
 
 const API = "https://openvan.camp/api/fuel/prices";
 
@@ -110,6 +118,72 @@ function mergeOverrides(rows, overrides, dateStr) {
   return [...byCode.values()];
 }
 
+async function writeWarDeltas() {
+  const countriesEn = await loadCountriesEn();
+  const nameToCode = invertCountriesEn(countriesEn);
+  const rows = await fetchWarDeltaRows();
+  const by_country_code = {};
+  for (const r of rows) {
+    const code = gpNameToCode(r.gp_name, nameToCode);
+    if (!code) continue;
+    by_country_code[code] = {
+      gasoline_pct: r.gasoline_pct,
+      diesel_pct: r.diesel_pct,
+    };
+  }
+  const payload = {
+    meta: {
+      baseline_date: "2026-02-23",
+      baseline_label:
+        "Last weekly data before Iran war (per GlobalPetrolPrices narrative)",
+      source_url:
+        "https://www.globalpetrolprices.com/fuel_price_trend_Iran_war.php",
+      scraped_at: new Date().toISOString(),
+      rows_scraped: rows.length,
+    },
+    by_country_code,
+  };
+  await writeFile(WAR_OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
+  console.log(`Wrote war deltas (${rows.length} rows) to ${WAR_OUT}`);
+}
+
+async function appendHistory(rows, dateStr) {
+  let history = {
+    meta: {
+      description:
+        "Daily snapshots from this repo (Git as database). Used for trend charts.",
+    },
+    snapshots: [],
+  };
+  try {
+    const raw = await readFile(HISTORY_OUT, "utf8");
+    history = JSON.parse(raw);
+  } catch {
+    /* first run */
+  }
+  const snap = { date: dateStr, by_code: {} };
+  for (const r of rows) {
+    snap.by_code[r.country_code] = {
+      currency: r.currency,
+      gasoline: r.gasoline,
+      diesel: r.diesel,
+    };
+  }
+  const rest = (history.snapshots || []).filter((s) => s.date !== dateStr);
+  rest.push(snap);
+  rest.sort((a, b) => a.date.localeCompare(b.date));
+  const maxSnaps = 400;
+  while (rest.length > maxSnaps) rest.shift();
+  history.snapshots = rest;
+  history.meta = {
+    ...history.meta,
+    updated_at: dateStr,
+    snapshot_count: rest.length,
+  };
+  await writeFile(HISTORY_OUT, JSON.stringify(history, null, 2) + "\n", "utf8");
+  console.log(`Wrote ${rest.length} snapshot(s) to ${HISTORY_OUT}`);
+}
+
 async function main() {
   const res = await fetch(API, {
     headers: { Accept: "application/json", "User-Agent": "fuel-price-tracker/1.0" },
@@ -142,6 +216,14 @@ async function main() {
 
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
   console.log(`Wrote ${rows.length} countries to ${OUT}`);
+
+  await appendHistory(rows, dateStr);
+
+  try {
+    await writeWarDeltas();
+  } catch (e) {
+    console.warn("War deltas scrape skipped:", e.message);
+  }
 }
 
 main().catch((e) => {

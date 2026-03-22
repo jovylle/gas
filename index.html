@@ -35,6 +35,39 @@
       </div>
     </header>
 
+    <section class="charts-section" aria-labelledby="charts-heading">
+      <h2 id="charts-heading">Charts &amp; Iran war baseline</h2>
+      <p class="chart-lede">
+        GlobalPetrolPrices publishes <strong>percent changes since Feb 23, 2026</strong> (their last
+        weekly point before the Iran war). We scrape that table to compute
+        <em>implied pre-war prices</em> in the same currency as today:
+        <code>price ÷ (1 + %/100)</code>. Current prices come from OpenVan.
+      </p>
+      <p class="meta-line chart-meta" id="warMetaLine" hidden></p>
+      <div class="chart-controls">
+        <label class="chart-select-label">
+          Country
+          <select id="chartCountry"></select>
+        </label>
+      </div>
+      <div class="chart-grid">
+        <figure class="chart-card">
+          <figcaption>Now vs implied pre-war (same currency)</figcaption>
+          <p class="chart-hint" id="chartCompareHint" hidden></p>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartCompare" role="img" aria-label="Bar chart comparing current and implied pre-war fuel prices"></canvas>
+          </div>
+        </figure>
+        <figure class="chart-card">
+          <figcaption>History from this repo</figcaption>
+          <p class="chart-hint" id="chartHistoryHint" hidden></p>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartHistory" role="img" aria-label="Line chart of fuel price history"></canvas>
+          </div>
+        </figure>
+      </div>
+    </section>
+
     <main>
       <div class="table-wrap">
         <table>
@@ -56,6 +89,8 @@
                   <span class="sort-lbl">Diesel</span> <span class="sort-ind"></span>
                 </button>
               </th>
+              <th scope="col" class="war-col-header" hidden>Δ gas (GP)</th>
+              <th scope="col" class="war-col-header" hidden>Δ diesel (GP)</th>
               <th scope="col">
                 <button type="button" class="sort" data-sort="updated_at">
                   <span class="sort-lbl">Updated</span> <span class="sort-ind"></span>
@@ -72,15 +107,19 @@
 
     <footer class="site-footer">
       <p>
-        Data from
+        Live prices from
         <a href="https://openvan.camp/api/fuel/prices" rel="noopener noreferrer"
           >OpenVan.camp</a
         >
-        (CC BY 4.0). Override or extend countries via
-        <code>data/overrides.json</code> in the repo.
+        (CC BY 4.0). Iran-war % changes from
+        <a href="https://www.globalpetrolprices.com/fuel_price_trend_Iran_war.php" rel="noopener noreferrer"
+          >GlobalPetrolPrices</a
+        >
+        (see their license). Override countries via <code>data/overrides.json</code>.
       </p>
     </footer>
 
-    <script src="app.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>

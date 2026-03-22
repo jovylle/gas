@@ -68,6 +68,91 @@ h1 {
   font-size: 1.05rem;
 }
 
+.charts-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+}
+
+.charts-section h2 {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0 0 0.75rem;
+}
+
+.chart-lede {
+  color: var(--muted);
+  max-width: 65ch;
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+}
+
+.chart-lede code {
+  font-size: 0.85em;
+}
+
+.chart-meta {
+  margin: 0 0 1rem;
+}
+
+.chart-controls {
+  margin-bottom: 1rem;
+}
+
+.chart-select-label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.chart-select-label select {
+  min-width: 280px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--text);
+  font: inherit;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.chart-card {
+  margin: 0;
+  padding: 1rem 1rem 0.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+}
+
+.chart-card figcaption {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.chart-hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+.chart-canvas-wrap {
+  position: relative;
+  height: 280px;
+}
+
 .toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -232,6 +317,12 @@ code {
 
 .muted {
   color: var(--muted);
+}
+
+th.war-col-header,
+td.war-col {
+  font-size: 0.8rem;
+  white-space: nowrap;
 }
 
 .visually-hidden {
