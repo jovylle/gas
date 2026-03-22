@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fuel Price Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <header class="hero">
+      <p class="eyebrow">Static · GitHub Actions</p>
+      <h1>Fuel prices worldwide</h1>
+      <p class="lede">
+        Retail gasoline and diesel by country. Data is refreshed on a schedule and
+        stored as JSON in this repository—no app server required.
+      </p>
+      <div class="toolbar">
+        <label class="search-wrap">
+          <span class="visually-hidden">Search countries</span>
+          <input
+            type="search"
+            id="search"
+            placeholder="Search country or code…"
+            autocomplete="off"
+          />
+        </label>
+        <p class="meta-line" id="metaLine"></p>
+      </div>
+    </header>
+
+    <main>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">
+                <button type="button" class="sort is-active" data-sort="country">
+                  <span class="sort-lbl">Country</span> <span class="sort-ind">↑</span>
+                </button>
+              </th>
+              <th scope="col">Code</th>
+              <th scope="col">
+                <button type="button" class="sort" data-sort="gasoline">
+                  <span class="sort-lbl">Gasoline</span> <span class="sort-ind"></span>
+                </button>
+              </th>
+              <th scope="col">
+                <button type="button" class="sort" data-sort="diesel">
+                  <span class="sort-lbl">Diesel</span> <span class="sort-ind"></span>
+                </button>
+              </th>
+              <th scope="col">
+                <button type="button" class="sort" data-sort="updated_at">
+                  <span class="sort-lbl">Updated</span> <span class="sort-ind"></span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <p class="empty" id="empty" hidden>No rows match your search.</p>
+      <p class="error" id="error" hidden></p>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        Data from
+        <a href="https://openvan.camp/api/fuel/prices" rel="noopener noreferrer"
+          >OpenVan.camp</a
+        >
+        (CC BY 4.0). Override or extend countries via
+        <code>data/overrides.json</code> in the repo.
+      </p>
+    </footer>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,246 @@
+:root {
+  --bg: #0c0e12;
+  --bg-elev: #13161e;
+  --border: rgba(255, 245, 220, 0.12);
+  --text: #e8e4dc;
+  --muted: #9a9388;
+  --accent: #f0a020;
+  --accent-dim: rgba(240, 160, 32, 0.15);
+  --focus: #7ec8ff;
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.5;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+  pointer-events: none;
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 1.5rem;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+h1 {
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 500;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.lede {
+  color: var(--muted);
+  max-width: 52ch;
+  margin: 0 0 1.75rem;
+  font-size: 1.05rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-wrap {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+#search {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--text);
+  font: inherit;
+  outline: none;
+}
+
+#search:focus {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px rgba(126, 200, 255, 0.25);
+}
+
+.meta-line {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+.table-wrap {
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  overflow: auto;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    #161a24,
+    #13161e
+  );
+  z-index: 2;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+tbody tr:hover {
+  background: var(--accent-dim);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sort {
+  font: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.sort:hover {
+  color: var(--accent);
+}
+
+.sort:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.sort.is-active {
+  color: var(--accent);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+code {
+  font-size: 0.85em;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.empty,
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: var(--muted);
+}
+
+.error {
+  color: #ff8a8a;
+}
+
+.site-footer {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.site-footer a {
+  color: var(--accent);
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
