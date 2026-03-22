@@ -33,7 +33,43 @@ function flagEmoji(code) {
 /** Country filter: empty set = show all. */
 const selectedFilterCodes = new Set();
 
+const LS_FAV = "fuel_favorites_v1";
+const LS_ALERT = "fuel_alert_v1";
+
 let countryPickerBound = false;
+
+function getFavorites() {
+  try {
+    const j = JSON.parse(localStorage.getItem(LS_FAV) || "[]");
+    return new Set(Array.isArray(j) ? j : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveFavorites(set) {
+  localStorage.setItem(LS_FAV, JSON.stringify([...set]));
+}
+
+function toggleFavorite(code) {
+  const s = getFavorites();
+  if (s.has(code)) s.delete(code);
+  else s.add(code);
+  saveFavorites(s);
+}
+
+function getAlertConfig() {
+  try {
+    return JSON.parse(localStorage.getItem(LS_ALERT) || "null");
+  } catch {
+    return null;
+  }
+}
+
+function saveAlertConfig(cfg) {
+  if (cfg == null) localStorage.removeItem(LS_ALERT);
+  else localStorage.setItem(LS_ALERT, JSON.stringify(cfg));
+}
 
 function formatMoney(value, currency) {
   if (value == null || Number.isNaN(value)) return "—";
@@ -59,8 +95,26 @@ function toUsd(amount, currency) {
   return Number(amount) / r;
 }
 
-function displayPriceUsd(amount, currency) {
+function getDisplayMode() {
+  return (
+    document.querySelector('input[name="currencyMode"]:checked')?.value || "usd"
+  );
+}
+
+function toPhp(amount, currency) {
+  const usd = toUsd(amount, currency);
+  if (usd == null || !usdRates?.PHP) return null;
+  return usd * usdRates.PHP;
+}
+
+function displayPrice(amount, currency) {
   if (amount == null || Number.isNaN(Number(amount))) return "—";
+  const mode = getDisplayMode();
+  if (mode === "local") return formatMoney(amount, currency);
+  if (mode === "php") {
+    const p = toPhp(amount, currency);
+    return p != null ? formatMoney(p, "PHP") : formatMoney(amount, currency);
+  }
   const u = toUsd(amount, currency);
   if (u != null) return formatMoney(u, "USD");
   return formatMoney(amount, currency);
@@ -78,11 +132,15 @@ function formatGpSubline(pct) {
   return `<span class="gp-sub ${cls}" title="Change since Feb 23 (GlobalPetrolPrices vs pre-war baseline). ↑ = higher pump price (tougher on drivers)."><span class="gp-sub-ico" aria-hidden="true">${ico}</span><span class="gp-sub-pct">${escapeHtml(pctStr)}</span></span>`;
 }
 
-function priceCellHtml(price, currency, gpPct) {
-  const main = displayPriceUsd(price, currency);
+function priceCellHtml(price, currency, gpPct, code, field) {
+  const main = displayPrice(price, currency);
+  const delta = code && field ? formatDeltaLineHtml(code, field) : "";
   const sub = formatGpSubline(gpPct);
-  if (!sub) return main;
-  return `<div class="price-stack"><span class="price-main">${main}</span>${sub}</div>`;
+  if (!delta && !sub) return main;
+  let inner = `<span class="price-main">${main}</span>`;
+  if (delta) inner += `<span class="price-delta-wrap">${delta}</span>`;
+  if (sub) inner += sub;
+  return `<div class="price-stack">${inner}</div>`;
 }
 
 function comparePriceForSort(a, b, key) {
@@ -95,6 +153,83 @@ function comparePriceForSort(a, b, key) {
   if (va == null) return 1;
   if (vb == null) return -1;
   return Number(va) - Number(vb);
+}
+
+function historyDeltaFor(code, field) {
+  const series = historySeriesFor(code);
+  if (series.length < 2) return null;
+  const prev = series[series.length - 2];
+  const row = rowByCode(code);
+  if (!row) return null;
+  const prevVal = prev[field];
+  const currVal = row[field];
+  if (prevVal == null || currVal == null) return null;
+  const deltaLocal = currVal - prevVal;
+  const pct = prevVal !== 0 ? (deltaLocal / prevVal) * 100 : 0;
+  return { deltaLocal, pct, prevVal, currVal };
+}
+
+function formatSignedDelta(d, currency, mode) {
+  const { prevVal, currVal, deltaLocal } = d;
+  let amount;
+  if (mode === "local") {
+    amount = deltaLocal;
+  } else if (mode === "usd") {
+    const cu = toUsd(currVal, currency);
+    const pu = toUsd(prevVal, currency);
+    if (cu == null || pu == null) return "";
+    amount = cu - pu;
+  } else if (mode === "php") {
+    const cu = toPhp(currVal, currency);
+    const pu = toPhp(prevVal, currency);
+    if (cu == null || pu == null) return "";
+    amount = cu - pu;
+  } else {
+    amount = deltaLocal;
+  }
+  const sign = amount >= 0 ? "+" : "−";
+  const ccy =
+    mode === "local"
+      ? currency
+      : mode === "usd"
+        ? "USD"
+        : mode === "php"
+          ? "PHP"
+          : currency;
+  try {
+    const num = Math.abs(amount);
+    const formatted = new Intl.NumberFormat("en", {
+      style: "currency",
+      currency: ccy,
+      maximumFractionDigits: 4,
+    }).format(num);
+    return `${sign}${formatted}`;
+  } catch {
+    return `${sign}${Math.abs(amount)}`;
+  }
+}
+
+function formatDeltaLineHtml(code, field) {
+  const d = historyDeltaFor(code, field);
+  if (!d) return "";
+  const row = rowByCode(code);
+  if (!row) return "";
+  const mode = getDisplayMode();
+  const str = formatSignedDelta(d, row.currency, mode);
+  if (!str) return "";
+  const localUp = d.deltaLocal > 0;
+  const cls =
+    localUp
+      ? "delta-line--worse"
+      : d.deltaLocal < 0
+        ? "delta-line--better"
+        : "delta-line--flat";
+  const icon = d.deltaLocal > 0 ? "▲" : d.deltaLocal < 0 ? "▼" : "—";
+  const pctStr =
+    d.pct != null && !Number.isNaN(d.pct)
+      ? ` (${d.pct >= 0 ? "+" : ""}${d.pct.toFixed(1)}%)`
+      : "";
+  return `<span class="delta-line ${cls}" title="Versus previous snapshot in repo history">${icon} ${escapeHtml(str)}${escapeHtml(pctStr)}</span>`;
 }
 
 function compare(a, b, key) {
@@ -172,10 +307,22 @@ function filtered() {
 
 function sorted(rows) {
   const out = [...rows];
-  out.sort((a, b) => {
+  const favFirst = document.getElementById("toggleFavFirst")?.checked ?? true;
+  const fav = getFavorites();
+  const sortFn = (a, b) => {
     const c = compare(a, b, sortKey);
     return sortDir === "asc" ? c : -c;
-  });
+  };
+  if (favFirst && fav.size > 0) {
+    out.sort((a, b) => {
+      const af = fav.has(a.country_code) ? 1 : 0;
+      const bf = fav.has(b.country_code) ? 1 : 0;
+      if (bf !== af) return bf - af;
+      return sortFn(a, b);
+    });
+  } else {
+    out.sort(sortFn);
+  }
   return out;
 }
 
@@ -193,27 +340,53 @@ function render() {
   if (rows.length === 0) {
     empty.hidden = false;
     applyColumnVisibility();
+    renderInsights();
+    renderWeeklySummary();
+    renderComparison();
+    renderAlertBanner();
     return;
   }
   empty.hidden = true;
 
+  const fav = getFavorites();
   for (const r of rows) {
     const w = warPctFor(r);
     const flag = flagEmoji(r.country_code);
+    const isFav = fav.has(r.country_code);
+    const star = isFav ? "★" : "☆";
     const tr = document.createElement("tr");
+    tr.dataset.code = r.country_code;
     tr.innerHTML = `
       <td class="country-cell">
+        <button type="button" class="fav-star" data-code="${escapeHtml(r.country_code)}" aria-label="Toggle favorite for ${escapeHtml(r.country)}" aria-pressed="${isFav}">${star}</button>
         <span class="country-flag" aria-hidden="true">${escapeHtml(flag)}</span>
         <span class="country-name">${escapeHtml(r.country)}</span>
       </td>
-      <td class="num col-gas">${priceCellHtml(r.gasoline, r.currency, w?.gasoline_pct)}</td>
-      <td class="num col-die">${priceCellHtml(r.diesel, r.currency, w?.diesel_pct)}</td>
-      <td class="num">${escapeHtml(r.updated_at)}</td>
+      <td class="num col-gas">${priceCellHtml(r.gasoline, r.currency, w?.gasoline_pct, r.country_code, "gasoline")}</td>
+      <td class="num col-die">${priceCellHtml(r.diesel, r.currency, w?.diesel_pct, r.country_code, "diesel")}</td>
+      <td class="num col-updated">${formatUpdatedCell(r.updated_at)}</td>
     `;
     tbody.appendChild(tr);
   }
 
   applyColumnVisibility();
+  renderInsights();
+  renderWeeklySummary();
+  renderComparison();
+  renderAlertBanner();
+}
+
+function bindFavoriteStars() {
+  const wrap = document.querySelector(".table-wrap");
+  if (!wrap || wrap.dataset.favBound) return;
+  wrap.dataset.favBound = "1";
+  wrap.addEventListener("click", (e) => {
+    const btn = e.target.closest(".fav-star");
+    if (!btn?.dataset.code) return;
+    e.preventDefault();
+    toggleFavorite(btn.dataset.code);
+    render();
+  });
 }
 
 function applyColumnVisibility() {
@@ -358,6 +531,231 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
+function parseISODate(s) {
+  if (!s) return null;
+  const p = String(s).slice(0, 10);
+  const [y, m, d] = p.split("-").map(Number);
+  if (!y || !m || !d) return null;
+  return new Date(Date.UTC(y, m - 1, d));
+}
+
+function daysSince(isoDate) {
+  const t = parseISODate(isoDate);
+  if (!t) return null;
+  const now = new Date();
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return Math.floor((today - t.getTime()) / 86400000);
+}
+
+function formatUpdatedCell(isoDate) {
+  const days = daysSince(isoDate);
+  const rel =
+    days == null
+      ? "—"
+      : days === 0
+        ? "today"
+        : days === 1
+          ? "1 day ago"
+          : `${days} days ago`;
+  const stale = days != null && days > 7;
+  const badge = stale
+    ? `<span class="freshness freshness--stale" title="Quote older than 7 days">⚠</span>`
+    : `<span class="freshness freshness--ok" title="Recently updated">✓</span>`;
+  return `<div class="updated-cell"><span class="updated-date">${escapeHtml(isoDate || "—")}</span><span class="updated-rel">${escapeHtml(rel)}</span>${badge}</div>`;
+}
+
+function renderInsights() {
+  const el = document.getElementById("insightsStrip");
+  if (!el || raw.length === 0) return;
+  let cheapestG = null;
+  let expensiveG = null;
+  for (const r of raw) {
+    if (r.gasoline == null) continue;
+    const u = toUsd(r.gasoline, r.currency);
+    if (u == null) continue;
+    if (!cheapestG || u < cheapestG.u) cheapestG = { r, u };
+    if (!expensiveG || u > expensiveG.u) expensiveG = { r, u };
+  }
+  let biggest = null;
+  for (const r of raw) {
+    const d = historyDeltaFor(r.country_code, "gasoline");
+    if (!d || d.deltaLocal <= 0) continue;
+    if (!biggest || d.pct > biggest.d.pct) biggest = { r, d };
+  }
+  const parts = [];
+  if (cheapestG) {
+    parts.push(
+      `<span class="insight-item"><span class="insight-k">Cheapest gas (USD)</span> ${escapeHtml(cheapestG.r.country)} <span class="insight-flag" aria-hidden="true">${escapeHtml(flagEmoji(cheapestG.r.country_code))}</span></span>`
+    );
+  }
+  if (expensiveG) {
+    parts.push(
+      `<span class="insight-item"><span class="insight-k">Priciest gas (USD)</span> ${escapeHtml(expensiveG.r.country)} <span class="insight-flag" aria-hidden="true">${escapeHtml(flagEmoji(expensiveG.r.country_code))}</span></span>`
+    );
+  }
+  if (biggest) {
+    parts.push(
+      `<span class="insight-item"><span class="insight-k">Largest gas jump vs prior snapshot</span> ${escapeHtml(biggest.r.country)} <span class="insight-flag" aria-hidden="true">${escapeHtml(flagEmoji(biggest.r.country_code))}</span> ▲${biggest.d.pct.toFixed(1)}%</span>`
+    );
+  }
+  if (parts.length === 0) {
+    el.innerHTML =
+      '<span class="muted">Insights need loaded prices (and history for jump).</span>';
+    return;
+  }
+  el.innerHTML = parts.join('<span class="insight-sep" aria-hidden="true">·</span>');
+}
+
+function renderWeeklySummary() {
+  const el = document.getElementById("weeklySummary");
+  if (!el) return;
+  const snaps = historyPayload?.snapshots || [];
+  if (snaps.length < 2) {
+    el.hidden = true;
+    return;
+  }
+  const dates = snaps.map((s) => s.date).sort();
+  el.textContent = `Repo history: ${snaps.length} snapshots from ${dates[0]} to ${dates[dates.length - 1]} — more runs sharpen trends and Δ lines.`;
+  el.hidden = false;
+}
+
+function renderComparison() {
+  const out = document.getElementById("compareOut");
+  const a = document.getElementById("compareA")?.value;
+  const b = document.getElementById("compareB")?.value;
+  if (!out || !a || !b || a === b) {
+    if (out) out.innerHTML = a === b ? "<p class=\"compare-hint\">Pick two different countries.</p>" : "";
+    return;
+  }
+  const ra = rowByCode(a);
+  const rb = rowByCode(b);
+  if (!ra || !rb) {
+    out.innerHTML = "";
+    return;
+  }
+  const card = (r) => {
+    const g = toUsd(r.gasoline, r.currency);
+    const di = toUsd(r.diesel, r.currency);
+    const gl = g != null ? formatMoney(g, "USD") : "—";
+    const dl = di != null ? formatMoney(di, "USD") : "—";
+    return `<div class="compare-card"><h3>${escapeHtml(r.country)} <span aria-hidden="true">${escapeHtml(flagEmoji(r.country_code))}</span></h3><p>Gasoline: ${gl}</p><p>Diesel: ${dl}</p></div>`;
+  };
+  const gau = toUsd(ra.gasoline, ra.currency);
+  const gbu = toUsd(rb.gasoline, rb.currency);
+  let diffLine = "";
+  if (gau != null && gbu != null) {
+    const diff = gau - gbu;
+    const pct = gbu !== 0 ? (diff / Math.abs(gbu)) * 100 : null;
+    diffLine = `<p class="compare-diff">Gasoline (USD), A − B: <strong>${diff >= 0 ? "+" : ""}${diff.toFixed(4)} USD</strong>${pct != null ? ` (${pct >= 0 ? "+" : ""}${pct.toFixed(1)}% vs B)` : ""}</p>`;
+  }
+  out.innerHTML = `<div class="compare-grid">${card(ra)}${card(rb)}</div>${diffLine}`;
+}
+
+function renderAlertBanner() {
+  const bar = document.getElementById("alertsBanner");
+  if (!bar) return;
+  const cfg = getAlertConfig();
+  if (!cfg?.country_code || cfg.gasBelow == null) {
+    bar.hidden = true;
+    bar.innerHTML = "";
+    return;
+  }
+  const r = rowByCode(cfg.country_code);
+  if (!r || r.gasoline == null) {
+    bar.hidden = true;
+    return;
+  }
+  if (r.gasoline < cfg.gasBelow) {
+    bar.innerHTML = `<strong>Alert:</strong> ${escapeHtml(r.country)} gasoline is ${formatMoney(r.gasoline, r.currency)} — below your ${cfg.gasBelow} threshold.`;
+    bar.hidden = false;
+  } else {
+    bar.hidden = true;
+    bar.innerHTML = "";
+  }
+}
+
+function fillCountrySelect(sel, preferredCode) {
+  if (!sel) return;
+  const sortedRows = [...raw].sort((a, b) =>
+    a.country.localeCompare(b.country, "en")
+  );
+  sel.replaceChildren();
+  for (const r of sortedRows) {
+    const opt = document.createElement("option");
+    opt.value = r.country_code;
+    opt.textContent = `${r.country} (${r.country_code})`;
+    sel.appendChild(opt);
+  }
+  if (preferredCode && sortedRows.some((x) => x.country_code === preferredCode)) {
+    sel.value = preferredCode;
+  } else {
+    const prefer = ["US", "PH", "GB", "DE", "JP"];
+    const pick =
+      prefer.find((c) => raw.some((x) => x.country_code === c)) ||
+      sortedRows[0]?.country_code;
+    if (pick) sel.value = pick;
+  }
+}
+
+function populateCompareSelects() {
+  const a = document.getElementById("compareA");
+  const b = document.getElementById("compareB");
+  if (!a || !b) return;
+  const ka = a.value;
+  const kb = b.value;
+  fillCountrySelect(a, ka || null);
+  fillCountrySelect(b, kb || null);
+  if (!ka && raw.some((r) => r.country_code === "PH")) a.value = "PH";
+  if (!kb && raw.some((r) => r.country_code === "MY")) b.value = "MY";
+  if (a.value === b.value) {
+    const alt = raw.find((r) => r.country_code !== a.value);
+    if (alt) b.value = alt.country_code;
+  }
+}
+
+function populateAlertCountry() {
+  const sel = document.getElementById("alertCountry");
+  if (!sel) return;
+  const cfg = getAlertConfig();
+  const cur = cfg?.country_code || "";
+  sel.replaceChildren();
+  const opt0 = document.createElement("option");
+  opt0.value = "";
+  opt0.textContent = "—";
+  sel.appendChild(opt0);
+  for (const r of [...raw].sort((a, b) =>
+    a.country.localeCompare(b.country, "en")
+  )) {
+    const opt = document.createElement("option");
+    opt.value = r.country_code;
+    opt.textContent = `${r.country} (${r.country_code})`;
+    sel.appendChild(opt);
+  }
+  sel.value = cur;
+  const gas = document.getElementById("alertGasBelow");
+  if (gas && cfg?.gasBelow != null) gas.value = String(cfg.gasBelow);
+}
+
+function filterHistorySeries(series, range) {
+  if (range === "all" || !series || series.length === 0) return series;
+  const last = new Date(series[series.length - 1].date + "T12:00:00Z");
+  const days = range === "7d" ? 7 : 30;
+  const cutoff = new Date(last);
+  cutoff.setUTCDate(cutoff.getUTCDate() - days);
+  const cutStr = cutoff.toISOString().slice(0, 10);
+  const filtered = series.filter((p) => p.date >= cutStr);
+  return filtered.length >= 2 ? filtered : series;
+}
+
+function applyHighlightParam() {
+  const p = new URLSearchParams(location.search).get("highlight");
+  if (!p) return;
+  const code = p.toUpperCase();
+  requestAnimationFrame(() => {
+    document.querySelector(`tr[data-code="${code}"]`)?.classList.add("row-highlight");
+  });
+}
+
 function updateSortButtons() {
   document.querySelectorAll("button.sort").forEach((btn) => {
     const key = btn.dataset.sort;
@@ -383,22 +781,8 @@ function updateSortButtons() {
 
 function populateCountrySelect() {
   const sel = document.getElementById("chartCountry");
-  if (!sel) return;
-  sel.replaceChildren();
-  const sortedRows = [...raw].sort((a, b) =>
-    a.country.localeCompare(b.country, "en")
-  );
-  for (const r of sortedRows) {
-    const opt = document.createElement("option");
-    opt.value = r.country_code;
-    opt.textContent = `${r.country} (${r.country_code})`;
-    sel.appendChild(opt);
-  }
-  const prefer = ["US", "PH", "GB", "DE", "JP"];
-  const pick =
-    prefer.find((c) => raw.some((x) => x.country_code === c)) ||
-    sortedRows[0]?.country_code;
-  if (pick) sel.value = pick;
+  const prev = sel?.value;
+  fillCountrySelect(sel, prev || null);
 }
 
 function historySeriesFor(code) {
@@ -555,7 +939,9 @@ function renderHistoryChart(code) {
   destroyChart(chartHistory);
   chartHistory = null;
 
-  const series = historySeriesFor(code);
+  const range = document.getElementById("historyRange")?.value ?? "all";
+  let series = historySeriesFor(code);
+  series = filterHistorySeries(series, range);
   if (series.length < 2) {
     hint.textContent =
       series.length === 0
@@ -610,7 +996,7 @@ function renderHistoryChart(code) {
       plugins: {
         title: {
           display: true,
-          text: `${row?.country || code} — stored history (${currency})`,
+          text: `${row?.country || code} — history (${currency})${range !== "all" ? ` · ${range === "7d" ? "~7d" : "~30d"} window` : ""}`,
           color: "#e8e4dc",
           font: { size: 14 },
         },
@@ -708,6 +1094,48 @@ bindSortButtons();
 
 document.getElementById("chartCountry")?.addEventListener("change", refreshCharts);
 
+document.getElementById("historyRange")?.addEventListener("change", () => {
+  refreshCharts();
+});
+
+document.querySelectorAll('input[name="currencyMode"]').forEach((el) => {
+  el.addEventListener("change", () => render());
+});
+
+document.getElementById("toggleFavFirst")?.addEventListener("change", () => {
+  render();
+});
+
+document.getElementById("compareA")?.addEventListener("change", () => {
+  renderComparison();
+});
+
+document.getElementById("compareB")?.addEventListener("change", () => {
+  renderComparison();
+});
+
+document.getElementById("alertSave")?.addEventListener("click", () => {
+  const code = document.getElementById("alertCountry")?.value;
+  const gasRaw = document.getElementById("alertGasBelow")?.value;
+  if (!code || gasRaw === "" || gasRaw == null) {
+    saveAlertConfig(null);
+  } else {
+    const n = Number(gasRaw);
+    if (Number.isNaN(n)) saveAlertConfig(null);
+    else saveAlertConfig({ country_code: code, gasBelow: n });
+  }
+  renderAlertBanner();
+});
+
+document.getElementById("alertClear")?.addEventListener("click", () => {
+  saveAlertConfig(null);
+  const gas = document.getElementById("alertGasBelow");
+  if (gas) gas.value = "";
+  const sel = document.getElementById("alertCountry");
+  if (sel) sel.value = "";
+  renderAlertBanner();
+});
+
 async function load() {
   const errEl = document.getElementById("error");
   errEl.hidden = true;
@@ -731,8 +1159,8 @@ async function load() {
     raw = data.countries || [];
     const m = data.meta || {};
     const fxNote = usdRates
-      ? " · table prices in USD (ECB via Frankfurter)"
-      : " · table prices in local currency (FX unavailable)";
+      ? " · FX: ECB via Frankfurter (use currency toggle above table)"
+      : " · FX unavailable — table shows local units";
     document.getElementById("metaLine").textContent =
       `${m.countries_count ?? raw.length} countries · dataset ${m.updated_at ?? "—"}${fxNote}`;
 
@@ -766,9 +1194,13 @@ async function load() {
     updateSortButtons();
     bindCountryPicker();
     renderCountryChips();
-    render();
+    bindFavoriteStars();
     populateCountrySelect();
+    populateCompareSelects();
+    populateAlertCountry();
+    render();
     refreshCharts();
+    applyHighlightParam();
   } catch (e) {
     errEl.textContent = `Could not load data: ${e.message}`;
     errEl.hidden = false;

@@ -26,6 +26,7 @@ import {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const OUT = join(ROOT, "data", "fuel.json");
+const LATEST_OUT = join(ROOT, "data", "latest.json");
 const OVERRIDES_PATH = join(ROOT, "data", "overrides.json");
 const WAR_OUT = join(ROOT, "data", "war_deltas.json");
 
@@ -185,8 +186,10 @@ async function main() {
     countries: rows,
   };
 
-  await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
-  console.log(`Wrote ${rows.length} countries to ${OUT}`);
+  const jsonOut = JSON.stringify(payload, null, 2) + "\n";
+  await writeFile(OUT, jsonOut, "utf8");
+  await writeFile(LATEST_OUT, jsonOut, "utf8");
+  console.log(`Wrote ${rows.length} countries to ${OUT} and ${LATEST_OUT}`);
 
   try {
     await writeWarDeltas();

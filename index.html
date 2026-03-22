@@ -24,6 +24,12 @@
       <p class="meta-line" id="metaLine"></p>
     </header>
 
+    <section class="insights-section" aria-labelledby="insights-heading">
+      <h2 id="insights-heading" class="visually-hidden">Quick insights</h2>
+      <div class="insights-strip" id="insightsStrip"></div>
+      <p class="weekly-summary" id="weeklySummary" hidden></p>
+    </section>
+
     <section class="charts-section" aria-labelledby="charts-heading">
       <h2 id="charts-heading">Charts &amp; Iran war baseline</h2>
       <p class="chart-lede">
@@ -37,10 +43,18 @@
         git when full history is available.
       </p>
       <p class="meta-line chart-meta" id="warMetaLine" hidden></p>
-      <div class="chart-controls">
+      <div class="chart-controls chart-controls--split">
         <label class="chart-select-label">
           Country
           <select id="chartCountry"></select>
+        </label>
+        <label class="chart-select-label chart-range-label">
+          History window
+          <select id="historyRange" aria-label="Filter history chart by date range">
+            <option value="all" selected>All snapshots</option>
+            <option value="30d">Last ~30 days</option>
+            <option value="7d">Last ~7 days</option>
+          </select>
         </label>
       </div>
       <div class="chart-grid">
@@ -61,10 +75,47 @@
       </div>
     </section>
 
+    <section class="compare-section" aria-labelledby="compare-heading">
+      <h2 id="compare-heading">Compare two countries</h2>
+      <p class="compare-lede">
+        Side-by-side gasoline and diesel (USD when FX is available). Useful for travelers and remitters.
+      </p>
+      <div class="compare-row">
+        <label class="chart-select-label">
+          Country A
+          <select id="compareA" aria-label="Compare country A"></select>
+        </label>
+        <span class="compare-vs" aria-hidden="true">vs</span>
+        <label class="chart-select-label">
+          Country B
+          <select id="compareB" aria-label="Compare country B"></select>
+        </label>
+      </div>
+      <div class="compare-out" id="compareOut"></div>
+    </section>
+
     <main>
+      <div class="alerts-banner" id="alertsBanner" role="status" aria-live="polite" hidden></div>
       <div class="table-section">
         <h2 class="table-heading">Price table</h2>
         <div class="table-toolbar">
+          <div class="currency-toolbar">
+            <span class="filter-label">Display prices</span>
+            <div class="currency-toggle" role="group" aria-label="Currency display for table and deltas">
+              <label class="currency-toggle-opt"
+                ><input type="radio" name="currencyMode" value="usd" checked /> USD</label
+              >
+              <label class="currency-toggle-opt"
+                ><input type="radio" name="currencyMode" value="local" /> Local</label
+              >
+              <label class="currency-toggle-opt"
+                ><input type="radio" name="currencyMode" value="php" /> PHP</label
+              >
+            </div>
+            <label class="toggle-inline toggle-fav-first"
+              ><input type="checkbox" id="toggleFavFirst" checked /> Pin ★ first</label
+            >
+          </div>
           <div class="table-toolbar-row table-toolbar-row--text">
             <label class="filter-field filter-field--text-search">
               <span class="filter-label">Search table</span>
@@ -133,6 +184,17 @@
               Clear filters
             </button>
           </div>
+          <div class="alerts-setup">
+            <span class="filter-label">Local alert (saved in browser)</span>
+            <select id="alertCountry" aria-label="Country for price alert">
+              <option value="">—</option>
+            </select>
+            <label class="alert-gas-below"
+              >Gas below <input type="number" id="alertGasBelow" step="any" min="0" placeholder="e.g. 55" aria-label="Alert when gasoline is below this local price"
+            /></label>
+            <button type="button" class="btn-text" id="alertSave">Save alert</button>
+            <button type="button" class="btn-text" id="alertClear">Clear</button>
+          </div>
         </div>
         <div class="table-wrap">
           <table>
@@ -147,7 +209,7 @@
                   <button type="button" class="sort" data-sort="gasoline">
                     <span class="sort-lbl-stack">
                       <span class="sort-lbl">Gasoline</span>
-                      <span class="sort-lbl-hint">price · GP Δ</span>
+                      <span class="sort-lbl-hint">price · Δ · GP</span>
                     </span>
                     <span class="sort-ind"></span>
                   </button>
@@ -156,14 +218,18 @@
                   <button type="button" class="sort" data-sort="diesel">
                     <span class="sort-lbl-stack">
                       <span class="sort-lbl">Diesel</span>
-                      <span class="sort-lbl-hint">price · GP Δ</span>
+                      <span class="sort-lbl-hint">price · Δ · GP</span>
                     </span>
                     <span class="sort-ind"></span>
                   </button>
                 </th>
                 <th scope="col" class="th-sort-cell">
                   <button type="button" class="sort" data-sort="updated_at">
-                    <span class="sort-lbl">Updated</span> <span class="sort-ind"></span>
+                    <span class="sort-lbl-stack">
+                      <span class="sort-lbl">Updated</span>
+                      <span class="sort-lbl-hint">date · freshness</span>
+                    </span>
+                    <span class="sort-ind"></span>
                   </button>
                 </th>
               </tr>
@@ -177,6 +243,10 @@
     </main>
 
     <footer class="site-footer">
+      <p class="confidence-note">
+        <strong>Data confidence:</strong> Retail rows follow OpenVan; Iran-war % from GlobalPetrolPrices;
+        FX for USD/PHP from ECB (Frankfurter). History is repo snapshots, not a live API stream.
+      </p>
       <p>
         Live prices from
         <a href="https://openvan.camp/api/fuel/prices" rel="noopener noreferrer"
@@ -192,5 +262,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="app.js"></script>
+    <!-- Embeddable: <script src="fuel-widget.js" data-country="PH" data-field="gasoline" async></script> -->
   </body>
 </html>
