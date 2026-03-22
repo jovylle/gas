@@ -18,8 +18,12 @@
       <p class="eyebrow">Static · GitHub Actions</p>
       <h1>Fuel prices worldwide</h1>
       <p class="lede">
-        Retail gasoline and diesel by country. Data is refreshed on a schedule and
-        stored as JSON in this repository—no app server required.
+        Retail gasoline and diesel by country. This page loads <code>data/fuel.json</code> from the
+        repo, then merges <strong>live OpenVan</strong> in your browser for any country whose
+        source-quote date is <strong>newer</strong> (or the <strong>same calendar day</strong>) than
+        the repo copy—check the <span class="live-merge-badge live-merge-badge--inline">live</span>
+        tag on rows. Toggle <strong>PH &amp; nearby</strong> to focus charts and the table on Southeast
+        Asia / Pacific neighbors. No app server required.
       </p>
       <p class="meta-line" id="metaLine"></p>
       <p class="meta-line meta-line--sub" id="metaLineSub"></p>
@@ -41,7 +45,8 @@
         OpenVan does not expose historical retail prices in the API; the
         <strong>line chart</strong> uses <code>data/history.json</code>: daily snapshots from this repo,
         an implied Feb 23 point (first run only), and past <code>data/fuel.json</code> versions from
-        git when full history is available.
+        git when full history is available. Current bar values use the same merged prices as the table
+        (live OpenVan when newer than the repo snapshot).
       </p>
       <p class="meta-line chart-meta" id="warMetaLine" hidden></p>
       <div class="chart-controls chart-controls--split">
@@ -115,6 +120,9 @@
             </div>
             <label class="toggle-inline toggle-fav-first"
               ><input type="checkbox" id="toggleFavFirst" checked /> Pin ★ first</label
+            >
+            <label class="toggle-inline toggle-regional"
+              ><input type="checkbox" id="toggleRegionalOnly" /> PH &amp; nearby only</label
             >
           </div>
           <div class="table-toolbar-row table-toolbar-row--text">
@@ -245,8 +253,9 @@
 
     <footer class="site-footer">
       <p class="confidence-note">
-        <strong>Data confidence:</strong> Retail rows follow OpenVan; Iran-war % from GlobalPetrolPrices;
-        FX for USD/PHP from ECB (Frankfurter). History is repo snapshots, not a live API stream.
+        <strong>Data confidence:</strong> Repo baseline is OpenVan via GitHub Actions; your browser may
+        overlay fresher OpenVan quotes when dates justify it. Iran-war % from GlobalPetrolPrices; FX for
+        USD/PHP from ECB (Frankfurter). History is repo snapshots, not a live API stream.
       </p>
       <p>
         Live prices from

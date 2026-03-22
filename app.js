@@ -1,6 +1,28 @@
 const DATA_URL = "data/fuel.json";
+const OPENVAN_URL = "https://openvan.camp/api/fuel/prices";
 const WAR_URL = "data/war_deltas.json";
 const HISTORY_URL = "data/history.json";
+
+/** When “PH & nearby only” is on, table/charts/compare use this subset (full `raw` stays merged). */
+const REGION_CODES = new Set([
+  "PH",
+  "VN",
+  "TH",
+  "MY",
+  "ID",
+  "SG",
+  "BN",
+  "KH",
+  "LA",
+  "MM",
+  "TW",
+  "HK",
+  "MO",
+  "CN",
+  "JP",
+  "KR",
+  "AU",
+]);
 
 let raw = [];
 let warPayload = null;
@@ -30,6 +52,129 @@ function flagEmoji(code) {
   }
 }
 
+function pickOpenVanPrices(entry) {
+  const lp = entry.local_prices || {};
+  const p = entry.prices || {};
+  const hasLocal =
+    lp.gasoline != null ||
+    lp.diesel != null ||
+    p.gasoline != null ||
+    p.diesel != null;
+  if (!hasLocal) return null;
+  const useLocal = lp.gasoline != null || lp.diesel != null;
+  const src = useLocal ? lp : p;
+  const currency = useLocal
+    ? entry.local_currency || entry.currency
+    : entry.currency;
+  return {
+    gasoline: src.gasoline ?? null,
+    diesel: src.diesel ?? null,
+    currency: currency || "USD",
+  };
+}
+
+function englishRegionName(code) {
+  try {
+    return new Intl.DisplayNames(["en"], { type: "region" }).of(code);
+  } catch {
+    return null;
+  }
+}
+
+function rowFromOpenVanEntry(code, entry) {
+  const picked = pickOpenVanPrices(entry);
+  if (!picked) return null;
+  const c = String(code).toUpperCase();
+  const fetched = entry.fetched_at
+    ? String(entry.fetched_at).slice(0, 10)
+    : "";
+  return {
+    country_code: c,
+    country: englishRegionName(c) || entry.country_name || c,
+    currency: picked.currency,
+    gasoline: picked.gasoline,
+    diesel: picked.diesel,
+    updated_at: fetched,
+    source_note: entry.source || null,
+  };
+}
+
+function mapOpenVanDataToMap(dataObj) {
+  const map = new Map();
+  for (const [code, entry] of Object.entries(dataObj || {})) {
+    const row = rowFromOpenVanEntry(code, entry);
+    if (row) map.set(row.country_code, row);
+  }
+  return map;
+}
+
+function updatedAtSortKey(iso) {
+  const s = String(iso || "").slice(0, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : "";
+}
+
+function stripMergeMeta(r) {
+  if (!r || typeof r !== "object") return r;
+  const o = { ...r };
+  delete o._priceSource;
+  return o;
+}
+
+/** True if live row should replace repo row (newer date, or same calendar day → prefer live). */
+function preferLiveOverRepo(live, repo) {
+  const lu = updatedAtSortKey(live.updated_at);
+  const ru = updatedAtSortKey(repo.updated_at);
+  if (lu > ru) return true;
+  if (lu < ru) return false;
+  return true;
+}
+
+/**
+ * Start from repo snapshot (`data/fuel.json`); overlay OpenVan when quote date is newer or same day.
+ */
+function mergeRepoWithLive(repoRows, dataObj) {
+  const liveMap = mapOpenVanDataToMap(dataObj || {});
+  const byCode = new Map();
+  for (const r of repoRows) {
+    const c = String(r.country_code || "").toUpperCase();
+    if (!c) continue;
+    byCode.set(c, stripMergeMeta({ ...r, country_code: c }));
+  }
+  let refreshed = 0;
+  for (const [code, liveRow] of liveMap) {
+    const ex = byCode.get(code);
+    if (!ex) {
+      byCode.set(code, { ...liveRow, _priceSource: "live" });
+      refreshed++;
+      continue;
+    }
+    if (preferLiveOverRepo(liveRow, ex)) {
+      byCode.set(code, { ...liveRow, _priceSource: "live" });
+      refreshed++;
+    }
+  }
+  const out = [...byCode.values()];
+  out.sort((a, b) => a.country.localeCompare(b.country, "en"));
+  return { rows: out, liveMapSize: liveMap.size, refreshed };
+}
+
+function normalizeRepoOnly(repoRows) {
+  return repoRows.map((r) =>
+    stripMergeMeta({
+      ...r,
+      country_code: String(r.country_code || "").toUpperCase(),
+    })
+  );
+}
+
+/** Rows shown in table, charts, and compare (not alerts — those stay worldwide). */
+function rowsForUi() {
+  const regional =
+    document.getElementById("toggleRegionalOnly")?.checked ?? false;
+  if (!regional) return raw;
+  return raw.filter((r) => REGION_CODES.has(r.country_code));
+}
+
 /** Country filter: empty set = show all. */
 const selectedFilterCodes = new Set();
 
@@ -55,6 +200,7 @@ function defaultUi() {
     historyRange: "all",
     compareA: "",
     compareB: "",
+    regionalOnly: false,
   };
 }
 
@@ -156,6 +302,8 @@ function saveUiPrefs() {
       historyRange: document.getElementById("historyRange")?.value ?? "all",
       compareA: document.getElementById("compareA")?.value ?? "",
       compareB: document.getElementById("compareB")?.value ?? "",
+      regionalOnly:
+        document.getElementById("toggleRegionalOnly")?.checked ?? false,
     };
     writeState(s);
   } catch (e) {
@@ -226,6 +374,9 @@ function loadUiPrefs() {
     : "all";
   window.__prefCmpA = vCode(st.compareA) || "";
   window.__prefCmpB = vCode(st.compareB) || "";
+
+  const reg = document.getElementById("toggleRegionalOnly");
+  if (reg) reg.checked = !!st.regionalOnly;
 }
 
 function formatMoney(value, currency) {
@@ -447,7 +598,7 @@ function filtered() {
   const q = document.getElementById("search").value.trim().toLowerCase();
   const warSel = document.getElementById("filterWar")?.value ?? "";
 
-  return raw.filter((r) => {
+  return rowsForUi().filter((r) => {
     if (q) {
       const name = r.country.toLowerCase();
       const code = r.country_code.toLowerCase();
@@ -490,7 +641,8 @@ function render() {
 
   const countEl = document.getElementById("tableCount");
   if (countEl) {
-    countEl.textContent = `Showing ${rows.length} of ${raw.length} countries`;
+    const pool = rowsForUi();
+    countEl.textContent = `Showing ${rows.length} of ${pool.length} countries`;
   }
 
   tbody.replaceChildren();
@@ -513,12 +665,17 @@ function render() {
     const star = isFav ? "★" : "☆";
     const tr = document.createElement("tr");
     tr.dataset.code = r.country_code;
+    if (r.country_code === "PH") tr.classList.add("row-ph-strip");
+    const liveBadge =
+      r._priceSource === "live"
+        ? '<span class="live-merge-badge" title="Newer or same-day quote vs repo snapshot (live OpenVan)">live</span>'
+        : "";
     tr.innerHTML = `
       <td class="country-cell">
         <div class="country-cell-inner">
           <button type="button" class="fav-star" data-code="${escapeHtml(r.country_code)}" aria-label="Toggle favorite for ${escapeHtml(r.country)}" aria-pressed="${isFav}">${star}</button>
           <span class="country-flag" aria-hidden="true">${escapeHtml(flag)}</span>
-          <span class="country-name">${escapeHtml(r.country)}</span>
+          <span class="country-name">${escapeHtml(r.country)}</span>${liveBadge}
         </div>
       </td>
       <td class="num col-gas">${priceCellHtml(r.gasoline, r.currency, w?.gasoline_pct, r.country_code, "gasoline")}</td>
@@ -601,7 +758,7 @@ function renderCountryChips() {
 }
 
 function availableForPicker() {
-  return raw.filter((r) => !selectedFilterCodes.has(r.country_code));
+  return rowsForUi().filter((r) => !selectedFilterCodes.has(r.country_code));
 }
 
 function openCountryPickerList() {
@@ -728,10 +885,11 @@ function formatUpdatedCell(isoDate) {
 
 function renderInsights() {
   const el = document.getElementById("insightsStrip");
-  if (!el || raw.length === 0) return;
+  const pool = rowsForUi();
+  if (!el || pool.length === 0) return;
   let cheapestG = null;
   let expensiveG = null;
-  for (const r of raw) {
+  for (const r of pool) {
     if (r.gasoline == null) continue;
     const u = toUsd(r.gasoline, r.currency);
     if (u == null) continue;
@@ -739,7 +897,7 @@ function renderInsights() {
     if (!expensiveG || u > expensiveG.u) expensiveG = { r, u };
   }
   let biggest = null;
-  for (const r of raw) {
+  for (const r of pool) {
     const d = historyDeltaFor(r.country_code, "gasoline");
     if (!d || d.deltaLocal <= 0) continue;
     if (!biggest || d.pct > biggest.d.pct) biggest = { r, d };
@@ -838,7 +996,8 @@ function renderAlertBanner() {
 
 function fillCountrySelect(sel, preferredCode) {
   if (!sel) return;
-  const sortedRows = [...raw].sort((a, b) =>
+  const pool = rowsForUi();
+  const sortedRows = [...pool].sort((a, b) =>
     a.country.localeCompare(b.country, "en")
   );
   sel.replaceChildren();
@@ -853,7 +1012,7 @@ function fillCountrySelect(sel, preferredCode) {
   } else {
     const prefer = ["US", "PH", "GB", "DE", "JP"];
     const pick =
-      prefer.find((c) => raw.some((x) => x.country_code === c)) ||
+      prefer.find((c) => pool.some((x) => x.country_code === c)) ||
       sortedRows[0]?.country_code;
     if (pick) sel.value = pick;
   }
@@ -867,10 +1026,18 @@ function populateCompareSelects() {
   const keepB = window.__prefCmpB;
   fillCountrySelect(a, keepA || null);
   fillCountrySelect(b, keepB || null);
-  if (!keepA && raw.some((r) => r.country_code === "PH")) a.value = "PH";
-  if (!keepB && raw.some((r) => r.country_code === "MY")) b.value = "MY";
+  const pool = rowsForUi();
+  if (!keepA && pool.some((r) => r.country_code === "PH")) a.value = "PH";
+  if (!keepB && pool.some((r) => r.country_code === "MY")) b.value = "MY";
+  if (!keepB && a.value === b.value) {
+    const preferB = ["TH", "VN", "ID", "SG", "JP", "KR", "US", "GB", "DE"];
+    const pick = preferB.find(
+      (c) => pool.some((r) => r.country_code === c && c !== a.value)
+    );
+    if (pick) b.value = pick;
+  }
   if (a.value === b.value) {
-    const alt = raw.find((r) => r.country_code !== a.value);
+    const alt = pool.find((r) => r.country_code !== a.value);
     if (alt) b.value = alt.country_code;
   }
   delete window.__prefCmpA;
@@ -1292,6 +1459,14 @@ document.getElementById("toggleFavFirst")?.addEventListener("change", () => {
   saveUiPrefs();
 });
 
+document.getElementById("toggleRegionalOnly")?.addEventListener("change", () => {
+  populateCountrySelect();
+  populateCompareSelects();
+  render();
+  refreshCharts();
+  saveUiPrefs();
+});
+
 document.getElementById("compareA")?.addEventListener("change", () => {
   renderComparison();
   saveUiPrefs();
@@ -1330,11 +1505,17 @@ async function load() {
   const errEl = document.getElementById("error");
   errEl.hidden = true;
   try {
-    const [fuelRes, warRes, histRes, fxRes] = await Promise.all([
+    const [fuelRes, warRes, histRes, fxRes, liveRes] = await Promise.all([
       fetch(DATA_URL),
       fetch(WAR_URL),
       fetch(HISTORY_URL),
       fetch("https://api.frankfurter.app/latest?from=USD").catch(() => null),
+      fetch(OPENVAN_URL, {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "fuel-price-tracker/1.0",
+        },
+      }).catch(() => null),
     ]);
     if (fxRes?.ok) {
       const fx = await fxRes.json();
@@ -1346,17 +1527,34 @@ async function load() {
 
     if (!fuelRes.ok) throw new Error(`${fuelRes.status} ${fuelRes.statusText}`);
     const data = await fuelRes.json();
-    raw = data.countries || [];
+    const repoRows = data.countries || [];
     const m = data.meta || {};
+    let mergeNote = "";
+    let openVanBundle = "";
+    if (liveRes?.ok) {
+      const liveBody = await liveRes.json();
+      if (liveBody.success && liveBody.data) {
+        const merged = mergeRepoWithLive(repoRows, liveBody.data);
+        raw = merged.rows;
+        openVanBundle = liveBody.meta?.updated_at || "";
+        mergeNote = ` · Live OpenVan merged where quote date is newer or same day (${merged.refreshed} row${merged.refreshed === 1 ? "" : "s"} updated)`;
+      } else {
+        raw = normalizeRepoOnly(repoRows);
+        mergeNote = " · Live OpenVan payload unexpected — repo snapshot only";
+      }
+    } else {
+      raw = normalizeRepoOnly(repoRows);
+      mergeNote = " · Live OpenVan unavailable — repo snapshot only";
+    }
     const fxNote = usdRates
       ? " · FX: ECB via Frankfurter (use currency toggle above table)"
       : " · FX unavailable — table shows local units";
     document.getElementById("metaLine").textContent =
-      `${m.countries_count ?? raw.length} countries · dataset snapshot ${m.updated_at ?? "—"}${fxNote}`;
+      `${raw.length} countries · repo snapshot ${m.updated_at ?? "—"}${openVanBundle ? ` · OpenVan bundle ${openVanBundle}` : ""}${mergeNote}${fxNote}`;
     const metaSub = document.getElementById("metaLineSub");
     if (metaSub) {
       metaSub.textContent =
-        "This repo pulls OpenVan daily (~06:17 UTC). The snapshot date above is our last successful ingest. Per-country source-quote dates are whatever OpenVan reports for each national feed—they are often not daily unless that country publishes daily.";
+        "Each page load fetches OpenVan in your browser and keeps the row when its source-quote date beats the copy in this repo (or matches the same day). Rows tagged “live” used that merge. Toggle “PH & nearby” to focus the table and charts. Alerts still list all countries.";
     }
 
     if (warRes.ok) {

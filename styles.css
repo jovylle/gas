@@ -986,3 +986,54 @@ td.num .price-stack {
   font-size: 0.82rem;
   color: var(--muted);
 }
+
+.regional-nav a {
+  color: var(--focus);
+  text-decoration: none;
+}
+
+.regional-nav a:hover {
+  text-decoration: underline;
+}
+
+.row-ph-strip td:first-child {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.row-missing-data {
+  opacity: 0.72;
+}
+
+.repo-fallback-badge {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  border-radius: 4px;
+  background: rgba(126, 200, 255, 0.12);
+  color: var(--focus);
+}
+
+.live-merge-badge {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  border-radius: 4px;
+  background: rgba(240, 160, 32, 0.18);
+  color: var(--accent);
+}
+
+.live-merge-badge--inline {
+  margin-left: 0.15rem;
+  margin-right: 0.15rem;
+  font-size: 0.62rem;
+}
