@@ -16,6 +16,7 @@ This file tracks the evolution from **data display** → **decision-making tool*
 - [x] Public mirror `data/latest.json` (same payload as `fuel.json`)
 - [x] Embeddable `fuel-widget.js`
 - [x] Data confidence copy in footer
+- [x] Unified browser persistence (`localStorage` key `fuel_tracker_state_v1`: favorites, alert, sort, filters, currency mode, chart/compare selections, etc.; migrates legacy `fuel_favorites_v1` / `fuel_alert_v1`)
 
 ## Phase 2 — Interaction & reach
 

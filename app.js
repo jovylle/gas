@@ -33,22 +33,90 @@ function flagEmoji(code) {
 /** Country filter: empty set = show all. */
 const selectedFilterCodes = new Set();
 
+/** Legacy keys — migrated once into STATE_KEY */
 const LS_FAV = "fuel_favorites_v1";
 const LS_ALERT = "fuel_alert_v1";
+const STATE_KEY = "fuel_tracker_state_v1";
 
 let countryPickerBound = false;
 
-function getFavorites() {
+function defaultUi() {
+  return {
+    currencyMode: "usd",
+    pinFavFirst: true,
+    search: "",
+    filterWar: "",
+    filterCountries: [],
+    showGas: false,
+    showDiesel: true,
+    sortKey: "country",
+    sortDir: "asc",
+    chartCountry: "",
+    historyRange: "all",
+    compareA: "",
+    compareB: "",
+  };
+}
+
+function normalizeState(o) {
+  return {
+    favorites: Array.isArray(o.favorites) ? o.favorites : [],
+    alert:
+      o.alert != null && typeof o.alert === "object" ? o.alert : null,
+    ui: { ...defaultUi(), ...(o.ui && typeof o.ui === "object" ? o.ui : {}) },
+  };
+}
+
+function migrateFromLegacy() {
+  let favorites = [];
+  let alert = null;
   try {
     const j = JSON.parse(localStorage.getItem(LS_FAV) || "[]");
-    return new Set(Array.isArray(j) ? j : []);
+    if (Array.isArray(j)) favorites = j;
   } catch {
-    return new Set();
+    /* ignore */
   }
+  try {
+    alert = JSON.parse(localStorage.getItem(LS_ALERT) || "null");
+  } catch {
+    /* ignore */
+  }
+  return normalizeState({ favorites, alert, ui: defaultUi() });
+}
+
+function readState() {
+  try {
+    const raw = localStorage.getItem(STATE_KEY);
+    if (raw) {
+      const o = JSON.parse(raw);
+      if (o && typeof o === "object") return normalizeState(o);
+    }
+  } catch {
+    /* ignore */
+  }
+  const migrated = migrateFromLegacy();
+  writeState(migrated);
+  try {
+    localStorage.removeItem(LS_FAV);
+    localStorage.removeItem(LS_ALERT);
+  } catch {
+    /* ignore */
+  }
+  return migrated;
+}
+
+function writeState(state) {
+  localStorage.setItem(STATE_KEY, JSON.stringify(normalizeState(state)));
+}
+
+function getFavorites() {
+  return new Set(readState().favorites);
 }
 
 function saveFavorites(set) {
-  localStorage.setItem(LS_FAV, JSON.stringify([...set]));
+  const s = readState();
+  s.favorites = [...set];
+  writeState(s);
 }
 
 function toggleFavorite(code) {
@@ -59,16 +127,105 @@ function toggleFavorite(code) {
 }
 
 function getAlertConfig() {
-  try {
-    return JSON.parse(localStorage.getItem(LS_ALERT) || "null");
-  } catch {
-    return null;
-  }
+  return readState().alert;
 }
 
 function saveAlertConfig(cfg) {
-  if (cfg == null) localStorage.removeItem(LS_ALERT);
-  else localStorage.setItem(LS_ALERT, JSON.stringify(cfg));
+  const s = readState();
+  s.alert = cfg;
+  writeState(s);
+}
+
+/** Persist table/charts/compare filters (call after user-driven changes). */
+function saveUiPrefs() {
+  try {
+    const s = readState();
+    s.ui = {
+      ...defaultUi(),
+      ...s.ui,
+      currencyMode: getDisplayMode(),
+      pinFavFirst: document.getElementById("toggleFavFirst")?.checked ?? true,
+      search: document.getElementById("search")?.value ?? "",
+      filterWar: document.getElementById("filterWar")?.value ?? "",
+      filterCountries: [...selectedFilterCodes],
+      showGas: document.getElementById("toggleColGas")?.checked ?? false,
+      showDiesel: document.getElementById("toggleColDiesel")?.checked ?? true,
+      sortKey,
+      sortDir,
+      chartCountry: document.getElementById("chartCountry")?.value ?? "",
+      historyRange: document.getElementById("historyRange")?.value ?? "all",
+      compareA: document.getElementById("compareA")?.value ?? "",
+      compareB: document.getElementById("compareB")?.value ?? "",
+    };
+    writeState(s);
+  } catch (e) {
+    console.warn("saveUiPrefs", e);
+  }
+}
+
+/**
+ * Restore UI from localStorage after `raw` is loaded.
+ */
+function loadUiPrefs() {
+  const st = readState().ui;
+  const codes = new Set(raw.map((r) => r.country_code));
+  const vCode = (x) =>
+    x && codes.has(String(x).toUpperCase()) ? String(x).toUpperCase() : null;
+
+  const mode = ["usd", "local", "php"].includes(st.currencyMode)
+    ? st.currencyMode
+    : "usd";
+  document
+    .querySelectorAll('input[name="currencyMode"]')
+    .forEach((el) => {
+      el.checked = el.value === mode;
+    });
+
+  const pin = document.getElementById("toggleFavFirst");
+  if (pin) pin.checked = st.pinFavFirst !== false;
+
+  const search = document.getElementById("search");
+  if (search && typeof st.search === "string") search.value = st.search;
+
+  const fw = document.getElementById("filterWar");
+  if (fw && ["", "gp", "nogp"].includes(st.filterWar ?? "")) {
+    fw.value = st.filterWar;
+  }
+
+  selectedFilterCodes.clear();
+  if (Array.isArray(st.filterCountries)) {
+    for (const c of st.filterCountries) {
+      const u = vCode(c);
+      if (u) selectedFilterCodes.add(u);
+    }
+  }
+
+  const tg = document.getElementById("toggleColGas");
+  const td = document.getElementById("toggleColDiesel");
+  if (tg) tg.checked = !!st.showGas;
+  if (td) td.checked = st.showDiesel !== false;
+
+  const validSortKeys = [
+    "country",
+    "gasoline",
+    "diesel",
+    "updated_at",
+    "war_gas_pct",
+    "war_diesel_pct",
+  ];
+  sortKey = validSortKeys.includes(st.sortKey) ? st.sortKey : "country";
+  sortDir = st.sortDir === "desc" ? "desc" : "asc";
+  if (sortKey === "war_gas_pct" || sortKey === "war_diesel_pct") {
+    sortKey = "country";
+    sortDir = "asc";
+  }
+
+  window.__prefChart = vCode(st.chartCountry) || "";
+  window.__prefRange = ["all", "7d", "30d"].includes(st.historyRange)
+    ? st.historyRange
+    : "all";
+  window.__prefCmpA = vCode(st.compareA) || "";
+  window.__prefCmpB = vCode(st.compareB) || "";
 }
 
 function formatMoney(value, currency) {
@@ -388,6 +545,7 @@ function bindFavoriteStars() {
     e.preventDefault();
     toggleFavorite(btn.dataset.code);
     render();
+    saveUiPrefs();
   });
 }
 
@@ -437,6 +595,7 @@ function renderCountryChips() {
       const inp = document.getElementById("countryPickerSearch");
       if (inp && document.activeElement === inp) openCountryPickerList();
       render();
+      saveUiPrefs();
     });
   });
 }
@@ -510,6 +669,7 @@ function bindCountryPicker() {
       hideCountryPickerList();
       renderCountryChips();
       render();
+      saveUiPrefs();
     }
   });
 
@@ -703,16 +863,18 @@ function populateCompareSelects() {
   const a = document.getElementById("compareA");
   const b = document.getElementById("compareB");
   if (!a || !b) return;
-  const ka = a.value;
-  const kb = b.value;
-  fillCountrySelect(a, ka || null);
-  fillCountrySelect(b, kb || null);
-  if (!ka && raw.some((r) => r.country_code === "PH")) a.value = "PH";
-  if (!kb && raw.some((r) => r.country_code === "MY")) b.value = "MY";
+  const keepA = window.__prefCmpA;
+  const keepB = window.__prefCmpB;
+  fillCountrySelect(a, keepA || null);
+  fillCountrySelect(b, keepB || null);
+  if (!keepA && raw.some((r) => r.country_code === "PH")) a.value = "PH";
+  if (!keepB && raw.some((r) => r.country_code === "MY")) b.value = "MY";
   if (a.value === b.value) {
     const alt = raw.find((r) => r.country_code !== a.value);
     if (alt) b.value = alt.country_code;
   }
+  delete window.__prefCmpA;
+  delete window.__prefCmpB;
 }
 
 function populateAlertCountry() {
@@ -783,8 +945,14 @@ function updateSortButtons() {
 
 function populateCountrySelect() {
   const sel = document.getElementById("chartCountry");
-  const prev = sel?.value;
+  const prev =
+    (window.__prefChart &&
+      raw.some((r) => r.country_code === window.__prefChart) &&
+      window.__prefChart) ||
+    sel?.value ||
+    null;
   fillCountrySelect(sel, prev || null);
+  delete window.__prefChart;
 }
 
 function historySeriesFor(code) {
@@ -1043,19 +1211,25 @@ function refreshCharts() {
   renderHistoryChart(code);
 }
 
+let searchSaveTimer;
 document.getElementById("search").addEventListener("input", () => {
+  clearTimeout(searchSaveTimer);
+  searchSaveTimer = setTimeout(() => saveUiPrefs(), 400);
   render();
 });
 
 document.getElementById("filterWar")?.addEventListener("change", () => {
+  saveUiPrefs();
   render();
 });
 
 document.getElementById("toggleColGas")?.addEventListener("change", () => {
+  saveUiPrefs();
   applyColumnVisibility();
 });
 
 document.getElementById("toggleColDiesel")?.addEventListener("change", () => {
+  saveUiPrefs();
   applyColumnVisibility();
 });
 
@@ -1070,6 +1244,7 @@ document.getElementById("clearTableFilters")?.addEventListener("click", () => {
   const fw = document.getElementById("filterWar");
   if (fw) fw.value = "";
   render();
+  saveUiPrefs();
 });
 
 function bindSortButtons() {
@@ -1088,32 +1263,43 @@ function bindSortButtons() {
       }
       updateSortButtons();
       render();
+      saveUiPrefs();
     });
   });
 }
 
 bindSortButtons();
 
-document.getElementById("chartCountry")?.addEventListener("change", refreshCharts);
+document.getElementById("chartCountry")?.addEventListener("change", () => {
+  refreshCharts();
+  saveUiPrefs();
+});
 
 document.getElementById("historyRange")?.addEventListener("change", () => {
   refreshCharts();
+  saveUiPrefs();
 });
 
 document.querySelectorAll('input[name="currencyMode"]').forEach((el) => {
-  el.addEventListener("change", () => render());
+  el.addEventListener("change", () => {
+    render();
+    saveUiPrefs();
+  });
 });
 
 document.getElementById("toggleFavFirst")?.addEventListener("change", () => {
   render();
+  saveUiPrefs();
 });
 
 document.getElementById("compareA")?.addEventListener("change", () => {
   renderComparison();
+  saveUiPrefs();
 });
 
 document.getElementById("compareB")?.addEventListener("change", () => {
   renderComparison();
+  saveUiPrefs();
 });
 
 document.getElementById("alertSave")?.addEventListener("click", () => {
@@ -1127,6 +1313,7 @@ document.getElementById("alertSave")?.addEventListener("click", () => {
     else saveAlertConfig({ country_code: code, gasBelow: n });
   }
   renderAlertBanner();
+  saveUiPrefs();
 });
 
 document.getElementById("alertClear")?.addEventListener("click", () => {
@@ -1136,6 +1323,7 @@ document.getElementById("alertClear")?.addEventListener("click", () => {
   const sel = document.getElementById("alertCountry");
   if (sel) sel.value = "";
   renderAlertBanner();
+  saveUiPrefs();
 });
 
 async function load() {
@@ -1189,10 +1377,16 @@ async function load() {
       }
     }
 
+    loadUiPrefs();
     if (sortKey === "war_gas_pct" || sortKey === "war_diesel_pct") {
       sortKey = "country";
       sortDir = "asc";
     }
+    const hrPref = document.getElementById("historyRange");
+    if (hrPref && window.__prefRange) {
+      hrPref.value = window.__prefRange;
+    }
+    delete window.__prefRange;
     updateSortButtons();
     bindCountryPicker();
     renderCountryChips();
@@ -1203,6 +1397,7 @@ async function load() {
     render();
     refreshCharts();
     applyHighlightParam();
+    saveUiPrefs();
   } catch (e) {
     errEl.textContent = `Could not load data: ${e.message}`;
     errEl.hidden = false;
