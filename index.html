@@ -22,8 +22,7 @@
         repo, then merges <strong>live OpenVan</strong> in your browser for any country whose
         source-quote date is <strong>newer</strong> (or the <strong>same calendar day</strong>) than
         the repo copy—check the <span class="live-merge-badge live-merge-badge--inline">live</span>
-        tag on rows. Toggle <strong>PH &amp; nearby</strong> to focus charts and the table on Southeast
-        Asia / Pacific neighbors. No app server required.
+        tag on rows. Prices are shown in PHP for quick cross-country comparison. No app server required.
       </p>
       <p class="meta-line" id="metaLine"></p>
       <p class="meta-line meta-line--sub" id="metaLineSub"></p>
@@ -46,7 +45,8 @@
         <strong>line chart</strong> uses <code>data/history.json</code>: daily snapshots from this repo,
         an implied Feb 23 point (first run only), and past <code>data/fuel.json</code> versions from
         git when full history is available. Current bar values use the same merged prices as the table
-        (live OpenVan when newer than the repo snapshot).
+        (live OpenVan when newer than the repo snapshot). All displayed values are converted to PHP
+        (via ECB/Frankfurter cross rates) for apples-to-apples comparisons.
       </p>
       <p class="meta-line chart-meta" id="warMetaLine" hidden></p>
       <div class="chart-controls chart-controls--split">
@@ -65,14 +65,14 @@
       </div>
       <div class="chart-grid">
         <figure class="chart-card">
-          <figcaption>Now vs implied pre-war (USD when converted)</figcaption>
+          <figcaption>Now vs implied pre-war (PHP)</figcaption>
           <p class="chart-hint" id="chartCompareHint" hidden></p>
           <div class="chart-canvas-wrap">
             <canvas id="chartCompare" role="img" aria-label="Bar chart comparing current and implied pre-war fuel prices"></canvas>
           </div>
         </figure>
         <figure class="chart-card">
-          <figcaption>History from this repo</figcaption>
+          <figcaption>History from this repo (PHP)</figcaption>
           <p class="chart-hint" id="chartHistoryHint" hidden></p>
           <div class="chart-canvas-wrap">
             <canvas id="chartHistory" role="img" aria-label="Line chart of fuel price history"></canvas>
@@ -84,7 +84,7 @@
     <section class="compare-section" aria-labelledby="compare-heading">
       <h2 id="compare-heading">Compare two countries</h2>
       <p class="compare-lede">
-        Side-by-side gasoline and diesel (USD when FX is available). Useful for travelers and remitters.
+        Side-by-side gasoline and diesel, converted to PHP for direct comparison.
       </p>
       <div class="compare-row">
         <label class="chart-select-label">
@@ -105,50 +105,27 @@
       <div class="table-section">
         <h2 class="table-heading">Price table</h2>
         <div class="table-toolbar">
-          <div class="currency-toolbar">
-            <span class="filter-label">Display prices</span>
-            <div class="currency-toggle" role="group" aria-label="Currency display for table and deltas">
-              <label class="currency-toggle-opt"
-                ><input type="radio" name="currencyMode" value="usd" checked /> USD</label
-              >
-              <label class="currency-toggle-opt"
-                ><input type="radio" name="currencyMode" value="local" /> Local</label
-              >
-              <label class="currency-toggle-opt"
-                ><input type="radio" name="currencyMode" value="php" /> PHP</label
-              >
-            </div>
-            <label class="toggle-inline toggle-fav-first"
-              ><input type="checkbox" id="toggleFavFirst" checked /> Pin ★ first</label
-            >
-            <label class="toggle-inline toggle-regional"
-              ><input type="checkbox" id="toggleRegionalOnly" /> PH &amp; nearby only</label
-            >
-          </div>
           <div class="table-toolbar-row table-toolbar-row--text">
-            <label class="filter-field filter-field--text-search">
-              <span class="filter-label">Search table</span>
-              <span class="filter-hint"
-                >Narrows rows by matching country name or code. If you also pick countries below,
-                <strong>both</strong> apply—clear this field to show every country you picked.</span
-              >
-              <input
-                type="search"
-                id="search"
-                placeholder="e.g. phil, united, DE…"
-                autocomplete="off"
-                aria-label="Search table by country name or code"
-              />
+            <label class="filter-field">
+              <span class="filter-label">Region group</span>
+              <select id="regionPreset" aria-label="Filter table by region group">
+                <option value="all">Worldwide (all countries)</option>
+                <option value="sea">Southeast Asia</option>
+                <option value="eastasia">East Asia</option>
+                <option value="southasia">South Asia</option>
+                <option value="oceania">Oceania &amp; Pacific</option>
+                <option value="north_america">North America</option>
+                <option value="latin_america">Latin America &amp; Caribbean</option>
+                <option value="europe">Europe</option>
+                <option value="middle_east">Middle East &amp; Central Asia</option>
+                <option value="africa">Africa</option>
+              </select>
             </label>
             <p class="table-count" id="tableCount" aria-live="polite"></p>
           </div>
           <div class="filters" id="tableFilters">
             <div class="filter-field filter-field--countries">
               <span class="filter-label">Countries</span>
-              <span class="filter-hint"
-                >Type to find a country, click to add. Chips show who stays in the list. None =
-                all countries.</span
-              >
               <div class="country-picker" id="countryPicker">
                 <div class="country-picker-input-wrap">
                   <input
@@ -247,7 +224,7 @@
           </table>
         </div>
       </div>
-      <p class="empty" id="empty" hidden>No rows match your search or filters.</p>
+      <p class="empty" id="empty" hidden>No rows match your filters.</p>
       <p class="error" id="error" hidden></p>
     </main>
 
@@ -255,7 +232,7 @@
       <p class="confidence-note">
         <strong>Data confidence:</strong> Repo baseline is OpenVan via GitHub Actions; your browser may
         overlay fresher OpenVan quotes when dates justify it. Iran-war % from GlobalPetrolPrices; FX for
-        USD/PHP from ECB (Frankfurter). History is repo snapshots, not a live API stream.
+        PHP conversion from ECB (Frankfurter). History is repo snapshots, not a live API stream.
       </p>
       <p>
         Live prices from

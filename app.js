@@ -3,26 +3,135 @@ const OPENVAN_URL = "https://openvan.camp/api/fuel/prices";
 const WAR_URL = "data/war_deltas.json";
 const HISTORY_URL = "data/history.json";
 
-/** When “PH & nearby only” is on, table/charts/compare use this subset (full `raw` stays merged). */
-const REGION_CODES = new Set([
-  "PH",
-  "VN",
-  "TH",
-  "MY",
-  "ID",
-  "SG",
-  "BN",
-  "KH",
-  "LA",
-  "MM",
-  "TW",
-  "HK",
-  "MO",
-  "CN",
-  "JP",
-  "KR",
-  "AU",
-]);
+/**
+ * Table region presets (ISO alpha-2).
+ * Presets are intersected with available rows in `raw`.
+ */
+const REGION_PRESETS = [
+  { id: "all", label: "Worldwide (all countries)", codes: null },
+  {
+    id: "sea",
+    label: "Southeast Asia",
+    codes: ["BN", "KH", "ID", "LA", "MY", "MM", "PH", "SG", "TH", "VN", "TL"],
+  },
+  {
+    id: "eastasia",
+    label: "East Asia",
+    codes: ["CN", "HK", "JP", "KR", "MN", "MO", "TW"],
+  },
+  {
+    id: "southasia",
+    label: "South Asia",
+    codes: ["AF", "BD", "BT", "IN", "LK", "MV", "NP", "PK"],
+  },
+  {
+    id: "oceania",
+    label: "Oceania & Pacific",
+    codes: ["AU", "NZ", "PG", "FJ"],
+  },
+  {
+    id: "north_america",
+    label: "North America",
+    codes: ["US", "CA", "MX"],
+  },
+  {
+    id: "latin_america",
+    label: "Latin America & Caribbean",
+    codes: [
+      "AR",
+      "BO",
+      "BR",
+      "CL",
+      "CO",
+      "CR",
+      "DO",
+      "EC",
+      "GT",
+      "HN",
+      "JM",
+      "NI",
+      "PA",
+      "PY",
+      "PE",
+      "UY",
+      "VE",
+    ],
+  },
+  {
+    id: "europe",
+    label: "Europe",
+    codes: [
+      "AL",
+      "AD",
+      "AT",
+      "BY",
+      "BE",
+      "BA",
+      "BG",
+      "HR",
+      "CY",
+      "CZ",
+      "DK",
+      "EE",
+      "FI",
+      "FR",
+      "GE",
+      "DE",
+      "GR",
+      "HU",
+      "IS",
+      "IE",
+      "IT",
+      "LV",
+      "LI",
+      "LT",
+      "LU",
+      "MT",
+      "MD",
+      "MC",
+      "ME",
+      "NL",
+      "MK",
+      "NO",
+      "PL",
+      "PT",
+      "RO",
+      "RU",
+      "RS",
+      "SK",
+      "SI",
+      "ES",
+      "SE",
+      "CH",
+      "UA",
+      "GB",
+    ],
+  },
+  {
+    id: "middle_east",
+    label: "Middle East & Central Asia",
+    codes: [
+      "AE",
+      "AM",
+      "AZ",
+      "BH",
+      "IL",
+      "JO",
+      "KZ",
+      "KG",
+      "LB",
+      "TJ",
+      "TM",
+      "TR",
+      "UZ",
+    ],
+  },
+  {
+    id: "africa",
+    label: "Africa",
+    codes: ["DZ", "EG", "MA", "TN"],
+  },
+];
 
 let raw = [];
 let warPayload = null;
@@ -167,12 +276,18 @@ function normalizeRepoOnly(repoRows) {
   );
 }
 
-/** Rows shown in table, charts, and compare (not alerts — those stay worldwide). */
-function rowsForUi() {
-  const regional =
-    document.getElementById("toggleRegionalOnly")?.checked ?? false;
-  if (!regional) return raw;
-  return raw.filter((r) => REGION_CODES.has(r.country_code));
+function getRegionPresetSet() {
+  const presetId = document.getElementById("regionPreset")?.value || "all";
+  const preset = REGION_PRESETS.find((p) => p.id === presetId);
+  if (!preset || preset.codes == null) return null;
+  return new Set(preset.codes.map((c) => String(c).toUpperCase()));
+}
+
+/** Rows shown in table for the selected region preset. */
+function rowsInRegionPreset() {
+  const set = getRegionPresetSet();
+  if (!set) return raw;
+  return raw.filter((r) => set.has(r.country_code));
 }
 
 /** Country filter: empty set = show all. */
@@ -187,11 +302,9 @@ let countryPickerBound = false;
 
 function defaultUi() {
   return {
-    currencyMode: "usd",
-    pinFavFirst: true,
-    search: "",
     filterWar: "",
     filterCountries: [],
+    regionPreset: "all",
     showGas: false,
     showDiesel: true,
     sortKey: "country",
@@ -200,7 +313,6 @@ function defaultUi() {
     historyRange: "all",
     compareA: "",
     compareB: "",
-    regionalOnly: false,
   };
 }
 
@@ -289,11 +401,9 @@ function saveUiPrefs() {
     s.ui = {
       ...defaultUi(),
       ...s.ui,
-      currencyMode: getDisplayMode(),
-      pinFavFirst: document.getElementById("toggleFavFirst")?.checked ?? true,
-      search: document.getElementById("search")?.value ?? "",
       filterWar: document.getElementById("filterWar")?.value ?? "",
       filterCountries: [...selectedFilterCodes],
+      regionPreset: document.getElementById("regionPreset")?.value ?? "all",
       showGas: document.getElementById("toggleColGas")?.checked ?? false,
       showDiesel: document.getElementById("toggleColDiesel")?.checked ?? true,
       sortKey,
@@ -302,8 +412,6 @@ function saveUiPrefs() {
       historyRange: document.getElementById("historyRange")?.value ?? "all",
       compareA: document.getElementById("compareA")?.value ?? "",
       compareB: document.getElementById("compareB")?.value ?? "",
-      regionalOnly:
-        document.getElementById("toggleRegionalOnly")?.checked ?? false,
     };
     writeState(s);
   } catch (e) {
@@ -320,20 +428,11 @@ function loadUiPrefs() {
   const vCode = (x) =>
     x && codes.has(String(x).toUpperCase()) ? String(x).toUpperCase() : null;
 
-  const mode = ["usd", "local", "php"].includes(st.currencyMode)
-    ? st.currencyMode
-    : "usd";
-  document
-    .querySelectorAll('input[name="currencyMode"]')
-    .forEach((el) => {
-      el.checked = el.value === mode;
-    });
-
-  const pin = document.getElementById("toggleFavFirst");
-  if (pin) pin.checked = st.pinFavFirst !== false;
-
-  const search = document.getElementById("search");
-  if (search && typeof st.search === "string") search.value = st.search;
+  const rp = document.getElementById("regionPreset");
+  if (rp) {
+    const valid = REGION_PRESETS.some((p) => p.id === st.regionPreset);
+    rp.value = valid ? st.regionPreset : "all";
+  }
 
   const fw = document.getElementById("filterWar");
   if (fw && ["", "gp", "nogp"].includes(st.filterWar ?? "")) {
@@ -374,9 +473,6 @@ function loadUiPrefs() {
     : "all";
   window.__prefCmpA = vCode(st.compareA) || "";
   window.__prefCmpB = vCode(st.compareB) || "";
-
-  const reg = document.getElementById("toggleRegionalOnly");
-  if (reg) reg.checked = !!st.regionalOnly;
 }
 
 function formatMoney(value, currency) {
@@ -404,9 +500,7 @@ function toUsd(amount, currency) {
 }
 
 function getDisplayMode() {
-  return (
-    document.querySelector('input[name="currencyMode"]:checked')?.value || "usd"
-  );
+  return "php";
 }
 
 function toPhp(amount, currency) {
@@ -452,9 +546,16 @@ function priceCellHtml(price, currency, gpPct, code, field) {
 }
 
 function comparePriceForSort(a, b, key) {
-  const ua = toUsd(a[key], a.currency);
-  const ub = toUsd(b[key], b.currency);
-  if (ua != null && ub != null) return ua - ub;
+  const mode = getDisplayMode();
+  if (mode === "php") {
+    const pa = toPhp(a[key], a.currency);
+    const pb = toPhp(b[key], b.currency);
+    if (pa != null && pb != null) return pa - pb;
+  } else {
+    const ua = toUsd(a[key], a.currency);
+    const ub = toUsd(b[key], b.currency);
+    if (ua != null && ub != null) return ua - ub;
+  }
   const va = a[key];
   const vb = b[key];
   if (va == null && vb == null) return 0;
@@ -595,15 +696,9 @@ function hasGpWarRow(r) {
 }
 
 function filtered() {
-  const q = document.getElementById("search").value.trim().toLowerCase();
   const warSel = document.getElementById("filterWar")?.value ?? "";
 
-  return rowsForUi().filter((r) => {
-    if (q) {
-      const name = r.country.toLowerCase();
-      const code = r.country_code.toLowerCase();
-      if (!name.includes(q) && !code.includes(q)) return false;
-    }
+  return rowsInRegionPreset().filter((r) => {
     if (selectedFilterCodes.size > 0 && !selectedFilterCodes.has(r.country_code)) {
       return false;
     }
@@ -615,13 +710,12 @@ function filtered() {
 
 function sorted(rows) {
   const out = [...rows];
-  const favFirst = document.getElementById("toggleFavFirst")?.checked ?? true;
   const fav = getFavorites();
   const sortFn = (a, b) => {
     const c = compare(a, b, sortKey);
     return sortDir === "asc" ? c : -c;
   };
-  if (favFirst && fav.size > 0) {
+  if (fav.size > 0) {
     out.sort((a, b) => {
       const af = fav.has(a.country_code) ? 1 : 0;
       const bf = fav.has(b.country_code) ? 1 : 0;
@@ -641,7 +735,7 @@ function render() {
 
   const countEl = document.getElementById("tableCount");
   if (countEl) {
-    const pool = rowsForUi();
+    const pool = rowsInRegionPreset();
     countEl.textContent = `Showing ${rows.length} of ${pool.length} countries`;
   }
 
@@ -665,7 +759,6 @@ function render() {
     const star = isFav ? "★" : "☆";
     const tr = document.createElement("tr");
     tr.dataset.code = r.country_code;
-    if (r.country_code === "PH") tr.classList.add("row-ph-strip");
     const liveBadge =
       r._priceSource === "live"
         ? '<span class="live-merge-badge" title="Newer or same-day quote vs repo snapshot (live OpenVan)">live</span>'
@@ -758,7 +851,7 @@ function renderCountryChips() {
 }
 
 function availableForPicker() {
-  return rowsForUi().filter((r) => !selectedFilterCodes.has(r.country_code));
+  return rowsInRegionPreset().filter((r) => !selectedFilterCodes.has(r.country_code));
 }
 
 function openCountryPickerList() {
@@ -885,13 +978,19 @@ function formatUpdatedCell(isoDate) {
 
 function renderInsights() {
   const el = document.getElementById("insightsStrip");
-  const pool = rowsForUi();
+  const pool = rowsInRegionPreset();
   if (!el || pool.length === 0) return;
+  const mode = getDisplayMode();
+  const gasUnit = mode === "php" ? "PHP" : "USD";
+  const gasVal = (r) =>
+    mode === "php"
+      ? toPhp(r.gasoline, r.currency)
+      : toUsd(r.gasoline, r.currency);
   let cheapestG = null;
   let expensiveG = null;
   for (const r of pool) {
     if (r.gasoline == null) continue;
-    const u = toUsd(r.gasoline, r.currency);
+    const u = gasVal(r);
     if (u == null) continue;
     if (!cheapestG || u < cheapestG.u) cheapestG = { r, u };
     if (!expensiveG || u > expensiveG.u) expensiveG = { r, u };
@@ -905,12 +1004,12 @@ function renderInsights() {
   const parts = [];
   if (cheapestG) {
     parts.push(
-      `<span class="insight-item"><span class="insight-k">Cheapest gas (USD)</span> ${escapeHtml(cheapestG.r.country)} <span class="insight-flag" aria-hidden="true">${escapeHtml(flagEmoji(cheapestG.r.country_code))}</span></span>`
+      `<span class="insight-item"><span class="insight-k">Cheapest gas (${gasUnit})</span> ${escapeHtml(cheapestG.r.country)} <span class="insight-flag" aria-hidden="true">${escapeHtml(flagEmoji(cheapestG.r.country_code))}</span></span>`
     );
   }
   if (expensiveG) {
     parts.push(
-      `<span class="insight-item"><span class="insight-k">Priciest gas (USD)</span> ${escapeHtml(expensiveG.r.country)} <span class="insight-flag" aria-hidden="true">${escapeHtml(flagEmoji(expensiveG.r.country_code))}</span></span>`
+      `<span class="insight-item"><span class="insight-k">Priciest gas (${gasUnit})</span> ${escapeHtml(expensiveG.r.country)} <span class="insight-flag" aria-hidden="true">${escapeHtml(flagEmoji(expensiveG.r.country_code))}</span></span>`
     );
   }
   if (biggest) {
@@ -953,20 +1052,28 @@ function renderComparison() {
     out.innerHTML = "";
     return;
   }
+  const mode = getDisplayMode();
   const card = (r) => {
-    const g = toUsd(r.gasoline, r.currency);
-    const di = toUsd(r.diesel, r.currency);
-    const gl = g != null ? formatMoney(g, "USD") : "—";
-    const dl = di != null ? formatMoney(di, "USD") : "—";
+    const gl = displayPrice(r.gasoline, r.currency);
+    const dl = displayPrice(r.diesel, r.currency);
     return `<div class="compare-card"><h3>${escapeHtml(r.country)} <span aria-hidden="true">${escapeHtml(flagEmoji(r.country_code))}</span></h3><p>Gasoline: ${gl}</p><p>Diesel: ${dl}</p></div>`;
   };
   const gau = toUsd(ra.gasoline, ra.currency);
   const gbu = toUsd(rb.gasoline, rb.currency);
+  const gphpa = toPhp(ra.gasoline, ra.currency);
+  const gphpb = toPhp(rb.gasoline, rb.currency);
   let diffLine = "";
-  if (gau != null && gbu != null) {
+  if (mode === "php" && gphpa != null && gphpb != null) {
+    const diff = gphpa - gphpb;
+    const pct = gphpb !== 0 ? (diff / Math.abs(gphpb)) * 100 : null;
+    const diffFmt = formatMoney(Math.abs(diff), "PHP");
+    const sign = diff >= 0 ? "+" : "−";
+    diffLine = `<p class="compare-diff">Gasoline (PHP), A − B: <strong>${sign}${diffFmt}</strong>${pct != null ? ` (${pct >= 0 ? "+" : ""}${pct.toFixed(1)}% vs B)` : ""}</p>`;
+  } else if (gau != null && gbu != null) {
     const diff = gau - gbu;
     const pct = gbu !== 0 ? (diff / Math.abs(gbu)) * 100 : null;
-    diffLine = `<p class="compare-diff">Gasoline (USD), A − B: <strong>${diff >= 0 ? "+" : ""}${diff.toFixed(4)} USD</strong>${pct != null ? ` (${pct >= 0 ? "+" : ""}${pct.toFixed(1)}% vs B)` : ""}</p>`;
+    const label = mode === "local" ? "USD equiv" : "USD";
+    diffLine = `<p class="compare-diff">Gasoline (${label}), A − B: <strong>${diff >= 0 ? "+" : ""}${diff.toFixed(4)} USD</strong>${pct != null ? ` (${pct >= 0 ? "+" : ""}${pct.toFixed(1)}% vs B)` : ""}</p>`;
   }
   out.innerHTML = `<div class="compare-grid">${card(ra)}${card(rb)}</div>${diffLine}`;
 }
@@ -996,7 +1103,7 @@ function renderAlertBanner() {
 
 function fillCountrySelect(sel, preferredCode) {
   if (!sel) return;
-  const pool = rowsForUi();
+  const pool = raw;
   const sortedRows = [...pool].sort((a, b) =>
     a.country.localeCompare(b.country, "en")
   );
@@ -1026,7 +1133,7 @@ function populateCompareSelects() {
   const keepB = window.__prefCmpB;
   fillCountrySelect(a, keepA || null);
   fillCountrySelect(b, keepB || null);
-  const pool = rowsForUi();
+  const pool = raw;
   if (!keepA && pool.some((r) => r.country_code === "PH")) a.value = "PH";
   if (!keepB && pool.some((r) => r.country_code === "MY")) b.value = "MY";
   if (!keepB && a.value === b.value) {
@@ -1153,6 +1260,24 @@ function destroyChart(ch) {
   }
 }
 
+/**
+ * Chart Y-axis in PHP via Frankfurter cross rates.
+ * @param {string} rowCurrency ISO code for the selected country row
+ */
+function chartMoneySeries(rowCurrency) {
+  const cc = rowCurrency || "USD";
+  return {
+    currency: "PHP",
+    titleSuffix: "PHP (converted via USD · ECB rates)",
+    mapVal(v) {
+      return toPhp(v, cc);
+    },
+    pairOk(c, i) {
+      return toPhp(c, cc) != null && toPhp(i, cc) != null;
+    },
+  };
+}
+
 function renderCompareChart(code) {
   const canvas = document.getElementById("chartCompare");
   const hint = document.getElementById("chartCompareHint");
@@ -1188,25 +1313,25 @@ function renderCompareChart(code) {
     return;
   }
 
-  const allUsd = pairs.every(
-    ([, c, i]) => toUsd(c, cc) != null && toUsd(i, cc) != null
-  );
+  const meta = chartMoneySeries(cc);
+  const allOk = pairs.every(([, c, i]) => meta.pairOk(c, i));
+  if (!allOk) {
+    hint.textContent =
+      "Cannot convert all values for this chart (FX may be missing for one or more currencies).";
+    hint.hidden = false;
+    return;
+  }
 
   const labels = [];
   const cur = [];
   const imp = [];
   for (const [label, c, i] of pairs) {
     labels.push(label);
-    if (allUsd) {
-      cur.push(toUsd(c, cc));
-      imp.push(toUsd(i, cc));
-    } else {
-      cur.push(c);
-      imp.push(i);
-    }
+    cur.push(meta.mapVal(c));
+    imp.push(meta.mapVal(i));
   }
 
-  const currency = allUsd ? "USD" : cc;
+  const currency = meta.currency;
   chartCompare = new window.Chart(canvas, {
     type: "bar",
     data: {
@@ -1234,7 +1359,7 @@ function renderCompareChart(code) {
       plugins: {
         title: {
           display: true,
-          text: `${row.country} — ${currency === "USD" ? "USD (converted)" : `same currency (${currency})`}, implied pre-war from GP % change`,
+          text: `${row.country} — ${meta.titleSuffix}, implied pre-war from GP % change`,
           color: "#e8e4dc",
           font: { size: 14 },
         },
@@ -1291,12 +1416,19 @@ function renderHistoryChart(code) {
 
   const row = raw.find((r) => r.country_code === code);
   const cc = row?.currency || series[0].currency;
-  const histUsd = series.every(
+  const meta = chartMoneySeries(cc);
+  const histOk = series.every(
     (p) =>
-      (p.gasoline == null || toUsd(p.gasoline, cc) != null) &&
-      (p.diesel == null || toUsd(p.diesel, cc) != null)
+      (p.gasoline == null || meta.mapVal(p.gasoline) != null) &&
+      (p.diesel == null || meta.mapVal(p.diesel) != null)
   );
-  const currency = histUsd ? "USD" : cc;
+  if (!histOk) {
+    hint.textContent =
+      "Cannot convert all history points (missing FX for one or more currencies).";
+    hint.hidden = false;
+    return;
+  }
+  const currency = meta.currency;
 
   chartHistory = new window.Chart(canvas, {
     type: "line",
@@ -1305,10 +1437,7 @@ function renderHistoryChart(code) {
       datasets: [
         {
           label: "Gasoline",
-          data: series.map((p) => {
-            const u = toUsd(p.gasoline, cc);
-            return histUsd && p.gasoline != null && u != null ? u : p.gasoline;
-          }),
+          data: series.map((p) => meta.mapVal(p.gasoline)),
           borderColor: "rgba(240, 160, 32, 0.95)",
           backgroundColor: "rgba(240, 160, 32, 0.15)",
           tension: 0.25,
@@ -1316,10 +1445,7 @@ function renderHistoryChart(code) {
         },
         {
           label: "Diesel",
-          data: series.map((p) => {
-            const u = toUsd(p.diesel, cc);
-            return histUsd && p.diesel != null && u != null ? u : p.diesel;
-          }),
+          data: series.map((p) => meta.mapVal(p.diesel)),
           borderColor: "rgba(126, 200, 255, 0.9)",
           backgroundColor: "rgba(126, 200, 255, 0.12)",
           tension: 0.25,
@@ -1333,7 +1459,7 @@ function renderHistoryChart(code) {
       plugins: {
         title: {
           display: true,
-          text: `${row?.country || code} — history (${currency})${range !== "all" ? ` · ${range === "7d" ? "~7d" : "~30d"} window` : ""}`,
+          text: `${row?.country || code} — history · ${meta.titleSuffix}${range !== "all" ? ` · ${range === "7d" ? "~7d" : "~30d"} window` : ""}`,
           color: "#e8e4dc",
           font: { size: 14 },
         },
@@ -1378,13 +1504,6 @@ function refreshCharts() {
   renderHistoryChart(code);
 }
 
-let searchSaveTimer;
-document.getElementById("search").addEventListener("input", () => {
-  clearTimeout(searchSaveTimer);
-  searchSaveTimer = setTimeout(() => saveUiPrefs(), 400);
-  render();
-});
-
 document.getElementById("filterWar")?.addEventListener("change", () => {
   saveUiPrefs();
   render();
@@ -1401,9 +1520,9 @@ document.getElementById("toggleColDiesel")?.addEventListener("change", () => {
 });
 
 document.getElementById("clearTableFilters")?.addEventListener("click", () => {
-  const search = document.getElementById("search");
-  if (search) search.value = "";
   selectedFilterCodes.clear();
+  const rp = document.getElementById("regionPreset");
+  if (rp) rp.value = "all";
   const cps = document.getElementById("countryPickerSearch");
   if (cps) cps.value = "";
   renderCountryChips();
@@ -1447,19 +1566,9 @@ document.getElementById("historyRange")?.addEventListener("change", () => {
   saveUiPrefs();
 });
 
-document.querySelectorAll('input[name="currencyMode"]').forEach((el) => {
-  el.addEventListener("change", () => {
-    render();
-    saveUiPrefs();
-  });
-});
-
-document.getElementById("toggleFavFirst")?.addEventListener("change", () => {
-  render();
-  saveUiPrefs();
-});
-
-document.getElementById("toggleRegionalOnly")?.addEventListener("change", () => {
+document.getElementById("regionPreset")?.addEventListener("change", () => {
+  selectedFilterCodes.clear();
+  renderCountryChips();
   populateCountrySelect();
   populateCompareSelects();
   render();
@@ -1547,14 +1656,14 @@ async function load() {
       mergeNote = " · Live OpenVan unavailable — repo snapshot only";
     }
     const fxNote = usdRates
-      ? " · FX: ECB via Frankfurter (use currency toggle above table)"
-      : " · FX unavailable — table shows local units";
+      ? " · FX: ECB via Frankfurter (prices shown in PHP)"
+      : " · FX unavailable — PHP conversion may fall back to local values";
     document.getElementById("metaLine").textContent =
       `${raw.length} countries · repo snapshot ${m.updated_at ?? "—"}${openVanBundle ? ` · OpenVan bundle ${openVanBundle}` : ""}${mergeNote}${fxNote}`;
     const metaSub = document.getElementById("metaLineSub");
     if (metaSub) {
       metaSub.textContent =
-        "Each page load fetches OpenVan in your browser and keeps the row when its source-quote date beats the copy in this repo (or matches the same day). Rows tagged “live” used that merge. Toggle “PH & nearby” to focus the table and charts. Alerts still list all countries.";
+        "Each page load fetches OpenVan in your browser and keeps the row when its source-quote date beats the copy in this repo (or matches the same day). Rows tagged “live” used that merge. Use region groups and country chips to focus comparisons.";
     }
 
     if (warRes.ok) {
