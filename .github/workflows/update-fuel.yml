@@ -31,11 +31,14 @@ jobs:
       - name: Fetch fuel data, history, and Iran-war deltas
         run: node scripts/fetch-fuel.mjs
 
+      - name: Fetch FX rates (USD base)
+        run: node scripts/fetch-fx.mjs
+
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/fuel.json data/latest.json data/history.json data/war_deltas.json
+          git add data/fuel.json data/latest.json data/history.json data/war_deltas.json data/fx.json
           if git diff --staged --quiet; then
             echo "No data file changes"
           else

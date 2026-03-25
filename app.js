@@ -1618,7 +1618,8 @@ async function load() {
       fetch(DATA_URL),
       fetch(WAR_URL),
       fetch(HISTORY_URL),
-      fetch("https://api.frankfurter.app/latest?from=USD").catch(() => null),
+      // Frankfurter doesn't allow browser CORS, so FX is pre-fetched into repo data.
+      fetch("data/fx.json").catch(() => null),
       fetch(OPENVAN_URL, {
         headers: {
           Accept: "application/json",
@@ -1656,7 +1657,7 @@ async function load() {
       mergeNote = " · Live OpenVan unavailable — repo snapshot only";
     }
     const fxNote = usdRates
-      ? " · FX: ECB via Frankfurter (prices shown in PHP)"
+      ? " · FX: ECB via Frankfurter (from data/fx.json; prices shown in PHP)"
       : " · FX unavailable — PHP conversion may fall back to local values";
     document.getElementById("metaLine").textContent =
       `${raw.length} countries · repo snapshot ${m.updated_at ?? "—"}${openVanBundle ? ` · OpenVan bundle ${openVanBundle}` : ""}${mergeNote}${fxNote}`;

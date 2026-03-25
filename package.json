@@ -7,7 +7,7 @@
   },
   "scripts": {
     "check": "node --check app.js",
-    "fetch": "node scripts/fetch-fuel.mjs",
+    "fetch": "node scripts/fetch-fuel.mjs && node scripts/fetch-fx.mjs",
     "backfill": "node scripts/backfill-history.mjs --feb23 --git",
     "backfill:git": "node scripts/backfill-history.mjs --git",
     "backfill:feb23": "node scripts/backfill-history.mjs --feb23"

@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "updated_at": "2026-03-25",
+    "source": "ECB via Frankfurter",
+    "source_url": "https://api.frankfurter.app/latest?from=USD"
+  },
+  "base": "USD",
+  "date": "2026-03-24",
+  "rates": {
+    "AUD": 1.439,
+    "BRL": 5.2669,
+    "CAD": 1.3749,
+    "CHF": 0.79027,
+    "CNY": 6.8934,
+    "CZK": 21.152,
+    "DKK": 6.4562,
+    "EUR": 0.86415,
+    "GBP": 0.74785,
+    "HKD": 7.8271,
+    "HUF": 336.92,
+    "IDR": 16891,
+    "ILS": 3.1294,
+    "INR": 93.85,
+    "ISK": 124.44,
+    "JPY": 158.93,
+    "KRW": 1498.86,
+    "MXN": 17.8854,
+    "MYR": 3.9565,
+    "NOK": 9.7049,
+    "NZD": 1.7192,
+    "PHP": 59.968,
+    "PLN": 3.6937,
+    "RON": 4.403,
+    "SEK": 9.3534,
+    "SGD": 1.2806,
+    "THB": 32.66,
+    "TRY": 44.348,
+    "ZAR": 17.1019
+  }
+}
