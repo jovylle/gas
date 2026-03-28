@@ -1,8 +1,8 @@
 {
   "meta": {
     "description": "Daily snapshots from this repo (Git as database). Used for trend charts.",
-    "updated_at": "2026-03-27",
-    "snapshot_count": 7
+    "updated_at": "2026-03-28",
+    "snapshot_count": 8
   },
   "snapshots": [
     {
@@ -2524,6 +2524,427 @@
     },
     {
       "date": "2026-03-27",
+      "source": "openvan_daily",
+      "by_code": {
+        "AL": {
+          "currency": "EUR",
+          "gasoline": 1.881,
+          "diesel": 1.934
+        },
+        "DZ": {
+          "currency": "DZD",
+          "gasoline": 47,
+          "diesel": 31
+        },
+        "AD": {
+          "currency": "EUR",
+          "gasoline": 1.05,
+          "diesel": 0.95
+        },
+        "AR": {
+          "currency": "ARS",
+          "gasoline": 1258.8245,
+          "diesel": 1384.4458
+        },
+        "AM": {
+          "currency": "AMD",
+          "gasoline": 460,
+          "diesel": 470
+        },
+        "AU": {
+          "currency": "EUR",
+          "gasoline": 1.3854,
+          "diesel": 1.6054
+        },
+        "AT": {
+          "currency": "EUR",
+          "gasoline": 1.708,
+          "diesel": 1.898
+        },
+        "AZ": {
+          "currency": "EUR",
+          "gasoline": 0.6261,
+          "diesel": 0.5989
+        },
+        "BY": {
+          "currency": "BYN",
+          "gasoline": 2.6,
+          "diesel": 2.6
+        },
+        "BE": {
+          "currency": "EUR",
+          "gasoline": 1.628,
+          "diesel": 1.846
+        },
+        "BO": {
+          "currency": "BOB",
+          "gasoline": 6.96,
+          "diesel": 9.8
+        },
+        "BA": {
+          "currency": "EUR",
+          "gasoline": 1.1866,
+          "diesel": 1.431
+        },
+        "BR": {
+          "currency": "BRL",
+          "gasoline": 6.349,
+          "diesel": 6.3077
+        },
+        "BG": {
+          "currency": "EUR",
+          "gasoline": 1.266,
+          "diesel": 1.306
+        },
+        "CA": {
+          "currency": "CAD",
+          "gasoline": 1.36,
+          "diesel": 1.55
+        },
+        "CL": {
+          "currency": "USD",
+          "gasoline": 1.34,
+          "diesel": 1.03
+        },
+        "CN": {
+          "currency": "CNY",
+          "gasoline": 8.21,
+          "diesel": 7.3
+        },
+        "CO": {
+          "currency": "USD",
+          "gasoline": 1.08,
+          "diesel": 0.79
+        },
+        "HR": {
+          "currency": "EUR",
+          "gasoline": 1.499,
+          "diesel": 1.544
+        },
+        "CY": {
+          "currency": "EUR",
+          "gasoline": 1.346,
+          "diesel": 1.461
+        },
+        "CZ": {
+          "currency": "EUR",
+          "gasoline": 1.488,
+          "diesel": 1.603
+        },
+        "DK": {
+          "currency": "EUR",
+          "gasoline": 2.058,
+          "diesel": 2.114
+        },
+        "EC": {
+          "currency": "USD",
+          "gasoline": 0.73,
+          "diesel": 0.71
+        },
+        "EG": {
+          "currency": "EGP",
+          "gasoline": 20.5,
+          "diesel": 20.5
+        },
+        "EE": {
+          "currency": "EUR",
+          "gasoline": 1.587,
+          "diesel": 1.688
+        },
+        "FJ": {
+          "currency": "FJD",
+          "gasoline": 2.94,
+          "diesel": 2.14
+        },
+        "FI": {
+          "currency": "EUR",
+          "gasoline": 1.926,
+          "diesel": 2.042
+        },
+        "FR": {
+          "currency": "EUR",
+          "gasoline": 1.842,
+          "diesel": 1.952
+        },
+        "GE": {
+          "currency": "GEL",
+          "gasoline": 3.12,
+          "diesel": 3.13
+        },
+        "DE": {
+          "currency": "EUR",
+          "gasoline": 2.075,
+          "diesel": 2.163
+        },
+        "GR": {
+          "currency": "EUR",
+          "gasoline": 1.852,
+          "diesel": 1.814
+        },
+        "HK": {
+          "currency": "EUR",
+          "gasoline": 3.7135,
+          "diesel": 3.7135
+        },
+        "HU": {
+          "currency": "EUR",
+          "gasoline": 1.498,
+          "diesel": 1.592
+        },
+        "IS": {
+          "currency": "EUR",
+          "gasoline": 1.4304,
+          "diesel": 1.5565
+        },
+        "IN": {
+          "currency": "EUR",
+          "gasoline": 1.0524,
+          "diesel": 0.9736
+        },
+        "IE": {
+          "currency": "EUR",
+          "gasoline": 1.747,
+          "diesel": 1.747
+        },
+        "IL": {
+          "currency": "EUR",
+          "gasoline": 1.8,
+          "diesel": 1.575
+        },
+        "IT": {
+          "currency": "EUR",
+          "gasoline": 1.745,
+          "diesel": 1.869
+        },
+        "JP": {
+          "currency": "EUR",
+          "gasoline": 1.005,
+          "diesel": 0.9306
+        },
+        "JO": {
+          "currency": "EUR",
+          "gasoline": 1.1619,
+          "diesel": 1.0053
+        },
+        "KZ": {
+          "currency": "KZT",
+          "gasoline": 235,
+          "diesel": 330
+        },
+        "KG": {
+          "currency": "EUR",
+          "gasoline": 0.7454,
+          "diesel": 0.8643
+        },
+        "LV": {
+          "currency": "EUR",
+          "gasoline": 1.633,
+          "diesel": 1.792
+        },
+        "LB": {
+          "currency": "EUR",
+          "gasoline": 0.703,
+          "diesel": 0.6399
+        },
+        "LI": {
+          "currency": "EUR",
+          "gasoline": null,
+          "diesel": 2.069
+        },
+        "LT": {
+          "currency": "EUR",
+          "gasoline": 1.576,
+          "diesel": 1.901
+        },
+        "LU": {
+          "currency": "EUR",
+          "gasoline": 1.567,
+          "diesel": 1.772
+        },
+        "MT": {
+          "currency": "EUR",
+          "gasoline": 1.34,
+          "diesel": 1.21
+        },
+        "MX": {
+          "currency": "MXN",
+          "gasoline": 23.5,
+          "diesel": 27.29
+        },
+        "MD": {
+          "currency": "EUR",
+          "gasoline": 1.2987,
+          "diesel": 1.263
+        },
+        "MC": {
+          "currency": "EUR",
+          "gasoline": 1.661,
+          "diesel": 1.8
+        },
+        "ME": {
+          "currency": "EUR",
+          "gasoline": 1.7,
+          "diesel": 1.73
+        },
+        "MA": {
+          "currency": "EUR",
+          "gasoline": 1.1463,
+          "diesel": 0.9963
+        },
+        "NL": {
+          "currency": "EUR",
+          "gasoline": 2.171,
+          "diesel": 2.255
+        },
+        "NZ": {
+          "currency": "EUR",
+          "gasoline": 1.4349,
+          "diesel": 1.08
+        },
+        "MK": {
+          "currency": "EUR",
+          "gasoline": 1.2882,
+          "diesel": 1.3854
+        },
+        "NO": {
+          "currency": "EUR",
+          "gasoline": 1.6869,
+          "diesel": 1.6638
+        },
+        "PG": {
+          "currency": "PGK",
+          "gasoline": 3.8,
+          "diesel": 3.6
+        },
+        "PY": {
+          "currency": "USD",
+          "gasoline": 1.05,
+          "diesel": 1.24
+        },
+        "PE": {
+          "currency": "PEN",
+          "gasoline": 5.26,
+          "diesel": 5.29
+        },
+        "PH": {
+          "currency": "PHP",
+          "gasoline": 61.25,
+          "diesel": 58.1
+        },
+        "PL": {
+          "currency": "EUR",
+          "gasoline": 1.5,
+          "diesel": 1.73
+        },
+        "PT": {
+          "currency": "EUR",
+          "gasoline": 1.776,
+          "diesel": 1.817
+        },
+        "RO": {
+          "currency": "EUR",
+          "gasoline": 1.625,
+          "diesel": 1.704
+        },
+        "RU": {
+          "currency": "RUB",
+          "gasoline": 62.62,
+          "diesel": 77.34
+        },
+        "RS": {
+          "currency": "EUR",
+          "gasoline": 1.5636,
+          "diesel": 1.7297
+        },
+        "SK": {
+          "currency": "EUR",
+          "gasoline": 1.487,
+          "diesel": 1.483
+        },
+        "SI": {
+          "currency": "EUR",
+          "gasoline": 1.434,
+          "diesel": 1.462
+        },
+        "KR": {
+          "currency": "EUR",
+          "gasoline": 1.1456,
+          "diesel": 1.0298
+        },
+        "ES": {
+          "currency": "EUR",
+          "gasoline": 1.6,
+          "diesel": 1.645
+        },
+        "SE": {
+          "currency": "EUR",
+          "gasoline": 1.511,
+          "diesel": 1.782
+        },
+        "CH": {
+          "currency": "EUR",
+          "gasoline": 1.8669,
+          "diesel": 2.0618
+        },
+        "TJ": {
+          "currency": "EUR",
+          "gasoline": 0.7217,
+          "diesel": 0.8066
+        },
+        "TH": {
+          "currency": "EUR",
+          "gasoline": 0.9785,
+          "diesel": 0.8039
+        },
+        "TN": {
+          "currency": "EUR",
+          "gasoline": 0.7567,
+          "diesel": 0.661
+        },
+        "TR": {
+          "currency": "TRY",
+          "gasoline": 61.9,
+          "diesel": 65.9
+        },
+        "TM": {
+          "currency": "TMT",
+          "gasoline": 1.5,
+          "diesel": 1
+        },
+        "UA": {
+          "currency": "EUR",
+          "gasoline": 1.4486,
+          "diesel": 1.5965
+        },
+        "AE": {
+          "currency": "EUR",
+          "gasoline": 0.6573,
+          "diesel": 0.675
+        },
+        "GB": {
+          "currency": "EUR",
+          "gasoline": 2.2319,
+          "diesel": 2.4236
+        },
+        "US": {
+          "currency": "USD",
+          "gasoline": 1.08,
+          "diesel": 1.34
+        },
+        "UY": {
+          "currency": "UYU",
+          "gasoline": 76.88,
+          "diesel": 47.32
+        },
+        "UZ": {
+          "currency": "EUR",
+          "gasoline": 0.8089,
+          "diesel": 0.9028
+        }
+      }
+    },
+    {
+      "date": "2026-03-28",
       "source": "openvan_daily",
       "by_code": {
         "AL": {
