@@ -1,20 +1,20 @@
 {
   "meta": {
-    "updated_at": "2026-03-28",
+    "updated_at": "2026-03-29",
     "source": "OpenVan.camp fuel API",
     "source_url": "https://openvan.camp/api/fuel/prices",
     "license": "CC BY 4.0 (attribute OpenVan.camp when displaying)",
-    "countries_count": 83
+    "countries_count": 88
   },
   "countries": [
     {
       "country_code": "AL",
       "country": "Albania",
-      "currency": "EUR",
-      "gasoline": 1.881,
-      "diesel": 1.934,
-      "updated_at": "2026-03-15",
-      "source_note": "Fuelo.net"
+      "currency": "ALL",
+      "gasoline": 194.5871,
+      "diesel": 204.4184,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "DZ",
@@ -22,80 +22,80 @@
       "currency": "DZD",
       "gasoline": 47,
       "diesel": 31,
-      "updated_at": "2026-03-18",
-      "source_note": "Ministère de l'Energie et des Mines (Algeria) — official tariff"
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "AD",
       "country": "Andorra",
       "currency": "EUR",
-      "gasoline": 1.05,
-      "diesel": 0.95,
-      "updated_at": "2026-03-15",
-      "source_note": "carburant.ad (Andorra) — fallback"
+      "gasoline": 1.5518,
+      "diesel": 1.6795,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "AR",
       "country": "Argentina",
       "currency": "ARS",
-      "gasoline": 1258.8245,
-      "diesel": 1384.4458,
-      "updated_at": "2026-03-18",
-      "source_note": "GobEnergy Argentina"
+      "gasoline": 1311.9779,
+      "diesel": 1431.6602,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "AM",
       "country": "Armenia",
       "currency": "AMD",
-      "gasoline": 460,
-      "diesel": 470,
-      "updated_at": "2026-03-18",
-      "source_note": "autotraveler.ru (исторические цены на топливо, Армения)"
+      "gasoline": 480,
+      "diesel": 520,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "AU",
       "country": "Australia",
-      "currency": "EUR",
-      "gasoline": 1.3854,
-      "diesel": 1.6054,
-      "updated_at": "2026-03-15",
-      "source_note": "FuelWatch WA"
+      "currency": "AUD",
+      "gasoline": 2.599,
+      "diesel": 3.169,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "AT",
       "country": "Austria",
       "currency": "EUR",
-      "gasoline": 1.708,
-      "diesel": 1.898,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.8385,
+      "diesel": 2.1643,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "AZ",
       "country": "Azerbaijan",
-      "currency": "EUR",
-      "gasoline": 0.6261,
-      "diesel": 0.5989,
-      "updated_at": "2026-03-15",
-      "source_note": "OilPricez.com"
+      "currency": "AZN",
+      "gasoline": 1.4071,
+      "diesel": 1.0429,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "BY",
       "country": "Belarus",
       "currency": "BYN",
-      "gasoline": 2.6,
-      "diesel": 2.6,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "gasoline": 2.5826,
+      "diesel": 2.6691,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "BE",
       "country": "Belgium",
       "currency": "EUR",
-      "gasoline": 1.628,
-      "diesel": 1.846,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.7855,
+      "diesel": 2.118,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "BO",
@@ -103,134 +103,134 @@
       "currency": "BOB",
       "gasoline": 6.96,
       "diesel": 9.8,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "BA",
       "country": "Bosnia & Herzegovina",
-      "currency": "EUR",
-      "gasoline": 1.1866,
-      "diesel": 1.431,
-      "updated_at": "2026-03-15",
-      "source_note": "Fuelo.net"
+      "currency": "BAM",
+      "gasoline": 2.5636,
+      "diesel": 3.1532,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "BR",
       "country": "Brazil",
       "currency": "BRL",
-      "gasoline": 6.349,
-      "diesel": 6.3077,
-      "updated_at": "2026-03-18",
-      "source_note": "ANP Brazil"
+      "gasoline": 6.5683,
+      "diesel": 6.9672,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "BG",
       "country": "Bulgaria",
       "currency": "EUR",
-      "gasoline": 1.266,
-      "diesel": 1.306,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.4353,
+      "diesel": 1.5916,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "CA",
       "country": "Canada",
       "currency": "CAD",
-      "gasoline": 1.36,
-      "diesel": 1.55,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "gasoline": 1.659,
+      "diesel": 2.149,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "CL",
       "country": "Chile",
-      "currency": "USD",
-      "gasoline": 1.34,
-      "diesel": 1.03,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com (fallback)"
+      "currency": "CLP",
+      "gasoline": 1554,
+      "diesel": 1514,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "CN",
       "country": "China",
       "currency": "CNY",
-      "gasoline": 8.21,
-      "diesel": 7.3,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "gasoline": 8.5684,
+      "diesel": 8.2428,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "CO",
       "country": "Colombia",
-      "currency": "USD",
-      "gasoline": 1.08,
-      "diesel": 0.79,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "currency": "COP",
+      "gasoline": 3497,
+      "diesel": 4280,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "HR",
       "country": "Croatia",
       "currency": "EUR",
-      "gasoline": 1.499,
-      "diesel": 1.544,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.5922,
+      "diesel": 1.7101,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "CY",
       "country": "Cyprus",
       "currency": "EUR",
-      "gasoline": 1.346,
-      "diesel": 1.461,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.4944,
+      "diesel": 1.7157,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "CZ",
       "country": "Czechia",
-      "currency": "EUR",
-      "gasoline": 1.488,
-      "diesel": 1.603,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "currency": "CZK",
+      "gasoline": 40.3721,
+      "diesel": 45.2992,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "DK",
       "country": "Denmark",
-      "currency": "EUR",
-      "gasoline": 2.058,
-      "diesel": 2.114,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "currency": "DKK",
+      "gasoline": 16.4112,
+      "diesel": 17.8046,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "EC",
       "country": "Ecuador",
       "currency": "USD",
-      "gasoline": 0.73,
-      "diesel": 0.71,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "gasoline": 2.888,
+      "diesel": 2.828,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "EG",
       "country": "Egypt",
       "currency": "EGP",
-      "gasoline": 20.5,
+      "gasoline": 22.25,
       "diesel": 20.5,
-      "updated_at": "2026-03-18",
-      "source_note": "Кабинет министров Египта — official tariff"
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "EE",
       "country": "Estonia",
       "currency": "EUR",
-      "gasoline": 1.587,
-      "diesel": 1.688,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.7863,
+      "diesel": 1.9815,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "FJ",
@@ -238,134 +238,143 @@
       "currency": "FJD",
       "gasoline": 2.94,
       "diesel": 2.14,
-      "updated_at": "2026-03-18",
-      "source_note": "FCCC (Fijian Competition and Consumer Commission) — fallback"
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "FI",
       "country": "Finland",
       "currency": "EUR",
-      "gasoline": 1.926,
-      "diesel": 2.042,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 2.0134,
+      "diesel": 2.1913,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "FR",
       "country": "France",
       "currency": "EUR",
-      "gasoline": 1.842,
-      "diesel": 1.952,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.9931,
+      "diesel": 2.1635,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "GE",
       "country": "Georgia",
       "currency": "GEL",
-      "gasoline": 3.12,
-      "diesel": 3.13,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "gasoline": 3.3779,
+      "diesel": 3.5434,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "DE",
       "country": "Germany",
       "currency": "EUR",
-      "gasoline": 2.075,
-      "diesel": 2.163,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 2.1313,
+      "diesel": 2.2845,
+      "updated_at": "2026-03-28",
+      "source_note": null
+    },
+    {
+      "country_code": "GH",
+      "country": "Ghana",
+      "currency": "GHS",
+      "gasoline": 12.24,
+      "diesel": 15.69,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "GR",
       "country": "Greece",
       "currency": "EUR",
-      "gasoline": 1.852,
-      "diesel": 1.814,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 2.0255,
+      "diesel": 2.0365,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "HK",
       "country": "Hong Kong SAR China",
-      "currency": "EUR",
-      "gasoline": 3.7135,
-      "diesel": 3.7135,
-      "updated_at": "2026-03-15",
-      "source_note": "Consumer Council Hong Kong"
+      "currency": "HKD",
+      "gasoline": 31.8017,
+      "diesel": 32.8504,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "HU",
       "country": "Hungary",
-      "currency": "EUR",
-      "gasoline": 1.498,
-      "diesel": 1.592,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "currency": "HUF",
+      "gasoline": 622.9456,
+      "diesel": 668.979,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "IS",
       "country": "Iceland",
-      "currency": "EUR",
-      "gasoline": 1.4304,
-      "diesel": 1.5565,
-      "updated_at": "2026-03-15",
-      "source_note": "Gasvaktin Iceland"
+      "currency": "ISK",
+      "gasoline": 235.4743,
+      "diesel": 264.1455,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "IN",
       "country": "India",
-      "currency": "EUR",
-      "gasoline": 1.0524,
-      "diesel": 0.9736,
-      "updated_at": "2026-03-15",
-      "source_note": "IOCL India — fallback"
+      "currency": "INR",
+      "gasoline": 94.72,
+      "diesel": 87.62,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "IE",
       "country": "Ireland",
       "currency": "EUR",
-      "gasoline": 1.747,
-      "diesel": 1.747,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.8069,
+      "diesel": 1.8732,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "IL",
       "country": "Israel",
-      "currency": "EUR",
-      "gasoline": 1.8,
-      "diesel": 1.575,
-      "updated_at": "2026-03-15",
-      "source_note": "Ministry of Energy Israel — fallback"
+      "currency": "ILS",
+      "gasoline": 7.02,
+      "diesel": 6.9,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "IT",
       "country": "Italy",
       "currency": "EUR",
-      "gasoline": 1.745,
-      "diesel": 1.869,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.7774,
+      "diesel": 2.063,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "JP",
       "country": "Japan",
-      "currency": "EUR",
-      "gasoline": 1.005,
-      "diesel": 0.9306,
-      "updated_at": "2026-03-15",
-      "source_note": "ANRE/METI Japan — Weekly Retail Survey (enecho.meti.go.jp)"
+      "currency": "JPY",
+      "gasoline": 176.2073,
+      "diesel": 164.4171,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "JO",
       "country": "Jordan",
-      "currency": "EUR",
-      "gasoline": 1.1619,
-      "diesel": 1.0053,
-      "updated_at": "2026-03-15",
-      "source_note": "MEMR Jordan — fallback"
+      "currency": "JOD",
+      "gasoline": 1.05,
+      "diesel": 0.55,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "KZ",
@@ -373,89 +382,89 @@
       "currency": "KZT",
       "gasoline": 235,
       "diesel": 330,
-      "updated_at": "2026-03-18",
-      "source_note": "Бюро национальной статистики РК (stat.gov.kz)"
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "KG",
       "country": "Kyrgyzstan",
-      "currency": "EUR",
-      "gasoline": 0.7454,
-      "diesel": 0.8643,
-      "updated_at": "2026-03-15",
-      "source_note": "NatStatCom Kyrgyzstan — fallback"
+      "currency": "KGS",
+      "gasoline": 79.49,
+      "diesel": 79.49,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "LV",
       "country": "Latvia",
       "currency": "EUR",
-      "gasoline": 1.633,
-      "diesel": 1.792,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.7844,
+      "diesel": 2.0566,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "LB",
       "country": "Lebanon",
-      "currency": "EUR",
-      "gasoline": 0.703,
-      "diesel": 0.6399,
-      "updated_at": "2026-03-15",
-      "source_note": "Ministry of Energy Lebanon (energyandwater.gov.lb)"
+      "currency": "USD",
+      "gasoline": 1.0415,
+      "diesel": 0.9882,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "LI",
       "country": "Liechtenstein",
-      "currency": "EUR",
+      "currency": "CHF",
       "gasoline": null,
-      "diesel": 2.069,
-      "updated_at": "2026-03-15",
-      "source_note": "Tankstellenpreise.de (Liechtenstein)"
+      "diesel": 2.1301,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "LT",
       "country": "Lithuania",
       "currency": "EUR",
-      "gasoline": 1.576,
-      "diesel": 1.901,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.6705,
+      "diesel": 1.9794,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "LU",
       "country": "Luxembourg",
       "currency": "EUR",
-      "gasoline": 1.567,
-      "diesel": 1.772,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.7213,
+      "diesel": 2.026,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "MT",
       "country": "Malta",
       "currency": "EUR",
-      "gasoline": 1.34,
-      "diesel": 1.21,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.3435,
+      "diesel": 1.213,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "MX",
       "country": "Mexico",
       "currency": "MXN",
-      "gasoline": 23.5,
-      "diesel": 27.29,
-      "updated_at": "2026-03-18",
-      "source_note": "CRE (Comisión Reguladora de Energía, México) — fallback"
+      "gasoline": 23.65,
+      "diesel": 27.145,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "MD",
       "country": "Moldova",
-      "currency": "EUR",
-      "gasoline": 1.2987,
-      "diesel": 1.263,
-      "updated_at": "2026-03-15",
-      "source_note": "Fuelo.net"
+      "currency": "MDL",
+      "gasoline": 28.4477,
+      "diesel": 30.0405,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "MC",
@@ -463,62 +472,80 @@
       "currency": "EUR",
       "gasoline": 1.661,
       "diesel": 1.8,
-      "updated_at": "2026-03-15",
-      "source_note": "Monaco Fuel Prices — fallback"
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "ME",
       "country": "Montenegro",
       "currency": "EUR",
-      "gasoline": 1.7,
-      "diesel": 1.73,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "gasoline": 1.4925,
+      "diesel": 1.4955,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "MA",
       "country": "Morocco",
-      "currency": "EUR",
-      "gasoline": 1.1463,
-      "diesel": 0.9963,
-      "updated_at": "2026-03-15",
-      "source_note": "OilPricez.com"
+      "currency": "MAD",
+      "gasoline": 13.8772,
+      "diesel": 12.7808,
+      "updated_at": "2026-03-28",
+      "source_note": null
+    },
+    {
+      "country_code": "NP",
+      "country": "Nepal",
+      "currency": "NPR",
+      "gasoline": 161,
+      "diesel": 145,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "NL",
       "country": "Netherlands",
       "currency": "EUR",
-      "gasoline": 2.171,
-      "diesel": 2.255,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 2.3581,
+      "diesel": 2.4413,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "NZ",
       "country": "New Zealand",
-      "currency": "EUR",
-      "gasoline": 1.4349,
-      "diesel": 1.08,
-      "updated_at": "2026-03-15",
-      "source_note": "MBIE New Zealand"
+      "currency": "NZD",
+      "gasoline": 3.2098,
+      "diesel": 2.9907,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "MK",
       "country": "North Macedonia",
-      "currency": "EUR",
-      "gasoline": 1.2882,
-      "diesel": 1.3854,
-      "updated_at": "2026-03-15",
-      "source_note": "Fuelo.net"
+      "currency": "MKD",
+      "gasoline": 85.3889,
+      "diesel": 93.8333,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "NO",
       "country": "Norway",
-      "currency": "EUR",
-      "gasoline": 1.6869,
-      "diesel": 1.6638,
-      "updated_at": "2026-03-15",
-      "source_note": "Statistics Norway (SSB)"
+      "currency": "NOK",
+      "gasoline": 28.8688,
+      "diesel": 29.6211,
+      "updated_at": "2026-03-28",
+      "source_note": null
+    },
+    {
+      "country_code": "PK",
+      "country": "Pakistan",
+      "currency": "PKR",
+      "gasoline": 321.17,
+      "diesel": 335.86,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "PG",
@@ -526,26 +553,26 @@
       "currency": "PGK",
       "gasoline": 3.8,
       "diesel": 3.6,
-      "updated_at": "2026-03-18",
-      "source_note": "ICCC (Papua New Guinea) — fallback"
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "PY",
       "country": "Paraguay",
-      "currency": "USD",
-      "gasoline": 1.05,
-      "diesel": 1.24,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "currency": "PYG",
+      "gasoline": 5690,
+      "diesel": 6608.0645,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "PE",
       "country": "Peru",
       "currency": "PEN",
-      "gasoline": 5.26,
-      "diesel": 5.29,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "gasoline": 5.2,
+      "diesel": 4.8,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "PH",
@@ -553,143 +580,161 @@
       "currency": "PHP",
       "gasoline": 61.25,
       "diesel": 58.1,
-      "updated_at": "2026-03-28",
+      "updated_at": "2026-03-29",
       "source_note": null
     },
     {
       "country_code": "PL",
       "country": "Poland",
-      "currency": "EUR",
-      "gasoline": 1.5,
-      "diesel": 1.73,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "currency": "PLN",
+      "gasoline": 6.9735,
+      "diesel": 8.0762,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "PT",
       "country": "Portugal",
       "currency": "EUR",
-      "gasoline": 1.776,
-      "diesel": 1.817,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.9448,
+      "diesel": 2.0383,
+      "updated_at": "2026-03-28",
+      "source_note": null
+    },
+    {
+      "country_code": "QA",
+      "country": "Qatar",
+      "currency": "QAR",
+      "gasoline": 1.85,
+      "diesel": 2.05,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "RO",
       "country": "Romania",
-      "currency": "EUR",
-      "gasoline": 1.625,
-      "diesel": 1.704,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "currency": "RON",
+      "gasoline": 9.0546,
+      "diesel": 10.0929,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "RU",
       "country": "Russia",
       "currency": "RUB",
-      "gasoline": 62.62,
-      "diesel": 77.34,
-      "updated_at": "2026-03-18",
-      "source_note": "Росстат (Федеральная служба государственной статистики России)"
+      "gasoline": 64.1142,
+      "diesel": 77.5247,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "RS",
       "country": "Serbia",
-      "currency": "EUR",
-      "gasoline": 1.5636,
-      "diesel": 1.7297,
-      "updated_at": "2026-03-15",
-      "source_note": "Fuelo.net"
+      "currency": "RSD",
+      "gasoline": 187.8574,
+      "diesel": 212.5922,
+      "updated_at": "2026-03-28",
+      "source_note": null
+    },
+    {
+      "country_code": "SG",
+      "country": "Singapore",
+      "currency": "SGD",
+      "gasoline": 3.38,
+      "diesel": 3.93,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "SK",
       "country": "Slovakia",
       "currency": "EUR",
-      "gasoline": 1.487,
-      "diesel": 1.483,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.5619,
+      "diesel": 1.6107,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "SI",
       "country": "Slovenia",
       "currency": "EUR",
-      "gasoline": 1.434,
-      "diesel": 1.462,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.554,
+      "diesel": 1.653,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "KR",
       "country": "South Korea",
-      "currency": "EUR",
-      "gasoline": 1.1456,
-      "diesel": 1.0298,
-      "updated_at": "2026-03-15",
-      "source_note": "Opinet Korea — fallback (март 2026)"
+      "currency": "KRW",
+      "gasoline": 1672,
+      "diesel": 1503,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "ES",
       "country": "Spain",
       "currency": "EUR",
-      "gasoline": 1.6,
-      "diesel": 1.645,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "gasoline": 1.6245,
+      "diesel": 1.8221,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "SE",
       "country": "Sweden",
-      "currency": "EUR",
-      "gasoline": 1.511,
-      "diesel": 1.782,
-      "updated_at": "2026-03-18",
-      "source_note": "EU Weekly Oil Bulletin"
+      "currency": "SEK",
+      "gasoline": 19.3887,
+      "diesel": 24.6294,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "CH",
       "country": "Switzerland",
-      "currency": "EUR",
-      "gasoline": 1.8669,
-      "diesel": 2.0618,
-      "updated_at": "2026-03-15",
-      "source_note": "Fuelo.net"
+      "currency": "CHF",
+      "gasoline": 1.837,
+      "diesel": 2.0762,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "TJ",
       "country": "Tajikistan",
-      "currency": "EUR",
-      "gasoline": 0.7217,
-      "diesel": 0.8066,
-      "updated_at": "2026-03-15",
-      "source_note": "Tajikistan Fuel Prices — fallback"
+      "currency": "TJS",
+      "gasoline": 9.1308,
+      "diesel": 8.7846,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "TH",
       "country": "Thailand",
-      "currency": "EUR",
-      "gasoline": 0.9785,
-      "diesel": 0.8039,
-      "updated_at": "2026-03-15",
-      "source_note": "EPPO Thailand — fallback"
+      "currency": "THB",
+      "gasoline": 40.54,
+      "diesel": 41.8,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "TN",
       "country": "Tunisia",
-      "currency": "EUR",
-      "gasoline": 0.7567,
-      "diesel": 0.661,
-      "updated_at": "2026-03-15",
-      "source_note": "OilPricez.com"
+      "currency": "TND",
+      "gasoline": 2.53,
+      "diesel": 2.21,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "TR",
       "country": "Türkiye",
       "currency": "TRY",
-      "gasoline": 61.9,
-      "diesel": 65.9,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "gasoline": 60.3225,
+      "diesel": 71.91,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "TM",
@@ -697,44 +742,44 @@
       "currency": "TMT",
       "gasoline": 1.5,
       "diesel": 1,
-      "updated_at": "2026-03-18",
-      "source_note": "Türkmennebit (государственные цены, Туркменистан)"
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "UA",
       "country": "Ukraine",
-      "currency": "EUR",
-      "gasoline": 1.4486,
-      "diesel": 1.5965,
-      "updated_at": "2026-03-15",
-      "source_note": "Fuelo.net"
+      "currency": "UAH",
+      "gasoline": 66.0473,
+      "diesel": 74.2063,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "AE",
       "country": "United Arab Emirates",
-      "currency": "EUR",
-      "gasoline": 0.6573,
-      "diesel": 0.675,
-      "updated_at": "2026-03-15",
-      "source_note": "UAE Fuel Price Committee"
+      "currency": "AED",
+      "gasoline": 2.48,
+      "diesel": 2.72,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "GB",
       "country": "United Kingdom",
-      "currency": "EUR",
-      "gasoline": 2.2319,
-      "diesel": 2.4236,
-      "updated_at": "2026-03-15",
-      "source_note": "Fuelo.net"
+      "currency": "GBP",
+      "gasoline": 1.5908,
+      "diesel": 1.8509,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "US",
       "country": "United States",
       "currency": "USD",
-      "gasoline": 1.08,
-      "diesel": 1.34,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "gasoline": 3.961,
+      "diesel": 5.375,
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "UY",
@@ -742,17 +787,17 @@
       "currency": "UYU",
       "gasoline": 76.88,
       "diesel": 47.32,
-      "updated_at": "2026-03-18",
-      "source_note": "GlobalPetrolPrices.com"
+      "updated_at": "2026-03-28",
+      "source_note": null
     },
     {
       "country_code": "UZ",
       "country": "Uzbekistan",
-      "currency": "EUR",
-      "gasoline": 0.8089,
-      "diesel": 0.9028,
-      "updated_at": "2026-03-15",
-      "source_note": "Autostrada.uz (Uzbekistan)"
+      "currency": "UZS",
+      "gasoline": 11200,
+      "diesel": 12500,
+      "updated_at": "2026-03-28",
+      "source_note": null
     }
   ]
 }
