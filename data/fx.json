@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-03-29",
+    "updated_at": "2026-03-30",
     "source": "ECB via Frankfurter",
     "source_url": "https://api.frankfurter.app/latest?from=USD"
   },
