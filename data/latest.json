@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026-04-03",
+    "updated_at": "2026-04-04",
     "source": "OpenVan.camp fuel API",
     "source_url": "https://openvan.camp/api/fuel/prices",
     "license": "CC BY 4.0 (attribute OpenVan.camp when displaying)",
@@ -580,7 +580,7 @@
       "currency": "PHP",
       "gasoline": 61.25,
       "diesel": 58.1,
-      "updated_at": "2026-04-03",
+      "updated_at": "2026-04-04",
       "source_note": null
     },
     {
