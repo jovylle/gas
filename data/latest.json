@@ -1,10 +1,10 @@
 {
   "meta": {
-    "updated_at": "2026-04-12",
+    "updated_at": "2026-04-13",
     "source": "OpenVan.camp fuel API",
     "source_url": "https://openvan.camp/api/fuel/prices",
     "license": "CC BY 4.0 (attribute OpenVan.camp when displaying)",
-    "countries_count": 121
+    "countries_count": 127
   },
   "countries": [
     {
@@ -116,6 +116,15 @@
       "source_note": null
     },
     {
+      "country_code": "BZ",
+      "country": "Belize",
+      "currency": "BZD",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-04-12",
+      "source_note": null
+    },
+    {
       "country_code": "BO",
       "country": "Bolivia",
       "currency": "BOB",
@@ -134,6 +143,15 @@
       "source_note": null
     },
     {
+      "country_code": "BW",
+      "country": "Botswana",
+      "currency": "BWP",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-04-12",
+      "source_note": null
+    },
+    {
       "country_code": "BR",
       "country": "Brazil",
       "currency": "BRL",
@@ -149,6 +167,15 @@
       "gasoline": 1.4571,
       "diesel": 1.6693,
       "updated_at": "2026-04-05",
+      "source_note": null
+    },
+    {
+      "country_code": "KH",
+      "country": "Cambodia",
+      "currency": "USD",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-04-12",
       "source_note": null
     },
     {
@@ -422,6 +449,15 @@
       "source_note": null
     },
     {
+      "country_code": "IQ",
+      "country": "Iraq",
+      "currency": "IQD",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-04-12",
+      "source_note": null
+    },
+    {
       "country_code": "IE",
       "country": "Ireland",
       "currency": "EUR",
@@ -629,6 +665,15 @@
       "source_note": null
     },
     {
+      "country_code": "MN",
+      "country": "Mongolia",
+      "currency": "MNT",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-04-12",
+      "source_note": null
+    },
+    {
       "country_code": "ME",
       "country": "Montenegro",
       "currency": "EUR",
@@ -698,6 +743,15 @@
       "gasoline": 3.3827,
       "diesel": 3.3814,
       "updated_at": "2026-04-05",
+      "source_note": null
+    },
+    {
+      "country_code": "NI",
+      "country": "Nicaragua",
+      "currency": "NIO",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-04-12",
       "source_note": null
     },
     {
