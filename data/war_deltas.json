@@ -3,7 +3,7 @@
     "baseline_date": "2026-02-23",
     "baseline_label": "Last weekly data before Iran war (per GlobalPetrolPrices narrative)",
     "source_url": "https://www.globalpetrolprices.com/fuel_price_trend_Iran_war.php",
-    "scraped_at": "2026-04-22T06:56:07.017Z",
+    "scraped_at": "2026-04-23T06:57:09.951Z",
     "rows_scraped": 128
   },
   "by_country_code": {
@@ -428,24 +428,24 @@
       "diesel_pct": 64.7
     },
     "SK": {
-      "gasoline_pct": 13,
-      "diesel_pct": 19.4
+      "gasoline_pct": 13.2,
+      "diesel_pct": 19.3
     },
     "SI": {
-      "gasoline_pct": 12.8,
-      "diesel_pct": 24.4
+      "gasoline_pct": 11.8,
+      "diesel_pct": 18.5
     },
     "ZA": {
       "gasoline_pct": 16.5,
       "diesel_pct": 38.1
     },
     "KR": {
-      "gasoline_pct": 16.5,
-      "diesel_pct": 23.4
+      "gasoline_pct": 18.2,
+      "diesel_pct": 25.4
     },
     "ES": {
-      "gasoline_pct": 4.6,
-      "diesel_pct": 29.6
+      "gasoline_pct": 2.1,
+      "diesel_pct": 22.1
     },
     "LK": {
       "gasoline_pct": 33.8,
@@ -456,12 +456,12 @@
       "diesel_pct": 18
     },
     "SE": {
-      "gasoline_pct": 21.7,
-      "diesel_pct": 33.5
+      "gasoline_pct": 18.2,
+      "diesel_pct": 20.2
     },
     "CH": {
-      "gasoline_pct": 11.6,
-      "diesel_pct": 22.5
+      "gasoline_pct": 12.8,
+      "diesel_pct": 20.2
     },
     "TW": {
       "gasoline_pct": 18.1,
@@ -472,8 +472,8 @@
       "diesel_pct": 40.9
     },
     "TH": {
-      "gasoline_pct": 29.3,
-      "diesel_pct": 43.2
+      "gasoline_pct": 28.1,
+      "diesel_pct": 35.1
     },
     "TN": {
       "gasoline_pct": 0,
@@ -504,8 +504,8 @@
       "diesel_pct": 41.8
     },
     "VN": {
-      "gasoline_pct": 22.6,
-      "diesel_pct": 77.9
+      "gasoline_pct": 20.3,
+      "diesel_pct": 50.4
     },
     "WF": {
       "gasoline_pct": 0.7,
@@ -516,8 +516,8 @@
       "diesel_pct": 21.6
     },
     "ZW": {
-      "gasoline_pct": 42.9,
-      "diesel_pct": 38.8
+      "gasoline_pct": 33.3,
+      "diesel_pct": 37.5
     }
   }
 }
