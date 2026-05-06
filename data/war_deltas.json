@@ -3,7 +3,7 @@
     "baseline_date": "2026-02-23",
     "baseline_label": "Last weekly data before Iran war (per GlobalPetrolPrices narrative)",
     "source_url": "https://www.globalpetrolprices.com/fuel_price_trend_Iran_war.php",
-    "scraped_at": "2026-05-05T07:05:12.411Z",
+    "scraped_at": "2026-05-06T07:12:40.876Z",
     "rows_scraped": 128
   },
   "by_country_code": {
@@ -16,24 +16,24 @@
       "diesel_pct": 37.3
     },
     "AR": {
-      "gasoline_pct": 17.8,
-      "diesel_pct": 22.4
+      "gasoline_pct": 21.4,
+      "diesel_pct": 23.9
     },
     "AW": {
       "gasoline_pct": 16.1,
       "diesel_pct": 27.8
     },
     "AU": {
-      "gasoline_pct": 20.4,
-      "diesel_pct": 55.1
+      "gasoline_pct": 18.5,
+      "diesel_pct": 43.1
     },
     "AT": {
-      "gasoline_pct": 13.5,
-      "diesel_pct": 23.5
+      "gasoline_pct": 18.8,
+      "diesel_pct": 29.3
     },
     "BH": {
-      "gasoline_pct": 7.7,
-      "diesel_pct": 10
+      "gasoline_pct": 14.5,
+      "diesel_pct": 14.5
     },
     "BD": {
       "gasoline_pct": 16.7,
@@ -48,12 +48,12 @@
       "diesel_pct": 2.7
     },
     "BE": {
-      "gasoline_pct": 20.5,
-      "diesel_pct": 25.6
+      "gasoline_pct": 25.3,
+      "diesel_pct": 30.9
     },
     "BJ": {
-      "gasoline_pct": 0,
-      "diesel_pct": 0
+      "gasoline_pct": 4.3,
+      "diesel_pct": 4.2
     },
     "BO": {
       "gasoline_pct": 0,
@@ -61,39 +61,39 @@
     },
     "BA": {
       "gasoline_pct": 26.8,
-      "diesel_pct": 50.2
+      "diesel_pct": 46.4
     },
     "BR": {
-      "gasoline_pct": 6.7,
-      "diesel_pct": 19.6
+      "gasoline_pct": 5.9,
+      "diesel_pct": 17.7
     },
     "BG": {
-      "gasoline_pct": 20.6,
-      "diesel_pct": 42.3
+      "gasoline_pct": 21.1,
+      "diesel_pct": 43.2
     },
     "BF": {
       "gasoline_pct": 0,
       "diesel_pct": 0
     },
     "MM": {
-      "gasoline_pct": 98.5,
-      "diesel_pct": 130.7
+      "gasoline_pct": 89.7,
+      "diesel_pct": 112.7
     },
     "KH": {
-      "gasoline_pct": 39.3,
-      "diesel_pct": 44
+      "gasoline_pct": 42.7,
+      "diesel_pct": 50.7
     },
     "CM": {
       "gasoline_pct": 0,
       "diesel_pct": 0
     },
     "CA": {
-      "gasoline_pct": 23.5,
-      "diesel_pct": 26.9
+      "gasoline_pct": 31.9,
+      "diesel_pct": 32.8
     },
     "CV": {
-      "gasoline_pct": 15.2,
-      "diesel_pct": 13.1
+      "gasoline_pct": 24.5,
+      "diesel_pct": 22.1
     },
     "KY": {
       "gasoline_pct": 17.1,
@@ -108,32 +108,32 @@
       "diesel_pct": 23.7
     },
     "CO": {
-      "gasoline_pct": -0.7,
-      "diesel_pct": 0.9
+      "gasoline_pct": 1.9,
+      "diesel_pct": 2.7
     },
     "CR": {
       "gasoline_pct": 0.6,
       "diesel_pct": 10.1
     },
     "HR": {
-      "gasoline_pct": 17.3,
-      "diesel_pct": 31.4
+      "gasoline_pct": 16,
+      "diesel_pct": 26.2
     },
     "CW": {
-      "gasoline_pct": 15.3,
-      "diesel_pct": 39.4
+      "gasoline_pct": 33.4,
+      "diesel_pct": 61.2
     },
     "CY": {
-      "gasoline_pct": 16.7,
-      "diesel_pct": 34.3
+      "gasoline_pct": 18.1,
+      "diesel_pct": 34.4
     },
     "CZ": {
-      "gasoline_pct": 22.6,
-      "diesel_pct": 29.6
+      "gasoline_pct": 23.7,
+      "diesel_pct": 26.3
     },
     "DK": {
-      "gasoline_pct": 17.5,
-      "diesel_pct": 24.8
+      "gasoline_pct": 20.5,
+      "diesel_pct": 26.7
     },
     "DO": {
       "gasoline_pct": 8.3,
@@ -152,36 +152,36 @@
       "diesel_pct": 25.6
     },
     "EE": {
-      "gasoline_pct": 16.5,
-      "diesel_pct": 29.2
+      "gasoline_pct": 23.9,
+      "diesel_pct": 33
     },
     "FJ": {
-      "gasoline_pct": 14.9,
-      "diesel_pct": 32.6
+      "gasoline_pct": 22.7,
+      "diesel_pct": 75.2
     },
     "FI": {
-      "gasoline_pct": 7.7,
-      "diesel_pct": 19.7
+      "gasoline_pct": 10.4,
+      "diesel_pct": 21.8
     },
     "FR": {
-      "gasoline_pct": 18.9,
-      "diesel_pct": 31.2
+      "gasoline_pct": 20.9,
+      "diesel_pct": 31
     },
     "GE": {
-      "gasoline_pct": 18.4,
-      "diesel_pct": 35.2
+      "gasoline_pct": 21.3,
+      "diesel_pct": 40.2
     },
     "DE": {
-      "gasoline_pct": 18.2,
-      "diesel_pct": 25.9
+      "gasoline_pct": 13.7,
+      "diesel_pct": 19.8
     },
     "GH": {
       "gasoline_pct": 16.8,
-      "diesel_pct": 27.5
+      "diesel_pct": 23
     },
     "GR": {
-      "gasoline_pct": 17.5,
-      "diesel_pct": 21.4
+      "gasoline_pct": 19.8,
+      "diesel_pct": 21.5
     },
     "GD": {
       "gasoline_pct": 25.9,
@@ -208,44 +208,44 @@
       "diesel_pct": 7
     },
     "IS": {
-      "gasoline_pct": 19,
-      "diesel_pct": 29.6
+      "gasoline_pct": 7.7,
+      "diesel_pct": 16.8
     },
     "IN": {
       "gasoline_pct": 0,
-      "diesel_pct": 0.1
+      "diesel_pct": -0.1
     },
     "ID": {
       "gasoline_pct": 2.8,
       "diesel_pct": 7.5
     },
     "IE": {
-      "gasoline_pct": 9.7,
-      "diesel_pct": 24.1
+      "gasoline_pct": 4.7,
+      "diesel_pct": 18.3
     },
     "IL": {
-      "gasoline_pct": 16.4,
-      "diesel_pct": 16.5
+      "gasoline_pct": 16.7,
+      "diesel_pct": 16.7
     },
     "IT": {
-      "gasoline_pct": 4.6,
-      "diesel_pct": 20.4
+      "gasoline_pct": 15.4,
+      "diesel_pct": 19.8
     },
     "CI": {
       "gasoline_pct": 0,
       "diesel_pct": 0
     },
     "JM": {
-      "gasoline_pct": 20.9,
-      "diesel_pct": 18.6
+      "gasoline_pct": 23.8,
+      "diesel_pct": 21.4
     },
     "JP": {
-      "gasoline_pct": 9.6,
-      "diesel_pct": 11
+      "gasoline_pct": 9.7,
+      "diesel_pct": 11.2
     },
     "JO": {
-      "gasoline_pct": 15.9,
-      "diesel_pct": 11.6
+      "gasoline_pct": 26.6,
+      "diesel_pct": 22.5
     },
     "KE": {
       "gasoline_pct": 10.9,
@@ -260,12 +260,12 @@
       "diesel_pct": 149.7
     },
     "LV": {
-      "gasoline_pct": 16.1,
-      "diesel_pct": 26.2
+      "gasoline_pct": 16.9,
+      "diesel_pct": 28
     },
     "LB": {
-      "gasoline_pct": 32.6,
-      "diesel_pct": 70.9
+      "gasoline_pct": 36.5,
+      "diesel_pct": 67.4
     },
     "LS": {
       "gasoline_pct": 31.6,
@@ -276,27 +276,27 @@
       "diesel_pct": 15.6
     },
     "LT": {
-      "gasoline_pct": 18.4,
-      "diesel_pct": 27.8
+      "gasoline_pct": 20.2,
+      "diesel_pct": 24.6
     },
     "LU": {
-      "gasoline_pct": 18.6,
-      "diesel_pct": 27.7
+      "gasoline_pct": 24.5,
+      "diesel_pct": 32
     },
     "MK": {
-      "gasoline_pct": 12.2,
-      "diesel_pct": 34.6
+      "gasoline_pct": 15.6,
+      "diesel_pct": 37.5
     },
     "MG": {
-      "gasoline_pct": -3.9,
-      "diesel_pct": -4.1
+      "gasoline_pct": 0,
+      "diesel_pct": 0
     },
     "MW": {
       "gasoline_pct": 34.4,
       "diesel_pct": 35.2
     },
     "MY": {
-      "gasoline_pct": 52.4,
+      "gasoline_pct": 56.3,
       "diesel_pct": 71.2
     },
     "MT": {
@@ -308,24 +308,24 @@
       "diesel_pct": 20.9
     },
     "YT": {
-      "gasoline_pct": 18.7,
-      "diesel_pct": 35.7
+      "gasoline_pct": 19.3,
+      "diesel_pct": 53.6
     },
     "MX": {
-      "gasoline_pct": 10.1,
-      "diesel_pct": 7.5
+      "gasoline_pct": 10.3,
+      "diesel_pct": 6.5
     },
     "MD": {
-      "gasoline_pct": 24.1,
-      "diesel_pct": 46.3
+      "gasoline_pct": 28.1,
+      "diesel_pct": 47.5
     },
     "ME": {
-      "gasoline_pct": 12.9,
-      "diesel_pct": 26.3
+      "gasoline_pct": 15.8,
+      "diesel_pct": 28.6
     },
     "MA": {
-      "gasoline_pct": 27.7,
-      "diesel_pct": 47.4
+      "gasoline_pct": 18.7,
+      "diesel_pct": 38
     },
     "MZ": {
       "gasoline_pct": 0,
@@ -336,72 +336,72 @@
       "diesel_pct": 20.4
     },
     "NP": {
-      "gasoline_pct": 39.5,
-      "diesel_pct": 66.9
+      "gasoline_pct": 38.2,
+      "diesel_pct": 58.5
     },
     "NL": {
-      "gasoline_pct": 12.2,
-      "diesel_pct": 26.1
+      "gasoline_pct": 14.7,
+      "diesel_pct": 26.5
     },
     "NZ": {
-      "gasoline_pct": 35.2,
-      "diesel_pct": 105.4
+      "gasoline_pct": 30.7,
+      "diesel_pct": 88.6
     },
     "NI": {
       "gasoline_pct": 0,
       "diesel_pct": 0
     },
     "NO": {
-      "gasoline_pct": 1.2,
-      "diesel_pct": 20.7
+      "gasoline_pct": 0,
+      "diesel_pct": 13.3
     },
     "OM": {
       "gasoline_pct": 0,
       "diesel_pct": 0
     },
     "PK": {
-      "gasoline_pct": 52.4,
-      "diesel_pct": 37.9
+      "gasoline_pct": 54.9,
+      "diesel_pct": 44.9
     },
     "PA": {
-      "gasoline_pct": 35.9,
-      "diesel_pct": 64.4
+      "gasoline_pct": 40.3,
+      "diesel_pct": 53
     },
     "PY": {
-      "gasoline_pct": 21.1,
-      "diesel_pct": 19.2
+      "gasoline_pct": 26.4,
+      "diesel_pct": 31.2
     },
     "PE": {
       "gasoline_pct": 42.8,
       "diesel_pct": 64.5
     },
     "PH": {
-      "gasoline_pct": 49.7,
-      "diesel_pct": 76.8
+      "gasoline_pct": 40.6,
+      "diesel_pct": 53.8
     },
     "PL": {
-      "gasoline_pct": 4.3,
-      "diesel_pct": 16.6
+      "gasoline_pct": 6.7,
+      "diesel_pct": 15.8
     },
     "PT": {
-      "gasoline_pct": 14.3,
-      "diesel_pct": 22.4
+      "gasoline_pct": 18,
+      "diesel_pct": 26.8
     },
     "PR": {
-      "gasoline_pct": 38.9,
-      "diesel_pct": 55.3
+      "gasoline_pct": 44.8,
+      "diesel_pct": 57.6
     },
     "QA": {
-      "gasoline_pct": 10.8,
+      "gasoline_pct": 13.5,
       "diesel_pct": 7.9
     },
     "RO": {
-      "gasoline_pct": 10.6,
-      "diesel_pct": 13.2
+      "gasoline_pct": 15.2,
+      "diesel_pct": 19.8
     },
     "RU": {
-      "gasoline_pct": 1.8,
-      "diesel_pct": 0.9
+      "gasoline_pct": 1.9,
+      "diesel_pct": -0.1
     },
     "RW": {
       "gasoline_pct": 47.7,
@@ -417,7 +417,7 @@
     },
     "RS": {
       "gasoline_pct": 6.7,
-      "diesel_pct": 10.6
+      "diesel_pct": 11.6
     },
     "SL": {
       "gasoline_pct": 22.8,
@@ -428,40 +428,40 @@
       "diesel_pct": 64.7
     },
     "SK": {
-      "gasoline_pct": 14.9,
-      "diesel_pct": 20.8
-    },
-    "SI": {
-      "gasoline_pct": 13.9,
-      "diesel_pct": 16.6
-    },
-    "ZA": {
-      "gasoline_pct": 16.5,
-      "diesel_pct": 38.1
-    },
-    "KR": {
-      "gasoline_pct": 18.7,
-      "diesel_pct": 25.8
-    },
-    "ES": {
-      "gasoline_pct": 3.7,
+      "gasoline_pct": 14.5,
       "diesel_pct": 21.8
     },
+    "SI": {
+      "gasoline_pct": 17.2,
+      "diesel_pct": 18.4
+    },
+    "ZA": {
+      "gasoline_pct": 33.1,
+      "diesel_pct": 63.6
+    },
+    "KR": {
+      "gasoline_pct": 19,
+      "diesel_pct": 26.2
+    },
+    "ES": {
+      "gasoline_pct": 5.1,
+      "diesel_pct": 22.4
+    },
     "LK": {
-      "gasoline_pct": 33.8,
-      "diesel_pct": 37.2
+      "gasoline_pct": 38.2,
+      "diesel_pct": 41.8
     },
     "SR": {
       "gasoline_pct": 13.4,
       "diesel_pct": 18
     },
     "SE": {
-      "gasoline_pct": 23.7,
-      "diesel_pct": 29.7
+      "gasoline_pct": 21.2,
+      "diesel_pct": 29.1
     },
     "CH": {
-      "gasoline_pct": 12.8,
-      "diesel_pct": 21
+      "gasoline_pct": 13.4,
+      "diesel_pct": 20
     },
     "TW": {
       "gasoline_pct": 18.1,
@@ -472,23 +472,23 @@
       "diesel_pct": 40.9
     },
     "TH": {
-      "gasoline_pct": 28.1,
-      "diesel_pct": 30.6
+      "gasoline_pct": 29.7,
+      "diesel_pct": 32.4
     },
     "TN": {
       "gasoline_pct": 0,
       "diesel_pct": 0
     },
     "TR": {
-      "gasoline_pct": 11.4,
-      "diesel_pct": 18.8
+      "gasoline_pct": 11.8,
+      "diesel_pct": 18.9
     },
     "UA": {
-      "gasoline_pct": 16,
-      "diesel_pct": 38
+      "gasoline_pct": 17,
+      "diesel_pct": 39.3
     },
     "AE": {
-      "gasoline_pct": 40.8,
+      "gasoline_pct": 52.4,
       "diesel_pct": 86.1
     },
     "GB": {
@@ -496,24 +496,24 @@
       "diesel_pct": 34.2
     },
     "UY": {
-      "gasoline_pct": 5.8,
-      "diesel_pct": 3.5
+      "gasoline_pct": 13.2,
+      "diesel_pct": 18
     },
     "US": {
-      "gasoline_pct": 34.8,
-      "diesel_pct": 40.6
+      "gasoline_pct": 44.5,
+      "diesel_pct": 48.1
     },
     "VN": {
-      "gasoline_pct": 19.4,
-      "diesel_pct": 42.7
+      "gasoline_pct": 23.8,
+      "diesel_pct": 50.6
     },
     "WF": {
-      "gasoline_pct": 0.7,
-      "diesel_pct": 1.1
+      "gasoline_pct": 10.6,
+      "diesel_pct": 10.7
     },
     "ZM": {
       "gasoline_pct": -2.6,
-      "diesel_pct": 21.6
+      "diesel_pct": 38.7
     },
     "ZW": {
       "gasoline_pct": 33.3,
