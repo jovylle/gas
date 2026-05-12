@@ -1,19 +1,19 @@
 {
   "meta": {
-    "updated_at": "2026-05-11",
+    "updated_at": "2026-05-12",
     "source": "OpenVan.camp fuel API",
     "source_url": "https://openvan.camp/api/fuel/prices",
     "license": "CC BY 4.0 (attribute OpenVan.camp when displaying)",
-    "countries_count": 129
+    "countries_count": 108
   },
   "countries": [
     {
       "country_code": "AL",
       "country": "Albania",
       "currency": "ALL",
-      "gasoline": 188.3981,
-      "diesel": 197.9062,
-      "updated_at": "2026-05-02",
+      "gasoline": 197.8188,
+      "diesel": 212.5584,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -22,160 +22,124 @@
       "currency": "DZD",
       "gasoline": 47,
       "diesel": 31,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "AD",
       "country": "Andorra",
       "currency": "EUR",
-      "gasoline": 1.5827,
-      "diesel": 1.7108,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.5989,
+      "diesel": 1.7139,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "AR",
       "country": "Argentina",
       "currency": "ARS",
-      "gasoline": 2068.85,
-      "diesel": 2240.75,
-      "updated_at": "2026-05-02",
+      "gasoline": 2107.93,
+      "diesel": 2267.61,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "AM",
       "country": "Armenia",
       "currency": "AMD",
-      "gasoline": 532.8313,
-      "diesel": 589.8,
-      "updated_at": "2026-05-02",
+      "gasoline": 547.405,
+      "diesel": 587.185,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "AU",
       "country": "Australia",
       "currency": "AUD",
-      "gasoline": 1.795,
-      "diesel": 2.399,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.807,
+      "diesel": 2.349,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "AT",
       "country": "Austria",
       "currency": "EUR",
-      "gasoline": 1.7744,
-      "diesel": 1.97,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.7686,
+      "diesel": 1.9128,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "AZ",
       "country": "Azerbaijan",
       "currency": "AZN",
-      "gasoline": 1.3263,
-      "diesel": 1.0316,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "BH",
-      "country": "Bahrain",
-      "currency": "BHD",
-      "gasoline": 0.223,
-      "diesel": 0.22,
-      "updated_at": "2026-04-27",
-      "source_note": null
-    },
-    {
-      "country_code": "BD",
-      "country": "Bangladesh",
-      "currency": "BDT",
-      "gasoline": 116,
-      "diesel": 100,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.1265,
+      "diesel": 1.0529,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "BY",
       "country": "Belarus",
       "currency": "BYN",
-      "gasoline": 2.5956,
-      "diesel": 2.682,
-      "updated_at": "2026-05-02",
+      "gasoline": 2.5569,
+      "diesel": 2.703,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "BE",
       "country": "Belgium",
       "currency": "EUR",
-      "gasoline": 1.8789,
-      "diesel": 2.1617,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "BZ",
-      "country": "Belize",
-      "currency": "BZD",
-      "gasoline": 0,
-      "diesel": null,
-      "updated_at": "2026-05-10",
+      "gasoline": 1.9138,
+      "diesel": 2.1422,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "BO",
       "country": "Bolivia",
       "currency": "BOB",
-      "gasoline": 6.96,
+      "gasoline": 7.597,
       "diesel": 9.8,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "BA",
       "country": "Bosnia & Herzegovina",
       "currency": "BAM",
-      "gasoline": 2.8199,
-      "diesel": 3.5589,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "BW",
-      "country": "Botswana",
-      "currency": "BWP",
-      "gasoline": 0,
-      "diesel": null,
-      "updated_at": "2026-05-10",
+      "gasoline": 2.8518,
+      "diesel": 3.4453,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "BR",
       "country": "Brazil",
       "currency": "BRL",
-      "gasoline": 6.7813,
-      "diesel": 7.4811,
-      "updated_at": "2026-05-02",
+      "gasoline": 6.7021,
+      "diesel": 7.3018,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "BG",
       "country": "Bulgaria",
       "currency": "EUR",
-      "gasoline": 1.4873,
-      "diesel": 1.7771,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.4863,
+      "diesel": 1.7237,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "CA",
       "country": "Canada",
       "currency": "CAD",
-      "gasoline": 1.7535,
-      "diesel": 2.0444,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.8655,
+      "diesel": 2.1811,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -183,35 +147,44 @@
       "country": "Chile",
       "currency": "CLP",
       "gasoline": 1584,
-      "diesel": 1550,
-      "updated_at": "2026-05-02",
+      "diesel": 1503,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "CN",
       "country": "China",
       "currency": "CNY",
-      "gasoline": 8.4572,
-      "diesel": 8.1304,
-      "updated_at": "2026-05-02",
+      "gasoline": 8.712,
+      "diesel": 8.3964,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "CO",
       "country": "Colombia",
       "currency": "COP",
-      "gasoline": 4080,
-      "diesel": 2928,
-      "updated_at": "2026-04-27",
+      "gasoline": 4303.63,
+      "diesel": 3058.06,
+      "updated_at": "2026-05-11",
+      "source_note": null
+    },
+    {
+      "country_code": "CR",
+      "country": "Costa Rica",
+      "currency": "CRC",
+      "gasoline": 748,
+      "diesel": 716,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "HR",
       "country": "Croatia",
       "currency": "EUR",
-      "gasoline": 1.5959,
-      "diesel": 1.7497,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.5935,
+      "diesel": 1.7149,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -220,43 +193,43 @@
       "currency": "CUP",
       "gasoline": 132,
       "diesel": 132,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "CY",
       "country": "Cyprus",
       "currency": "EUR",
-      "gasoline": 1.5327,
-      "diesel": 1.8894,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.5413,
+      "diesel": 1.8845,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "CZ",
       "country": "Czechia",
       "currency": "CZK",
-      "gasoline": 41.4343,
-      "diesel": 43.248,
-      "updated_at": "2026-05-02",
+      "gasoline": 42.6464,
+      "diesel": 43.4189,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "DK",
       "country": "Denmark",
       "currency": "DKK",
-      "gasoline": 17.1314,
-      "diesel": 17.3958,
-      "updated_at": "2026-05-02",
+      "gasoline": 16.8801,
+      "diesel": 17.1402,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "DO",
       "country": "Dominican Republic",
       "currency": "DOP",
-      "gasoline": 287,
-      "diesel": 239,
-      "updated_at": "2026-05-02",
+      "gasoline": 294,
+      "diesel": 246,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -265,7 +238,7 @@
       "currency": "USD",
       "gasoline": 2.888,
       "diesel": 2.828,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -274,97 +247,79 @@
       "currency": "EGP",
       "gasoline": 22.25,
       "diesel": 20.5,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
+      "source_note": null
+    },
+    {
+      "country_code": "SV",
+      "country": "El Salvador",
+      "currency": "USD",
+      "gasoline": 4.3,
+      "diesel": null,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "EE",
       "country": "Estonia",
       "currency": "EUR",
-      "gasoline": 1.7515,
-      "diesel": 1.8723,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "ET",
-      "country": "Ethiopia",
-      "currency": "ETB",
-      "gasoline": 142,
-      "diesel": 139.84,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "FJ",
-      "country": "Fiji",
-      "currency": "FJD",
-      "gasoline": 2.93,
-      "diesel": 2.89,
-      "updated_at": "2026-04-27",
+      "gasoline": 1.7875,
+      "diesel": 1.8847,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "FI",
       "country": "Finland",
       "currency": "EUR",
-      "gasoline": 2.0384,
-      "diesel": 2.2926,
-      "updated_at": "2026-05-02",
+      "gasoline": 2.0679,
+      "diesel": 2.303,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "FR",
       "country": "France",
       "currency": "EUR",
-      "gasoline": 2.0306,
-      "diesel": 2.1993,
-      "updated_at": "2026-05-02",
+      "gasoline": 2.0597,
+      "diesel": 2.1849,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "GE",
       "country": "Georgia",
       "currency": "GEL",
-      "gasoline": 3.5739,
-      "diesel": 4.0137,
-      "updated_at": "2026-05-02",
+      "gasoline": 3.5523,
+      "diesel": 4.23,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "DE",
       "country": "Germany",
       "currency": "EUR",
-      "gasoline": 2.0976,
-      "diesel": 2.1427,
-      "updated_at": "2026-05-02",
+      "gasoline": 2.0089,
+      "diesel": 2.0266,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "GH",
       "country": "Ghana",
       "currency": "GHS",
-      "gasoline": 13.25,
-      "diesel": 15.66,
-      "updated_at": "2026-05-02",
+      "gasoline": 13.3354,
+      "diesel": 15.6727,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "GR",
       "country": "Greece",
       "currency": "EUR",
-      "gasoline": 2.0445,
-      "diesel": 1.866,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "GT",
-      "country": "Guatemala",
-      "currency": "GTQ",
-      "gasoline": 10.0359,
-      "diesel": 10.8733,
-      "updated_at": "2026-04-27",
+      "gasoline": 2.0797,
+      "diesel": 1.8564,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -373,7 +328,7 @@
       "currency": "HNL",
       "gasoline": 106.35,
       "diesel": 108.26,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -382,115 +337,97 @@
       "currency": "HKD",
       "gasoline": 32.54,
       "diesel": 35.9776,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "HU",
       "country": "Hungary",
       "currency": "HUF",
-      "gasoline": 629.9783,
-      "diesel": 668.7381,
-      "updated_at": "2026-05-02",
+      "gasoline": 674.8656,
+      "diesel": 730.9965,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "IS",
       "country": "Iceland",
       "currency": "ISK",
-      "gasoline": 226.8802,
-      "diesel": 264.4473,
-      "updated_at": "2026-05-02",
+      "gasoline": 224.2415,
+      "diesel": 261.2357,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "IN",
       "country": "India",
       "currency": "INR",
-      "gasoline": 94.77,
-      "diesel": 87.67,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "ID",
-      "country": "Indonesia",
-      "currency": "IDR",
-      "gasoline": 12300,
-      "diesel": 14200,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "IQ",
-      "country": "Iraq",
-      "currency": "IQD",
-      "gasoline": 0,
-      "diesel": null,
-      "updated_at": "2026-05-10",
+      "gasoline": 94.79,
+      "diesel": 87.69,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "IE",
       "country": "Ireland",
       "currency": "EUR",
-      "gasoline": 1.8034,
-      "diesel": 1.9287,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.8065,
+      "diesel": 1.9419,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "IL",
       "country": "Israel",
       "currency": "ILS",
-      "gasoline": 7.02,
-      "diesel": 6.9,
-      "updated_at": "2026-05-02",
+      "gasoline": 7.9946,
+      "diesel": 7.8609,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "IT",
       "country": "Italy",
       "currency": "EUR",
-      "gasoline": 1.8034,
-      "diesel": 2.0855,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.928,
+      "diesel": 2.0512,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "JP",
       "country": "Japan",
       "currency": "JPY",
-      "gasoline": 168.0732,
-      "diesel": 157.3829,
-      "updated_at": "2026-05-02",
+      "gasoline": 168.7976,
+      "diesel": 158.061,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "JO",
       "country": "Jordan",
       "currency": "JOD",
-      "gasoline": 1.35,
-      "diesel": 0.55,
-      "updated_at": "2026-04-27",
+      "gasoline": 0.91,
+      "diesel": 0.72,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "KZ",
       "country": "Kazakhstan",
       "currency": "KZT",
-      "gasoline": 235,
-      "diesel": 330,
-      "updated_at": "2026-05-02",
+      "gasoline": 234.8692,
+      "diesel": 330.0269,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "KE",
       "country": "Kenya",
       "currency": "KES",
-      "gasoline": 178,
-      "diesel": 166,
-      "updated_at": "2026-05-02",
+      "gasoline": 190.3407,
+      "diesel": 185.2856,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -508,7 +445,7 @@
       "currency": "KWD",
       "gasoline": 0.085,
       "diesel": 0.115,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -517,7 +454,7 @@
       "currency": "KGS",
       "gasoline": 79.3335,
       "diesel": 83.4296,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -526,106 +463,88 @@
       "currency": "LAK",
       "gasoline": 38940,
       "diesel": 47600,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "LV",
       "country": "Latvia",
       "currency": "EUR",
-      "gasoline": 1.7894,
-      "diesel": 1.944,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.7924,
+      "diesel": 1.9449,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "LB",
       "country": "Lebanon",
       "currency": "USD",
-      "gasoline": 1.0471,
-      "diesel": 0.996,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.4915,
+      "diesel": 1.3865,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "LS",
       "country": "Lesotho",
       "currency": "LSL",
-      "gasoline": 23.3,
-      "diesel": 30.5,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "LI",
-      "country": "Liechtenstein",
-      "currency": "CHF",
-      "gasoline": null,
-      "diesel": 1.8146,
-      "updated_at": "2026-05-02",
+      "gasoline": 25.9,
+      "diesel": 34.75,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "LT",
       "country": "Lithuania",
       "currency": "EUR",
-      "gasoline": 1.7297,
-      "diesel": 2.0201,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.771,
+      "diesel": 2.001,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "LU",
       "country": "Luxembourg",
       "currency": "EUR",
-      "gasoline": 1.7755,
-      "diesel": 1.8884,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.8068,
+      "diesel": 1.8856,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "MY",
       "country": "Malaysia",
       "currency": "MYR",
-      "gasoline": 3.3386,
-      "diesel": 4.1486,
-      "updated_at": "2026-05-02",
+      "gasoline": 4.02,
+      "diesel": 5.17,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "MT",
       "country": "Malta",
       "currency": "EUR",
-      "gasoline": 1.3406,
-      "diesel": 1.2106,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.3375,
+      "diesel": 1.2076,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "MR",
       "country": "Mauritania",
       "currency": "MRU",
-      "gasoline": null,
-      "diesel": 487.9,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "MU",
-      "country": "Mauritius",
-      "currency": "EUR",
-      "gasoline": 1.029,
-      "diesel": 0.9239,
-      "updated_at": "2026-05-02",
+      "gasoline": 61.92,
+      "diesel": 59.17,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "MX",
       "country": "Mexico",
       "currency": "MXN",
-      "gasoline": 23.65,
-      "diesel": 27.145,
-      "updated_at": "2026-05-02",
+      "gasoline": 23.7077,
+      "diesel": 27.3175,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -641,9 +560,9 @@
       "country_code": "MD",
       "country": "Moldova",
       "currency": "MDL",
-      "gasoline": 29.5315,
-      "diesel": 30.1819,
-      "updated_at": "2026-05-02",
+      "gasoline": 29.3282,
+      "diesel": 29.2228,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -659,54 +578,36 @@
       "country_code": "MN",
       "country": "Mongolia",
       "currency": "MNT",
-      "gasoline": 2590,
-      "diesel": 3140,
-      "updated_at": "2026-05-02",
+      "gasoline": 2350,
+      "diesel": 3250,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "ME",
       "country": "Montenegro",
       "currency": "EUR",
-      "gasoline": 1.4994,
-      "diesel": 1.5035,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.61,
+      "diesel": 1.71,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "MA",
       "country": "Morocco",
       "currency": "MAD",
-      "gasoline": 14.9232,
-      "diesel": 14.9752,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "MZ",
-      "country": "Mozambique",
-      "currency": "MZN",
-      "gasoline": 0,
-      "diesel": null,
-      "updated_at": "2026-05-10",
+      "gasoline": 14.3922,
+      "diesel": 14.4922,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "MM",
       "country": "Myanmar (Burma)",
       "currency": "MMK",
-      "gasoline": 1677.5,
-      "diesel": 1687.5,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "NA",
-      "country": "Namibia",
-      "currency": "NAD",
-      "gasoline": 19.58,
-      "diesel": 19.63,
-      "updated_at": "2026-05-02",
+      "gasoline": 2745.5357,
+      "diesel": 3139.1071,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -715,61 +616,52 @@
       "currency": "NPR",
       "gasoline": 161,
       "diesel": 145,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "NL",
       "country": "Netherlands",
       "currency": "EUR",
-      "gasoline": 2.4076,
-      "diesel": 2.4187,
-      "updated_at": "2026-05-02",
+      "gasoline": 2.4363,
+      "diesel": 2.4086,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "NZ",
       "country": "New Zealand",
       "currency": "NZD",
-      "gasoline": 3.2994,
-      "diesel": 3.4496,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "NI",
-      "country": "Nicaragua",
-      "currency": "NIO",
-      "gasoline": 47.04,
-      "diesel": 44.98,
-      "updated_at": "2026-05-02",
+      "gasoline": 3.2448,
+      "diesel": 3.2972,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "NG",
       "country": "Nigeria",
       "currency": "NGN",
-      "gasoline": 1224.2109,
+      "gasoline": 1323.1239,
       "diesel": 1645.437,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "MK",
       "country": "North Macedonia",
       "currency": "MKD",
-      "gasoline": 81.3889,
-      "diesel": 89.8333,
-      "updated_at": "2026-05-02",
+      "gasoline": 83.8889,
+      "diesel": 91.8333,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "NO",
       "country": "Norway",
       "currency": "NOK",
-      "gasoline": 22.9303,
-      "diesel": 23.9913,
-      "updated_at": "2026-05-02",
+      "gasoline": 22.0932,
+      "diesel": 22.6505,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -778,52 +670,43 @@
       "currency": "OMR",
       "gasoline": 0.229,
       "diesel": 0.258,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "PK",
       "country": "Pakistan",
       "currency": "PKR",
-      "gasoline": 399.86,
-      "diesel": 399.58,
-      "updated_at": "2026-05-02",
+      "gasoline": 414.78,
+      "diesel": 414.58,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "PA",
       "country": "Panama",
       "currency": "USD",
-      "gasoline": 1.17,
-      "diesel": 1.36,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.27,
+      "diesel": 1.19,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "PG",
       "country": "Papua New Guinea",
       "currency": "PGK",
-      "gasoline": 4.3987,
-      "diesel": 4.4467,
-      "updated_at": "2026-04-27",
+      "gasoline": 4.44,
+      "diesel": 4.09,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "PY",
       "country": "Paraguay",
       "currency": "PYG",
-      "gasoline": 6178.7097,
-      "diesel": 7527.4194,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "PE",
-      "country": "Peru",
-      "currency": "PEN",
-      "gasoline": 5.2,
-      "diesel": 4.8,
-      "updated_at": "2026-04-27",
+      "gasoline": 6740,
+      "diesel": 8778.4,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -832,52 +715,52 @@
       "currency": "PHP",
       "gasoline": 61.25,
       "diesel": 58.1,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "PL",
       "country": "Poland",
       "currency": "PLN",
-      "gasoline": 6.3081,
-      "diesel": 7.2347,
-      "updated_at": "2026-05-02",
+      "gasoline": 6.4185,
+      "diesel": 7.2249,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "PT",
       "country": "Portugal",
       "currency": "EUR",
-      "gasoline": 1.9425,
-      "diesel": 2.018,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.9979,
+      "diesel": 2.0483,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "QA",
       "country": "Qatar",
       "currency": "QAR",
-      "gasoline": 1.937,
+      "gasoline": 1.9,
       "diesel": 2.05,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "RO",
       "country": "Romania",
       "currency": "RON",
-      "gasoline": 9.0067,
-      "diesel": 9.7814,
-      "updated_at": "2026-05-02",
+      "gasoline": 8.9798,
+      "diesel": 9.793,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "RU",
       "country": "Russia",
       "currency": "RUB",
-      "gasoline": 63.6673,
-      "diesel": 76.1887,
-      "updated_at": "2026-05-02",
+      "gasoline": 65.3557,
+      "diesel": 77.555,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -886,7 +769,7 @@
       "currency": "WST",
       "gasoline": 3.51,
       "diesel": 4.5,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -895,25 +778,16 @@
       "currency": "SAR",
       "gasoline": 2.18,
       "diesel": 1.79,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "SN",
-      "country": "Senegal",
-      "currency": "XOF",
-      "gasoline": 920,
-      "diesel": 680,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "RS",
       "country": "Serbia",
       "currency": "RSD",
-      "gasoline": 191.0409,
-      "diesel": 217.3515,
-      "updated_at": "2026-05-02",
+      "gasoline": 190.6648,
+      "diesel": 220.494,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -921,125 +795,98 @@
       "country": "Singapore",
       "currency": "SGD",
       "gasoline": 3.4152,
-      "diesel": 4.5059,
-      "updated_at": "2026-05-02",
+      "diesel": 4.2541,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "SK",
       "country": "Slovakia",
       "currency": "EUR",
-      "gasoline": 1.6908,
-      "diesel": 1.7828,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.7674,
+      "diesel": 1.8456,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "SI",
       "country": "Slovenia",
       "currency": "EUR",
-      "gasoline": 1.636,
-      "diesel": 1.7355,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "ZA",
-      "country": "South Africa",
-      "currency": "ZAR",
-      "gasoline": 20.19,
-      "diesel": 25.9,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.6724,
+      "diesel": 1.7419,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "KR",
       "country": "South Korea",
       "currency": "KRW",
-      "gasoline": 1672,
-      "diesel": 1503,
-      "updated_at": "2026-04-27",
+      "gasoline": 2011.22,
+      "diesel": 2005.44,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "ES",
       "country": "Spain",
       "currency": "EUR",
-      "gasoline": 1.5592,
-      "diesel": 1.7627,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.5721,
+      "diesel": 1.738,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "LK",
       "country": "Sri Lanka",
       "currency": "LKR",
-      "gasoline": 398,
-      "diesel": 382,
-      "updated_at": "2026-05-02",
+      "gasoline": 410,
+      "diesel": 392,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "SE",
       "country": "Sweden",
       "currency": "SEK",
-      "gasoline": 19.0009,
-      "diesel": 22.1014,
-      "updated_at": "2026-05-02",
+      "gasoline": 19.4947,
+      "diesel": 22.9863,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "CH",
       "country": "Switzerland",
       "currency": "CHF",
-      "gasoline": 1.9436,
-      "diesel": 2.1573,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.9295,
+      "diesel": 2.1874,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "TW",
       "country": "Taiwan",
       "currency": "TWD",
-      "gasoline": 33.9,
+      "gasoline": 31.0852,
       "diesel": 31,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "TJ",
       "country": "Tajikistan",
       "currency": "TJS",
-      "gasoline": 9.6846,
-      "diesel": 9.9538,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "TZ",
-      "country": "Tanzania",
-      "currency": "TZS",
-      "gasoline": 2788,
-      "diesel": 2919,
-      "updated_at": "2026-05-02",
+      "gasoline": 10.4154,
+      "diesel": 11.6308,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "TH",
       "country": "Thailand",
       "currency": "THB",
-      "gasoline": 41.3204,
-      "diesel": 49.2242,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "TO",
-      "country": "Tonga",
-      "currency": "EUR",
-      "gasoline": 1.4122,
-      "diesel": 1.3414,
-      "updated_at": "2026-05-02",
+      "gasoline": 41.2655,
+      "diesel": 43.483,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -1048,43 +895,25 @@
       "currency": "TND",
       "gasoline": 2.53,
       "diesel": 2.21,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "TR",
       "country": "Türkiye",
       "currency": "TRY",
-      "gasoline": 63.3117,
-      "diesel": 70.8543,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "TM",
-      "country": "Turkmenistan",
-      "currency": "TMT",
-      "gasoline": 1.5,
-      "diesel": 1,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "UG",
-      "country": "Uganda",
-      "currency": "UGX",
-      "gasoline": 0,
-      "diesel": null,
-      "updated_at": "2026-05-10",
+      "gasoline": 62.6221,
+      "diesel": 65.8788,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "UA",
       "country": "Ukraine",
       "currency": "UAH",
-      "gasoline": 73.218,
-      "diesel": 88.2203,
-      "updated_at": "2026-05-02",
+      "gasoline": 67.863,
+      "diesel": 81.321,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -1093,34 +922,34 @@
       "currency": "AED",
       "gasoline": 3.55,
       "diesel": 4.69,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "GB",
       "country": "United Kingdom",
       "currency": "GBP",
-      "gasoline": 1.607,
-      "diesel": 1.9162,
-      "updated_at": "2026-05-02",
+      "gasoline": 1.6059,
+      "diesel": 1.8499,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "US",
       "country": "United States",
       "currency": "USD",
-      "gasoline": 4.273,
-      "diesel": 5.576,
-      "updated_at": "2026-05-02",
+      "gasoline": 4.4859,
+      "diesel": 5.7251,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "UY",
       "country": "Uruguay",
       "currency": "UYU",
-      "gasoline": 84.1223,
-      "diesel": 49.1162,
-      "updated_at": "2026-05-02",
+      "gasoline": 87.014,
+      "diesel": 56.848,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
@@ -1129,43 +958,25 @@
       "currency": "UZS",
       "gasoline": 11200,
       "diesel": 12500,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "VU",
-      "country": "Vanuatu",
-      "currency": "EUR",
-      "gasoline": 1.5821,
-      "diesel": 1.4742,
-      "updated_at": "2026-05-02",
-      "source_note": null
-    },
-    {
-      "country_code": "VE",
-      "country": "Venezuela",
-      "currency": "USD",
-      "gasoline": 0.84,
-      "diesel": 0.1,
-      "updated_at": "2026-05-02",
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
       "country_code": "VN",
       "country": "Vietnam",
       "currency": "VND",
-      "gasoline": 21830,
-      "diesel": 20950,
-      "updated_at": "2026-04-27",
+      "gasoline": null,
+      "diesel": 30450,
+      "updated_at": "2026-05-11",
       "source_note": null
     },
     {
-      "country_code": "ZM",
-      "country": "Zambia",
-      "currency": "EUR",
-      "gasoline": 1.2387,
-      "diesel": 1.5507,
-      "updated_at": "2026-05-02",
+      "country_code": "ZW",
+      "country": "Zimbabwe",
+      "currency": "ZWG",
+      "gasoline": 56.237,
+      "diesel": 56.5074,
+      "updated_at": "2026-05-11",
       "source_note": null
     }
   ]
