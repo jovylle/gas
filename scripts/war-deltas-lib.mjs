@@ -5,6 +5,7 @@
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { fetchWithRetry } from "./lib/fetch-with-retry.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -76,16 +77,18 @@ export function parseWarTableHtml(html) {
 }
 
 export async function fetchWarDeltaRows() {
-  const res = await fetch(
+  const res = await fetchWithRetry(
     "https://www.globalpetrolprices.com/fuel_price_trend_Iran_war.php",
     {
-      headers: {
-        Accept: "text/html",
-        "User-Agent": "Mozilla/5.0 fuel-price-tracker/1.0",
+      attempts: 3,
+      fetchOptions: {
+        headers: {
+          Accept: "text/html",
+          "User-Agent": "Mozilla/5.0 fuel-price-tracker/1.0",
+        },
       },
     }
   );
-  if (!res.ok) throw new Error(`GP war page ${res.status}`);
   const html = await res.text();
   return parseWarTableHtml(html);
 }

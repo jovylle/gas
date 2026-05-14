@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "required": ["snapshots"],
+  "properties": {
+    "snapshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["date", "by_code"],
+        "properties": {
+          "date": { "type": "string" },
+          "by_code": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "gasoline": { "type": ["number", "null"] },
+                "diesel": { "type": ["number", "null"] },
+                "currency": { "type": "string" }
+              },
+              "additionalProperties": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

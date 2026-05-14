@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "required": ["meta", "by_country_code"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "baseline_date": { "type": ["string", "null"] },
+        "baseline_label": { "type": ["string", "null"] },
+        "source_url": { "type": ["string", "null"] },
+        "scraped_at": { "type": ["string", "null"] },
+        "rows_scraped": { "type": ["integer", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "by_country_code": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "gasoline_pct": { "type": ["number", "null"] },
+          "diesel_pct": { "type": ["number", "null"] }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": true
+}

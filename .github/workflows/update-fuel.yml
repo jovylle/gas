@@ -28,11 +28,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate scripts syntax
+        run: npm run check
+
       - name: Fetch fuel data, history, and Iran-war deltas
         run: node scripts/fetch-fuel.mjs
 
       - name: Fetch FX rates (USD base)
         run: node scripts/fetch-fx.mjs
+
+      - name: Validate generated data against schemas
+        run: npm exec -- node scripts/validate-data.mjs
 
       - name: Commit if changed
         run: |

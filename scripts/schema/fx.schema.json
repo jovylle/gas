@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "required": ["rates"],
+  "properties": {
+    "meta": { "type": "object" },
+    "base": { "type": "string" },
+    "date": { "type": ["string", "null"] },
+    "rates": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    }
+  },
+  "additionalProperties": true
+}

@@ -7,6 +7,7 @@
 import { writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { fetchWithRetry } from "./lib/fetch-with-retry.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -19,15 +20,15 @@ function todayISODate() {
 }
 
 async function main() {
-  const res = await fetch(FX_URL, {
-    headers: {
-      Accept: "application/json",
-      "User-Agent": "fuel-price-tracker/1.0",
+  const res = await fetchWithRetry(FX_URL, {
+    attempts: 4,
+    fetchOptions: {
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "fuel-price-tracker/1.0",
+      },
     },
   });
-  if (!res.ok) {
-    throw new Error(`FX API ${res.status} ${res.statusText}`);
-  }
 
   const body = await res.json();
   const rates = body?.rates || {};

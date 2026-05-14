@@ -7,6 +7,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { fetchWithRetry } from "./lib/fetch-with-retry.mjs";
 import {
   fetchWarDeltaRows,
   gpNameToCode,
@@ -157,12 +158,12 @@ async function writeWarDeltas() {
 }
 
 async function main() {
-  const res = await fetch(API, {
-    headers: { Accept: "application/json", "User-Agent": "fuel-price-tracker/1.0" },
+  const res = await fetchWithRetry(API, {
+    attempts: 4,
+    fetchOptions: {
+      headers: { Accept: "application/json", "User-Agent": "fuel-price-tracker/1.0" },
+    },
   });
-  if (!res.ok) {
-    throw new Error(`API ${res.status} ${res.statusText}`);
-  }
   const body = await res.json();
   if (!body.success || !body.data) {
     throw new Error("Unexpected API response shape");
