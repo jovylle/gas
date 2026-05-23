@@ -3,7 +3,7 @@
     "baseline_date": "2026-02-23",
     "baseline_label": "Last weekly data before Iran war (per GlobalPetrolPrices narrative)",
     "source_url": "https://www.globalpetrolprices.com/fuel_price_trend_Iran_war.php",
-    "scraped_at": "2026-05-22T07:31:51.678Z",
+    "scraped_at": "2026-05-23T07:12:16.553Z",
     "rows_scraped": 128
   },
   "by_country_code": {
@@ -248,8 +248,8 @@
       "diesel_pct": 22.5
     },
     "KE": {
-      "gasoline_pct": 10.9,
-      "diesel_pct": 18.2
+      "gasoline_pct": 20.1,
+      "diesel_pct": 39.8
     },
     "KW": {
       "gasoline_pct": 0,
