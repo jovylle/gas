@@ -1,10 +1,10 @@
 {
   "meta": {
-    "updated_at": "2026-05-29",
+    "updated_at": "2026-05-30",
     "source": "OpenVan.camp fuel API",
     "source_url": "https://openvan.camp/api/fuel/prices",
     "license": "CC BY 4.0 (attribute OpenVan.camp when displaying)",
-    "countries_count": 121
+    "countries_count": 131
   },
   "countries": [
     {
@@ -80,6 +80,15 @@
       "source_note": null
     },
     {
+      "country_code": "BH",
+      "country": "Bahrain",
+      "currency": "BHD",
+      "gasoline": 0.233,
+      "diesel": 0.229,
+      "updated_at": "2026-05-23",
+      "source_note": null
+    },
+    {
       "country_code": "BD",
       "country": "Bangladesh",
       "currency": "BDT",
@@ -107,6 +116,15 @@
       "source_note": null
     },
     {
+      "country_code": "BZ",
+      "country": "Belize",
+      "currency": "BZD",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-05-30",
+      "source_note": null
+    },
+    {
       "country_code": "BO",
       "country": "Bolivia",
       "currency": "BOB",
@@ -122,6 +140,15 @@
       "gasoline": 2.8915,
       "diesel": 3.2905,
       "updated_at": "2026-05-23",
+      "source_note": null
+    },
+    {
+      "country_code": "BW",
+      "country": "Botswana",
+      "currency": "BWP",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-05-30",
       "source_note": null
     },
     {
@@ -185,6 +212,15 @@
       "gasoline": 4303.63,
       "diesel": 3058.06,
       "updated_at": "2026-05-23",
+      "source_note": null
+    },
+    {
+      "country_code": "CR",
+      "country": "Costa Rica",
+      "currency": "CRC",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-05-30",
       "source_note": null
     },
     {
@@ -391,6 +427,15 @@
       "currency": "IDR",
       "gasoline": 11195,
       "diesel": 6800,
+      "updated_at": "2026-05-23",
+      "source_note": null
+    },
+    {
+      "country_code": "IQ",
+      "country": "Iraq",
+      "currency": "IQD",
+      "gasoline": 850,
+      "diesel": 750,
       "updated_at": "2026-05-23",
       "source_note": null
     },
@@ -782,6 +827,15 @@
       "source_note": null
     },
     {
+      "country_code": "PE",
+      "country": "Peru",
+      "currency": "PEN",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-05-30",
+      "source_note": null
+    },
+    {
       "country_code": "PH",
       "country": "Philippines",
       "currency": "PHP",
@@ -971,6 +1025,15 @@
       "source_note": null
     },
     {
+      "country_code": "TZ",
+      "country": "Tanzania",
+      "currency": "TZS",
+      "gasoline": 4115,
+      "diesel": 4248,
+      "updated_at": "2026-05-23",
+      "source_note": null
+    },
+    {
       "country_code": "TH",
       "country": "Thailand",
       "currency": "THB",
@@ -1004,6 +1067,24 @@
       "gasoline": 64.5542,
       "diesel": 67.3833,
       "updated_at": "2026-05-23",
+      "source_note": null
+    },
+    {
+      "country_code": "TM",
+      "country": "Turkmenistan",
+      "currency": "TMT",
+      "gasoline": 1.5,
+      "diesel": 1,
+      "updated_at": "2026-05-23",
+      "source_note": null
+    },
+    {
+      "country_code": "UG",
+      "country": "Uganda",
+      "currency": "UGX",
+      "gasoline": 0,
+      "diesel": null,
+      "updated_at": "2026-05-30",
       "source_note": null
     },
     {
@@ -1066,6 +1147,15 @@
       "currency": "EUR",
       "gasoline": null,
       "diesel": 1.8404,
+      "updated_at": "2026-05-23",
+      "source_note": null
+    },
+    {
+      "country_code": "VE",
+      "country": "Venezuela",
+      "currency": "USD",
+      "gasoline": 0.84,
+      "diesel": null,
       "updated_at": "2026-05-23",
       "source_note": null
     },
